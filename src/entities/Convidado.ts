@@ -16,7 +16,10 @@ export class Convidado {
     confirmado: boolean
 
     @Column()
-    presente: boolean
+    presente: string
+
+    @Column()
+    telefone: string
 
     @ManyToOne(() => User, user => user.convidados)
     @JoinColumn({name: 'user_id'})
@@ -26,7 +29,8 @@ export class Convidado {
         this.id = 0
         this.nome = ''
         this.quant_familia = 0
-        this.presente = false
+        this.presente = ''
         this.confirmado = false
+        this.telefone = ''
     }
 }
