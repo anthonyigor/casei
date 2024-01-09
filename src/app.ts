@@ -1,6 +1,7 @@
 import express from 'express'
 
 import { AppDataSource } from './data-source'
+import userRoutes from './routes/userRoutes'
 
 AppDataSource.initialize()
     .then(()=> {
@@ -8,8 +9,7 @@ AppDataSource.initialize()
 
         app.use(express.urlencoded({extended: true}))
         app.use(express.json())
-        
-        app.get('/', (req, res): any => res.send("Hello World"))
+        app.use('/users', userRoutes)
 
         return app.listen(5000, () => console.log("Server rodando"))
     })

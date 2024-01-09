@@ -14,6 +14,9 @@ export class User {
     email: string
 
     @Column()
+    password: string
+
+    @Column()
     nome_parceiro: string
 
     @Column()
