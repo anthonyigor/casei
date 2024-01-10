@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { userRepository } from "../repositories/userRepository";
 import bcrypt from 'bcrypt';
 import { User } from "../entities/User";
+import { createUserToken } from "../helpers/create-user-token";
 
 export class UserController {
 
@@ -39,6 +40,32 @@ export class UserController {
         } catch (error) {
             return res.status(500).json({message: "Internal Server Error"})
         }
+    }
+
+    async login(req: Request, res: Response) {
+        const { email, password } = req.body
+
+        if (!email || email === undefined) {
+            return res.status(400).json({ message: 'Email é obrigatório!'})
+        }
+        
+        if (!password || password === undefined) {
+            return res.status(400).json({ message: 'A senha é obrigatória!'})
+        }
+
+        const user = await userRepository.findOne({where: {email}})
+        
+        if (!user) {
+            return res.status(400).json({message: "Email incorreto!"})
+        }
+
+        const checkPassword = await bcrypt.compare(password, user.password)
+        if (!checkPassword) {
+            return res.status(400).json({message: "Senha incorreta!"})
+        }
+
+        await createUserToken(res, user)
+
     }
 
     async update(req: Request, res: Response) {

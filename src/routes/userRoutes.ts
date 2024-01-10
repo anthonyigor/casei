@@ -7,6 +7,7 @@ const userController = new UserController()
 const convidadoController = new ConvidadoController()
 
 router.post('/create', userController.create)
+router.post('/login', userController.login)
 router.patch('/update/:id', userController.update)
 router.post('/:id/convidados/create', convidadoController.create)
 
