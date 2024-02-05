@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
+import { Presente } from "./Presente";
 
 @Entity('convidados')
 export class Convidado {
@@ -15,8 +16,8 @@ export class Convidado {
     @Column()
     confirmado: boolean
 
-    @Column()
-    presente: string
+    @OneToMany(() => Presente, presente => presente.convidado)
+    presente?: Presente[]
 
     @Column()
     telefone: string
@@ -29,7 +30,6 @@ export class Convidado {
         this.id = 0
         this.nome = ''
         this.quant_familia = 0
-        this.presente = ''
         this.confirmado = false
         this.telefone = ''
     }

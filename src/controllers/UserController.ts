@@ -22,7 +22,7 @@ export class UserController {
             return res.status(400).json({ message: 'Email já cadastrado!'})
         }
 
-        if (!password || password === undefined) {1
+        if (!password || password === undefined) {
             return res.status(400).json({ message: 'Password é obrigatório!'})
         }
         const hashPassword = await bcrypt.hash(password, 10)
