@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Convidado } from "./Convidado";
+import { Presente } from "./Presente";
 
 @Entity('users')
 export class User {
@@ -24,6 +25,9 @@ export class User {
 
     @OneToMany(() => Convidado, convidado => convidado.user)
     convidados?: Convidado[]
+
+    @OneToMany(() => Presente, presente => presente.user)
+    presentes?: Presente[]
 
     constructor() {
         this.id = 0
