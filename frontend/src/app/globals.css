@@ -8,26 +8,16 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+#container-home {
+  background-image: url('../../public/img/background.jpg');
+  background-size: cover; /* Isso faz com que a imagem cubra todo o elemento */
+  background-position: center; /* Isso centraliza a imagem */
+  height: 100vh; /* Isso faz com que o contêiner ocupe 100% da altura da janela do navegador */
+  color: white; /* Cor do texto, para que seja visível contra a imagem de fundo */
+  text-align: center; /* Centralizar o texto */
+  padding-top: 50px; /* Espaçamento superior para o texto não ficar muito perto do topo */
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+#content-home {
+  background-color: #ECD1C2;
 }
