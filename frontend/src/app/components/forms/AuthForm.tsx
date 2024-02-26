@@ -4,19 +4,25 @@ import { useState } from "react"
 import Input from "../Input"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import Button from "../Button"
+import { signIn } from "next-auth/react"
 
 const AuthForm = () => {
     const [isLoading, setIsLoading] = useState(false)
 
-    const { handleSubmit } = useForm<FieldValues>({
+    const { handleSubmit, register } = useForm<FieldValues>({
         defaultValues: {
             email: '',
             password: ''
         }
     })
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = async(data) => {
         setIsLoading(true)
+        signIn('credentials', {
+            ...data,
+            redirect: false
+        })
+        .then((callback)=> console.log(callback))
     }
 
     return (
@@ -27,12 +33,14 @@ const AuthForm = () => {
                         id="email"
                         type="email"
                         label="Email"
+                        register={register}
                         disabled={isLoading}
                     />
                     <Input 
                         id="password"
                         type="password"
                         label="Senha"
+                        register={register}
                         disabled={isLoading}
                     />
                     <div>

@@ -1,13 +1,16 @@
 import clsx from "clsx";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 
 interface InputProps {
     id: string;
     label: string;
     type: string;
+    required?: string
+    register: UseFormRegister<FieldValues>
     disabled?: boolean;
 }
 
-const Input: React.FC<InputProps>  = ({ id, label, type, disabled }) => {
+const Input: React.FC<InputProps>  = ({ id, label, type, register, required, disabled }) => {
     return (
         <div>
             <label className="block text-sm font-semibold leading-6 text-teal-600" htmlFor={id}>
@@ -19,6 +22,7 @@ const Input: React.FC<InputProps>  = ({ id, label, type, disabled }) => {
                     type={type}
                     autoComplete={id}
                     disabled={disabled}
+                    {...register(id, { required })}
                     className={clsx(`
                         text-slate-600
                         form-input

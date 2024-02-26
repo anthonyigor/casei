@@ -3,6 +3,7 @@ import express from 'express'
 import { AppDataSource } from './data-source'
 import userRoutes from './routes/userRoutes'
 import WebSocket from 'ws'
+import cors from 'cors'
 
 const ACTIONS = {
     MESSAGE: 'new-message'
@@ -13,6 +14,7 @@ AppDataSource.initialize()
         const app = express()
         app.use(express.urlencoded({extended: true}))
         app.use(express.json())
+        app.use(cors())
         app.use('/users', userRoutes)
 
         return app.listen(5000, () => console.log("Server rodando"))

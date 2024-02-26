@@ -7,13 +7,12 @@ export const createUserToken = async(res: Response, user: User) => {
 
     try {
         const token = jwt.sign({
-            id: user.id,
-            nome: user.nome,
+            user
         }, secret, {
             expiresIn: '2h'
         })
 
-        res.status(200).json({message: 'Autenticação concluída!', token})
+        res.status(200).json({token})
     } catch (error) {
         console.log(error);
         res.status(500).json({message: 'Internal server error!', error})
