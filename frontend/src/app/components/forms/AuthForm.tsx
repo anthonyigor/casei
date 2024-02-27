@@ -1,13 +1,23 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Input from "../Input"
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import { FieldValues, SubmitHandler, set, useForm } from "react-hook-form"
 import Button from "../Button"
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
+import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
 
 const AuthForm = () => {
     const [isLoading, setIsLoading] = useState(false)
+    const session = useSession()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (session.status === 'authenticated') {
+            router.push('/dashboard')
+        }
+    }, [session?.status, router])
 
     const { handleSubmit, register } = useForm<FieldValues>({
         defaultValues: {
@@ -22,7 +32,15 @@ const AuthForm = () => {
             ...data,
             redirect: false
         })
-        .then((callback)=> console.log(callback))
+        .then((callback)=> {
+            if (callback?.error) {
+                toast.error('Credenciais inválidas!')
+            } else {
+                toast.success('Login realizado!')
+                router.push('/dashboard')
+            }
+        })
+        .finally(() => setIsLoading(false))
     }
 
     return (
