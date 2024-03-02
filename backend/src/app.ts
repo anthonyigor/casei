@@ -4,6 +4,7 @@ import { AppDataSource } from './data-source'
 import userRoutes from './routes/userRoutes'
 import WebSocket from 'ws'
 import cors from 'cors'
+import { WhatsAppController } from './controllers/WhatsAppController'
 
 const ACTIONS = {
     MESSAGE: 'new-message'
@@ -51,3 +52,9 @@ async function handleIncomingMessage(ws: WebSocket, msg: string) {
             console.log(data.msg)
     }
 }
+
+const wppController = new WhatsAppController()
+const main = async() => {
+    await wppController.sendMessage('5575981616102', 'Olá, tudo bem?')
+}
+main()

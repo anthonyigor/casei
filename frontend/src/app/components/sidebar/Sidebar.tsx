@@ -1,3 +1,5 @@
+'use client'
+
 import DesktopSidebar from "./DesktopSidebar";
 
 interface SidebarProps {
