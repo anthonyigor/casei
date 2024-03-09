@@ -5,6 +5,7 @@ import userRoutes from './routes/userRoutes'
 import WebSocket from 'ws'
 import cors from 'cors'
 import { WhatsAppController } from './controllers/WhatsAppController'
+import path from 'path'
 
 const ACTIONS = {
     MESSAGE: 'new-message'
@@ -13,6 +14,7 @@ const ACTIONS = {
 AppDataSource.initialize()
     .then(()=> {
         const app = express()
+        app.use('/public', express.static('public'))
         app.use(express.urlencoded({extended: true}))
         app.use(express.json())
         app.use(cors())
@@ -55,6 +57,9 @@ async function handleIncomingMessage(ws: WebSocket, msg: string) {
 
 const wppController = new WhatsAppController()
 const main = async() => {
-    await wppController.sendMessage('5575981616102', 'Olá, tudo bem?')
+    // const pathFile = path.resolve(__dirname, '..', 'public', 'uploads', 'file.pdf')
+    // const media_id = await wppController.uploadPdfFile(pathFile)
+    // await wppController.sendFile('557581616102', media_id)
+    await wppController.sendMessage('557581616102', 'Olá, tudo bem?')
 }
 main()
