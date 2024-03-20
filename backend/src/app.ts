@@ -57,9 +57,9 @@ async function handleIncomingMessage(ws: WebSocket, msg: string) {
 
 const wppController = new WhatsAppController()
 const main = async() => {
-    // const pathFile = path.resolve(__dirname, '..', 'public', 'uploads', 'file.pdf')
-    // const media_id = await wppController.uploadPdfFile(pathFile)
-    // await wppController.sendFile('557581616102', media_id)
-    await wppController.sendMessage('557581616102', 'Olá, tudo bem?')
+    const pathFile = path.resolve(__dirname, '..', 'public', 'uploads', 'file.pdf')
+    const media_id = await wppController.uploadPdfFile(pathFile)
+    await wppController.sendFile('5575981616102', media_id)
+    //await wppController.sendMessage('5575981616102', 'Olá, tudo bem?')
 }
 main()

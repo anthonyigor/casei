@@ -1,5 +1,4 @@
-import formData from 'form-data'
-import { createReadStream, readFileSync } from 'fs'
+import { readFileSync } from 'fs'
 import axios from 'axios'
 
 const token = process.env.WHATSAPP_TOKEN as string
