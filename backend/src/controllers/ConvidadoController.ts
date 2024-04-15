@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { convidadoRepository } from "../repositories/convidadoRepository";
 import { userRepository } from "../repositories/userRepository";
+import { getUserByToken } from "../helpers/get-user-by-token";
+import { getToken } from "../helpers/get-token";
 
 export class ConvidadoController {
 
@@ -39,6 +41,19 @@ export class ConvidadoController {
         
         }
 
+    }
+
+    async getConvidados(req: Request, res: Response) {
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        if (!user) {
+            return res.status(404).json({ message: "Usuário não encontrado!" });
+        }
+
+        const convidados = await convidadoRepository.find({where: {user: {id: user.id}}})
+        
+        return res.status(200).json(convidados)
     }
 
 }
