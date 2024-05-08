@@ -119,7 +119,6 @@ export class UserController {
             return res.status(500).json({ message: "Ocorreu um erro ao atualizar o usuário." });
         }
         
-
     }
 
 }

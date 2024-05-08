@@ -1,11 +1,12 @@
-import ConvidadosList from "../components/forms/ConvidadosList";
+'use client'
+
+import { useSession } from "next-auth/react";
+import ConvidadosList from "./components/ConvidadosList";
+
 
 const Convidados = () => {
     return (
-        <div className="lg:pl-40 h-full lg:block mt-4">
-            <div className="text-2xl font-semibold">Convidados</div>
-            <ConvidadosList />
-        </div>
+       <div></div>
     )
 }
 

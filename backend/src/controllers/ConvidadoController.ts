@@ -3,6 +3,7 @@ import { convidadoRepository } from "../repositories/convidadoRepository";
 import { userRepository } from "../repositories/userRepository";
 import { getUserByToken } from "../helpers/get-user-by-token";
 import { getToken } from "../helpers/get-token";
+import getUserByEmail from "../services/userServices/getUserByEmail";
 
 export class ConvidadoController {
 
@@ -44,8 +45,9 @@ export class ConvidadoController {
     }
 
     async getConvidados(req: Request, res: Response) {
-        const token = getToken(req)
-        const user = await getUserByToken(token)
+        const { email } = req.body
+
+        const user = await getUserByEmail(email)
 
         if (!user) {
             return res.status(404).json({ message: "Usuário não encontrado!" });
