@@ -19,9 +19,9 @@ const useRoutes = () => {
         },
         {
             label: 'Convidados',
-            href: '/convidados',
+            href: '/convidados/index',
             icon: FaUserFriends,
-            active: pathname === '/convidados'
+            active: pathname === '/convidados/index'
         },
         {
             label: 'Presentes',
