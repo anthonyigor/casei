@@ -33,7 +33,7 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
                  rounded-md
                  p-3
                  text-sm
-                 lg:w-28
+                 lg:w-36
                  leading-6
                  font-semibold
                  text-black
