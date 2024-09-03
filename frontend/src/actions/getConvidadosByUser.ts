@@ -7,7 +7,6 @@ const getConvidadosByUser = async() => {
     const convidados = await axios.post('http://localhost:5000/users/convidados', {
         email: session?.user?.email
     })
-
    return convidados.data
 }
 
