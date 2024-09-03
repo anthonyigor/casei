@@ -1,8 +1,7 @@
 import { Response } from "express";
-import { User } from "../entities/User";
 import * as jwt from "jsonwebtoken";
 
-export const createUserToken = async(res: Response, user: User) => {
+export const createUserToken = async(res: Response, user: any) => {
     const secret = process.env.JWT_SECRET as string
 
     try {

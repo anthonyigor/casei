@@ -4,9 +4,13 @@ import { User } from "@prisma/client";
 import { createUserToken } from "../helpers/create-user-token";
 import { randomUUID } from "crypto";
 import { CreateUserService } from "../services/userServices/CreateUserService";
+import { LoginService } from "../services/userServices/LoginService";
 
 export class UserController {
-    constructor(private createUserService: CreateUserService) {}
+    constructor(
+        private createUserService: CreateUserService,
+        private loginService: LoginService
+    ) {}
 
     async create(req: Request, res: Response) {
         const { nome, email, password, nome_parceiro, data_casamento } = req.body
@@ -43,19 +47,9 @@ export class UserController {
             return res.status(400).json({ message: 'A senha é obrigatória!'})
         }
 
-        const user = await userRepository.findOne({where: {email}})
-        
-        if (!user) {
-            return res.status(400).json({message: "Email incorreto!"})
-        }
-
-        const checkPassword = await bcrypt.compare(password, user.password)
-        if (!checkPassword) {
-            return res.status(400).json({message: "Senha incorreta!"})
-        }
+        const user = await this.loginService.execute(email, password)
 
         await createUserToken(res, user)
-
     }
 
     async update(req: Request, res: Response) {
