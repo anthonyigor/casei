@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import { convidadoRepository } from "../repositories/convidadoRepository";
+import { convidadoRepository } from "../repositories/ConvidadoRepository";
 
 export const getUserByToken = async(token: any) => {
 

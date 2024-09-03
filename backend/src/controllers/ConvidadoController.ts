@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { convidadoRepository } from "../repositories/convidadoRepository";
-import { userRepository } from "../repositories/userRepository";
+import { ConvidadoRepository } from "../repositories/ConvidadoRepository";
+import { userRepository } from "../repositories/UserRepository";
 import { getUserByToken } from "../helpers/get-user-by-token";
 import { getToken } from "../helpers/get-token";
 import getUserByEmail from "../services/userServices/getUserByEmail";
@@ -25,7 +25,7 @@ export class ConvidadoController {
         }
 
         try {
-            const convidado = convidadoRepository.create({
+            const convidado = ConvidadoRepository.create({
                 nome,
                 quant_familia,
                 confirmado,
@@ -34,7 +34,7 @@ export class ConvidadoController {
                 telefone
             })
 
-            await convidadoRepository.save(convidado)
+            await ConvidadoRepository.save(convidado)
             return res.status(201).json({message: "Convidado criado com sucesso!"})
         } catch (error) {
             console.error(error);
@@ -53,7 +53,7 @@ export class ConvidadoController {
             return res.status(404).json({ message: "Usuário não encontrado!" });
         }
 
-        const convidados = await convidadoRepository.find({where: {user: {id: user.id}}})
+        const convidados = await ConvidadoRepository.find({where: {user: {id: user.id}}})
         
         return res.status(200).json(convidados)
     }

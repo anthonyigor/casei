@@ -1,4 +1,17 @@
-import { AppDataSource } from "../data-source";
-import { Convidado } from "../entities/Convidado";
+import { Convidado } from "@prisma/client";
+import { prisma } from '../lib/prisma';
 
-export const convidadoRepository = AppDataSource.getRepository(Convidado)
+export class ConvidadoRepository {
+    async create(convidado: Convidado): Promise<Convidado | Error> {
+        try {
+            const newConvidado = await prisma.convidado.create({
+                data: convidado
+            })
+
+            return newConvidado;
+        } catch (error) {
+            console.log(error)
+            throw new Error("Erro ao criar convidado!")
+        }
+    }
+}

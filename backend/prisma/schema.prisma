@@ -7,18 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Convidados {
+model Convidado {
   id            String      @id
   nome          String
   quant_familia Int
   confirmado    Boolean
   user_id       String?
   telefone      String
-  user          Users?      @relation(fields: [user_id], references: [id])
-  presentes     Presentes[]
+  user          User?      @relation(fields: [user_id], references: [id])
+  presentes     Presente[]
 }
 
-model Presentes {
+model Presente {
   id           String      @id
   nome         String
   descricao    String?
@@ -27,17 +27,17 @@ model Presentes {
   user_id      String?
   image        String?
   valor        Float?
-  user         Users?      @relation(fields: [user_id], references: [id])
-  convidado   Convidados? @relation(fields: [convidado_id], references: [id])
+  user         User?      @relation(fields: [user_id], references: [id])
+  convidado   Convidado? @relation(fields: [convidado_id], references: [id])
 }
 
-model Users {
+model User {
   id             String       @id
   nome           String
-  email          String
+  email          String  @unique
   nome_parceiro  String
   data_casamento String?
   password       String
-  convidados     Convidados[]
-  presentes      Presentes[]
+  convidados     Convidado[]
+  presentes      Presente[]
 }

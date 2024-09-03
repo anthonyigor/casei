@@ -1,32 +1,30 @@
 import express from 'express'
 
-import { AppDataSource } from './data-source'
 import userRoutes from './routes/userRoutes'
 import WebSocket from 'ws'
 import cors from 'cors'
 import { WhatsAppController } from './controllers/WhatsAppController'
 import path from 'path'
+import { errorHandling } from './middlewares/errorHandling'
 
-const ACTIONS = {
-    MESSAGE: 'new-message'
-}
+const app = express()
 
-AppDataSource.initialize()
-    .then(()=> {
-        const app = express()
-        app.use('/public', express.static('public'))
-        app.use(express.urlencoded({extended: true}))
-        app.use(express.json())
-        app.use(cors())
-        app.use('/users', userRoutes)
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+app.use(cors())
 
-        return app.listen(5000, () => console.log("Server rodando"))
-    })
-    .catch((err) => console.log(err))
+app.use('/public', express.static('public'))
+app.use('/users', userRoutes)
+
+app.use(errorHandling)
+app.listen(5000, () => console.log("Server rodando"))
 
 // websocket config
 const URL_WEBSOCKET = process.env.URL_WEBSOCKET as string;
 
+const ACTIONS = {
+    MESSAGE: 'new-message'
+}
 console.log(URL_WEBSOCKET)
 const client = new WebSocket(URL_WEBSOCKET, {
     headers: {

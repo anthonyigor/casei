@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
-import { userRepository } from "../repositories/userRepository";
 import bcrypt from 'bcrypt';
-import { User } from "../entities/User";
+import { User } from "@prisma/client";
 import { createUserToken } from "../helpers/create-user-token";
+import { randomUUID } from "crypto";
+import { CreateUserService } from "../services/userServices/CreateUserService";
 
 export class UserController {
+    constructor(private createUserService: CreateUserService) {}
 
     async create(req: Request, res: Response) {
         const { nome, email, password, nome_parceiro, data_casamento } = req.body
@@ -16,30 +18,18 @@ export class UserController {
         if (!email || email === undefined) {
             return res.status(400).json({ message: 'Email é obrigatório!'})
         }
-        
-        const emailExists = await userRepository.findOne({where: {email}})
-        if (emailExists) {
-            return res.status(400).json({ message: 'Email já cadastrado!'})
+
+        const user: User = {
+            id: randomUUID(),
+            nome,
+            email,
+            password,
+            nome_parceiro,
+            data_casamento,
         }
 
-        if (!password || password === undefined) {
-            return res.status(400).json({ message: 'Password é obrigatório!'})
-        }
-        const hashPassword = await bcrypt.hash(password, 10)
-
-        try {   
-            const user = userRepository.create({
-                nome,
-                email,
-                password: hashPassword,
-                nome_parceiro,
-                data_casamento
-            })
-            await userRepository.save(user)
-            return res.status(201).json({message: "Usuário criado com sucesso!"})
-        } catch (error) {
-            return res.status(500).json({message: "Internal Server Error"})
-        }
+        await this.createUserService.execute(user)
+        return res.status(201).json({ message: 'Usuário criado com sucesso!'})
     }
 
     async login(req: Request, res: Response) {
