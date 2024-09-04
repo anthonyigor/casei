@@ -4,17 +4,16 @@ import { userRepository } from "../repositories/UserRepository";
 import { getUserByToken } from "../helpers/get-user-by-token";
 import { getToken } from "../helpers/get-token";
 import getUserByEmail from "../services/userServices/getUserByEmail";
+import { CreateConvidadoService } from "../services/convidadoServices/CreateConvidadoService";
+import { Convidado } from "@prisma/client";
+import { randomUUID } from "crypto";
 
 export class ConvidadoController {
+    constructor(private createConvidadoService: CreateConvidadoService) {}
 
     async create(req: Request, res: Response) {
-        const { nome, quant_familia, confirmado, presente, telefone } = req.body;
+        const { nome, quant_familia, confirmado, telefone } = req.body;
         const user_id = req.params.id;
-
-        const user = await userRepository.findOne({where: {id: Number(user_id)}})
-        if (!user) {
-            return res.status(404).json({ message: "Usuário não encontrado!" });
-        }
 
         if (!nome || nome === undefined) {
             return res.status(400).json({ message: "Nome é obrigatório" }); 
@@ -24,23 +23,17 @@ export class ConvidadoController {
             return res.status(400).json({ message: "Telefone é obrigatório" }); 
         }
 
-        try {
-            const convidado = ConvidadoRepository.create({
-                nome,
-                quant_familia,
-                confirmado,
-                presente,
-                user,
-                telefone
-            })
-
-            await ConvidadoRepository.save(convidado)
-            return res.status(201).json({message: "Convidado criado com sucesso!"})
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Ocorreu um erro ao criar o convidado." }); 
-        
+        const convidado: Convidado = {
+            id: randomUUID(),
+            nome,
+            quant_familia,
+            confirmado,
+            telefone,
+            user_id
         }
+        const newConvidado = await this.createConvidadoService.execute(convidado)
+
+        return res.status(201).json({message: "Convidado criado com sucesso!", newConvidado})
 
     }
 

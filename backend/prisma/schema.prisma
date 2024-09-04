@@ -13,7 +13,7 @@ model Convidado {
   quant_familia Int
   confirmado    Boolean
   user_id       String?
-  telefone      String
+  telefone      String     @unique
   user          User?      @relation(fields: [user_id], references: [id])
   presentes     Presente[]
 }

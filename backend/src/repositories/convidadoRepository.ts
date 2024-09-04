@@ -5,7 +5,7 @@ export class ConvidadoRepository {
     async create(convidado: Convidado): Promise<Convidado | Error> {
         try {
             const newConvidado = await prisma.convidado.create({
-                data: convidado
+                data: convidado,
             })
 
             return newConvidado;
@@ -14,4 +14,16 @@ export class ConvidadoRepository {
             throw new Error("Erro ao criar convidado!")
         }
     }
+
+    async getConvidadoByTelefone(telefone: string): Promise<Convidado | null> {
+        const convidado = await prisma.convidado.findUnique({
+            where: {
+                telefone: telefone
+            }
+        })
+
+        return convidado
+    }
+
+    
 }
