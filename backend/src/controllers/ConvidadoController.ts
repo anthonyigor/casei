@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
-import { ConvidadoRepository } from "../repositories/ConvidadoRepository";
-import { userRepository } from "../repositories/UserRepository";
-import { getUserByToken } from "../helpers/get-user-by-token";
-import { getToken } from "../helpers/get-token";
-import getUserByEmail from "../services/userServices/getUserByEmail";
 import { CreateConvidadoService } from "../services/convidadoServices/CreateConvidadoService";
 import { Convidado } from "@prisma/client";
 import { randomUUID } from "crypto";
+import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
 
 export class ConvidadoController {
-    constructor(private createConvidadoService: CreateConvidadoService) {}
+    constructor(
+        private createConvidadoService: CreateConvidadoService,
+        private getConvidadosByUserService: GetConvidadosByUserService
+    ) {}
 
     async create(req: Request, res: Response) {
         const { nome, quant_familia, confirmado, telefone } = req.body;
@@ -40,14 +39,7 @@ export class ConvidadoController {
     async getConvidados(req: Request, res: Response) {
         const { email } = req.body
 
-        const user = await getUserByEmail(email)
-
-        if (!user) {
-            return res.status(404).json({ message: "Usuário não encontrado!" });
-        }
-
-        const convidados = await ConvidadoRepository.find({where: {user: {id: user.id}}})
-        
+        const convidados = await this.getConvidadosByUserService.execute(email)
         return res.status(200).json(convidados)
     }
 

@@ -3,6 +3,7 @@ import { UserController } from "../controllers/UserController";
 import { ConvidadoRepository } from "../repositories/ConvidadoRepository";
 import { UserRepository } from "../repositories/UserRepository";
 import { CreateConvidadoService } from "../services/convidadoServices/CreateConvidadoService";
+import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
 import { CreateUserService } from "../services/userServices/CreateUserService";
 import { LoginService } from "../services/userServices/LoginService";
 import { UpdateUserService } from "../services/userServices/UpdateUserService";
@@ -31,9 +32,11 @@ export class AppConfig {
 
         //services
         const createConvidadoService = new CreateConvidadoService(convidadoRepository, userRepository);
+        const getConvidadosByUserService = new GetConvidadosByUserService(convidadoRepository, userRepository)
 
         return new ConvidadoController(
-            createConvidadoService
+            createConvidadoService,
+            getConvidadosByUserService
         )
     }
 
