@@ -23,5 +23,27 @@ export class UserRepository {
         })
 
         return user
-    }   
+    }
+
+    async update(id: string, user: User): Promise<User | Error> {
+        try {
+            const updatedUser = await prisma.user.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    nome: user.nome,
+                    email: user.email,
+                    password: user.password,
+                    nome_parceiro: user.nome_parceiro,
+                    data_casamento: user.data_casamento
+                }
+            })
+    
+            return updatedUser
+        } catch (error) {
+            throw new Error("Erro ao atualizar usuário")
+        }
+    }
+
 }

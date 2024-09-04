@@ -5,11 +5,13 @@ import { createUserToken } from "../helpers/create-user-token";
 import { randomUUID } from "crypto";
 import { CreateUserService } from "../services/userServices/CreateUserService";
 import { LoginService } from "../services/userServices/LoginService";
+import { UpdateUserService } from "../services/userServices/UpdateUserService";
 
 export class UserController {
     constructor(
         private createUserService: CreateUserService,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private updateUserService: UpdateUserService
     ) {}
 
     async create(req: Request, res: Response) {
@@ -56,53 +58,18 @@ export class UserController {
         const { nome, email, password, nome_parceiro, data_casamento } = req.body;
         const id = req.params.id;
         
-        try {
-            let user = await userRepository.findOne({ where: { id: Number(id) } });
-            if (!user) {
-                return res.status(404).json({ message: "Usuário não encontrado!" });
-            }
-        
-            const updateFields = {} as User;
-
-            if (nome !== undefined && nome !== user.nome) {
-                updateFields.nome = nome;
-            }
-        
-            if (email !== undefined && email !== user.email) {
-                const emailExists = await userRepository.findOne({ where: { email } });
-                if (emailExists) {
-                    return res.status(400).json({ message: 'Email já cadastrado!' });
-                }
-                updateFields.email = email;
-            }
-        
-            if (password !== undefined) {
-                const hashPassword = await bcrypt.hash(password, 10);
-                updateFields.password = hashPassword;
-            }
-        
-            if (nome_parceiro !== undefined && nome_parceiro !== user.nome_parceiro) {
-                updateFields.nome_parceiro = nome_parceiro;
-            }
-        
-            if (data_casamento !== undefined && data_casamento !== user.data_casamento) {
-                updateFields.data_casamento = data_casamento;
-            }
-            
-            if (Object.keys(updateFields).length === 0) {
-                return res.status(400).json({ message: "Nenhum campo foi alterado." });
-            }
-            
-            await userRepository.update({ id: Number(id) }, updateFields);
-            
-            user = await userRepository.findOne({ where: { id: Number(id) } }); 
-            
-            return res.status(200).json({ message: "Usuário atualizado com sucesso!", user });
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Ocorreu um erro ao atualizar o usuário." });
+        const user: User = {
+            id,
+            nome,
+            email,
+            password,
+            nome_parceiro,
+            data_casamento,
         }
         
+        const updatedUser = await this.updateUserService.execute(id, user)
+        
+        return res.status(200).json({ message: "Usuário atualizado com sucesso!", updatedUser });
     }
 
 }
