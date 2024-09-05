@@ -1,6 +1,9 @@
 import { Convidado } from "@prisma/client";
 import { ConvidadoRepository } from "../../repositories/ConvidadoRepository";
 import { UserRepository } from "../../repositories/UserRepository";
+import { Conflict } from "../../errors/Conflict";
+import { NotFound } from "../../errors/NotFound";
+import { InternalError } from "../../errors/InternalError";
 
 export class CreateConvidadoService {
     constructor(
@@ -11,12 +14,12 @@ export class CreateConvidadoService {
     async execute(convidado: Convidado) {
         const convidadoExists = await this.convidadoRepository.getConvidadoByTelefone(convidado.telefone)
         if (convidadoExists) {
-            throw new Error("Convidado já cadastrado!")
+            throw new Conflict("Convidado já cadastrado!")
         }
 
         const userExists = await this.userRepository.getUserById(convidado.user_id!)
         if (!userExists) {
-            throw new Error("Usuário não encontrado!")
+            throw new NotFound("Usuário não encontrado!")
         }
 
         try {
@@ -24,7 +27,7 @@ export class CreateConvidadoService {
             return newConvidado
         } catch (error) {
             console.log(error)
-            throw new Error("Erro ao criar convidado!")
+            throw new InternalError("Erro ao criar convidado!")
         }
 
     }

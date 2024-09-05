@@ -2,6 +2,8 @@ import { User } from "@prisma/client";
 import { UserRepository } from "../../repositories/UserRepository";
 import bcrypt from 'bcrypt';
 import "express-async-errors"; 
+import { Conflict } from "../../errors/Conflict";
+import { InternalError } from "../../errors/InternalError";
 
 export class CreateUserService {
     constructor(private userRepository: UserRepository) {}
@@ -10,7 +12,7 @@ export class CreateUserService {
         const userExists = await this.userRepository.getUserByEmail(user.email)
 
         if (userExists) {
-            throw new Error('Usuário já existe')
+            throw new Conflict('Usuário já existe')
         }
 
         const hashPassword = await bcrypt.hash(user.password, 10)
@@ -19,7 +21,7 @@ export class CreateUserService {
             const newUser = await this.userRepository.create({...user, password: hashPassword})
             return newUser;
         } catch (error) {
-            throw new Error('Erro ao criar usuário')
+            throw new InternalError('Erro ao criar usuário')
         }
 
     }

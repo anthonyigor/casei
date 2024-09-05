@@ -1,6 +1,8 @@
 import { User } from "@prisma/client";
 import { UserRepository } from "../../repositories/UserRepository";
 import bcrypt from 'bcrypt';
+import { NotFound } from "../../errors/NotFound";
+import { InternalError } from "../../errors/InternalError";
 
 export class UpdateUserService {
     constructor(private userRepository: UserRepository) {}
@@ -8,7 +10,7 @@ export class UpdateUserService {
     async execute(id: string, user: User) {
         const userExists = await this.userRepository.getUserByEmail(user.email)
         if(!userExists) {
-            throw new Error("Usuário não encontrado")
+            throw new NotFound("Usuário não encontrado")
         }
 
         const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -18,7 +20,7 @@ export class UpdateUserService {
             return updatedUser
         } catch (error) {
             console.log(error)
-            throw new Error("Erro ao atualizar usuário")
+            throw new InternalError("Erro ao atualizar usuário")
         }
 
     }

@@ -1,6 +1,8 @@
 import { User } from "@prisma/client";
 import { UserRepository } from "../../repositories/UserRepository";
 import bcrypt from "bcrypt";
+import { NotFound } from "../../errors/NotFound";
+import { BadRequest } from "../../errors/BadRequest";
 
 export class LoginService {
     constructor(private userRepository: UserRepository) {}
@@ -9,12 +11,12 @@ export class LoginService {
         const user = await this.userRepository.getUserByEmail(email)
 
         if (!user) {
-            throw new Error("Usuário não encontrado")
+            throw new NotFound("Usuário não encontrado")
         }
 
         const checkPassword = await bcrypt.compare(password, user.password)
         if (!checkPassword) {
-            throw new Error("Senha inválida")
+            throw new BadRequest("Senha inválida")
         }
 
         return user;
