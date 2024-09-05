@@ -35,7 +35,7 @@ model User {
   id             String       @id
   nome           String
   email          String  @unique
-  nome_parceiro  String
+  nome_parceiro  String?
   data_casamento String?
   password       String
   convidados     Convidado[]

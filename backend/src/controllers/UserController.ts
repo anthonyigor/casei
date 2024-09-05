@@ -31,7 +31,7 @@ export class UserController {
             email,
             password,
             nome_parceiro,
-            data_casamento,
+            data_casamento
         }
 
         await this.createUserService.execute(user)
@@ -64,7 +64,7 @@ export class UserController {
             email,
             password,
             nome_parceiro,
-            data_casamento,
+            data_casamento
         }
         
         const updatedUser = await this.updateUserService.execute(id, user)
