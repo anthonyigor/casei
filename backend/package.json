@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node-dev ./src/app.ts",
+    "start": "node ./build/src/app.js",
+    "dev": "ts-node-dev ./src/app.ts",
     "build": "tsc --build",
     "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/migrations/default",
     "migration:run": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:run "
@@ -40,6 +41,7 @@
     "reflect-metadata": "^0.2.1",
     "ts-node": "^10.9.2",
     "typeorm": "^0.3.19",
-    "ws": "^8.16.0"
+    "ws": "^8.16.0",
+    "yup": "^1.4.0"
   }
 }
