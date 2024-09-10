@@ -1,5 +1,6 @@
 import { Response } from "express";
 import * as jwt from "jsonwebtoken";
+import { InternalError } from "../errors/InternalError";
 
 export const createUserToken = async(res: Response, user: any) => {
     const secret = process.env.JWT_SECRET as string
@@ -12,9 +13,8 @@ export const createUserToken = async(res: Response, user: any) => {
         })
 
         res.status(200).json({token})
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({message: 'Internal server error!', error})
+    } catch (error: any) {
+        throw new InternalError(error.message)
     }
 
 }

@@ -20,38 +20,38 @@ app.use(errorHandling)
 app.listen(5000, () => console.log("Server rodando"))
 
 // websocket config
-const URL_WEBSOCKET = process.env.URL_WEBSOCKET as string;
+// const URL_WEBSOCKET = process.env.URL_WEBSOCKET as string;
 
-const ACTIONS = {
-    MESSAGE: 'new-message'
-}
-console.log(URL_WEBSOCKET)
-const client = new WebSocket(URL_WEBSOCKET, {
-    headers: {
-        'user-agent': 'Mozilla'
-    }
-})
+// const ACTIONS = {
+//     MESSAGE: 'new-message'
+// }
+// console.log(URL_WEBSOCKET)
+// const client = new WebSocket(URL_WEBSOCKET, {
+//     headers: {
+//         'user-agent': 'Mozilla'
+//     }
+// })
 
-client.on('open', () => {
-    console.log("Conectado ao WebSocket")
-})
+// client.on('open', () => {
+//     console.log("Conectado ao WebSocket")
+// })
 
-client.on('error', (error) => {
-    console.error('Erro na conexão:', error.message);
-    // Handle the error appropriately, e.g., reconnect or log it
-});
+// client.on('error', (error) => {
+//     console.error('Erro na conexão:', error.message);
+//     // Handle the error appropriately, e.g., reconnect or log it
+// });
 
-client.on('message', handleIncomingMessage.bind(null, client))
+// client.on('message', handleIncomingMessage.bind(null, client))
 
-async function handleIncomingMessage(ws: WebSocket, msg: string) {
-    const data = JSON.parse(msg)
-    const action = data.action
+// async function handleIncomingMessage(ws: WebSocket, msg: string) {
+//     const data = JSON.parse(msg)
+//     const action = data.action
 
-    switch (action) {
-        case ACTIONS.MESSAGE:
-            console.log(data.msg)
-    }
-}
+//     switch (action) {
+//         case ACTIONS.MESSAGE:
+//             console.log(data.msg)
+//     }
+// }
 
 // const wppController = new WhatsAppController()
 // const main = async() => {

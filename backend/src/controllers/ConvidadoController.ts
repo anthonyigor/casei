@@ -14,14 +14,6 @@ export class ConvidadoController {
         const { nome, quant_familia, confirmado, telefone } = req.body;
         const user_id = req.params.id;
 
-        if (!nome || nome === undefined) {
-            return res.status(400).json({ message: "Nome é obrigatório" }); 
-        }
-        
-        if (!telefone || telefone === undefined) {
-            return res.status(400).json({ message: "Telefone é obrigatório" }); 
-        }
-
         const convidado: Convidado = {
             id: randomUUID(),
             nome,
@@ -37,9 +29,9 @@ export class ConvidadoController {
     }
 
     async getConvidados(req: Request, res: Response) {
-        const { email } = req.body
+        const { id } = req.params;
 
-        const convidados = await this.getConvidadosByUserService.execute(email)
+        const convidados = await this.getConvidadosByUserService.execute(id)
         return res.status(200).json(convidados)
     }
 

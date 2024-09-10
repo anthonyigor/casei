@@ -8,8 +8,8 @@ export class GetConvidadosByUserService {
         private userRepository: UserRepository
     ) {}
 
-    async execute(email: string) {
-        const userExists = await this.userRepository.getUserByEmail(email)
+    async execute(id: string) {
+        const userExists = await this.userRepository.getUserById(id)
         if (!userExists) {
             throw new NotFound("Usuário não encontrado!")
         }
