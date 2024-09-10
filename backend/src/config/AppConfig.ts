@@ -1,9 +1,12 @@
 import { ConvidadoController } from "../controllers/ConvidadoController";
+import { PresenteController } from "../controllers/PresenteController";
 import { UserController } from "../controllers/UserController";
 import { ConvidadoRepository } from "../repositories/ConvidadoRepository";
+import { PresenteRepository } from "../repositories/PresenteRepository";
 import { UserRepository } from "../repositories/UserRepository";
 import { CreateConvidadoService } from "../services/convidadoServices/CreateConvidadoService";
 import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
+import { GetPresentesByUserService } from "../services/presenteServices/GetPresentesByUserService";
 import { CreateUserService } from "../services/userServices/CreateUserService";
 import { LoginService } from "../services/userServices/LoginService";
 import { UpdateUserService } from "../services/userServices/UpdateUserService";
@@ -37,6 +40,18 @@ export class AppConfig {
         return new ConvidadoController(
             createConvidadoService,
             getConvidadosByUserService
+        )
+    }
+
+    public static createPresenteController(): PresenteController {
+        // repositories
+        const presenteRepository = new PresenteRepository();
+
+        // services
+        const getPresentesByUserService = new GetPresentesByUserService(presenteRepository)
+
+        return new PresenteController(
+            getPresentesByUserService
         )
     }
 
