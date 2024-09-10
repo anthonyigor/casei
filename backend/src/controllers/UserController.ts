@@ -17,14 +17,6 @@ export class UserController {
     async create(req: Request, res: Response) {
         const { nome, email, password, nome_parceiro, data_casamento } = req.body
 
-        if (!nome || nome === undefined) {
-            return res.status(400).json({ message: 'Nome é obrigatório!'})
-        }
-
-        if (!email || email === undefined) {
-            return res.status(400).json({ message: 'Email é obrigatório!'})
-        }
-
         const user: User = {
             id: randomUUID(),
             nome,
@@ -40,15 +32,6 @@ export class UserController {
 
     async login(req: Request, res: Response) {
         const { email, password } = req.body
-
-        if (!email || email === undefined) {
-            return res.status(400).json({ message: 'Email é obrigatório!'})
-        }
-        
-        if (!password || password === undefined) {
-            return res.status(400).json({ message: 'A senha é obrigatória!'})
-        }
-
         const user = await this.loginService.execute(email, password)
 
         await createUserToken(res, user)
