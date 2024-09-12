@@ -6,6 +6,9 @@ export class PresenteRepository {
         const presentes = await prisma.presente.findMany({
             where: {
                 user_id: userId
+            },
+            include: {
+                convidado: true
             }
         })
 

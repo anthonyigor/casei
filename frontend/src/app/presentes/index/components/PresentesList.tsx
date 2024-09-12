@@ -11,7 +11,13 @@ type Presente = {
     selecionado?: boolean
     image?: string
     valor?: number
-    convidado_id?: string
+    convidado?: Convidado
+}
+
+type Convidado = {
+    id: string
+    nome: string
+    telefone: string
 }
 
 interface PresentesListProps {
@@ -28,15 +34,16 @@ const PresentesList: React.FC<PresentesListProps> = ({
 
     const displayGuests = presentes
         .slice(pagesVisited, pagesVisited + guestsPerPage)
-        .map((presente) => (
+        .map((presente, index) => (
             <PresentesItem
+                index={index + 1}
                 nome={presente.nome}
                 key={presente.id}
                 descricao={presente.descricao}
                 image={presente.image}
                 selecionado={presente.selecionado}
                 valor={presente.valor}
-                convidado_id={presente.convidado_id}
+                convidado={presente.convidado?.nome}
             />
         ));
 
@@ -52,10 +59,13 @@ const PresentesList: React.FC<PresentesListProps> = ({
             <table className="w-full table-fixed">
                 <thead>
                     <tr className="bg-gray-100">
-                        <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Nome</th>
-                        <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Descrição</th>
-                        <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Imagem</th>
-                        <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Selecionado</th>
+                        <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">ID</th>
+                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Nome</th>
+                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Descrição</th>
+                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Imagem</th>
+                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Valor</th>
+                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Selecionado?</th>
+                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Escolhido por</th>
                     </tr>
                 </thead>
                 <tbody className="bg-white">
