@@ -14,4 +14,15 @@ export class PresenteRepository {
 
         return presentes
     }
+
+    async getPresentesDisponiveisByUser(userId: string): Promise<Presente[] | null> {
+        const presentes = await prisma.presente.findMany({
+            where: {
+                user_id: userId,
+                selecionado: false
+            }
+        })
+
+        return presentes
+    }
 }

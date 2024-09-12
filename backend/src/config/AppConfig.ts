@@ -7,6 +7,7 @@ import { UserRepository } from "../repositories/UserRepository";
 import { CreateConvidadoService } from "../services/convidadoServices/CreateConvidadoService";
 import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
 import { GetPresentesByUserService } from "../services/presenteServices/GetPresentesByUserService";
+import { GetPresentesDisponiveisByUserService } from "../services/presenteServices/GetPresentesDisponiveisByUserService";
 import { CreateUserService } from "../services/userServices/CreateUserService";
 import { LoginService } from "../services/userServices/LoginService";
 import { UpdateUserService } from "../services/userServices/UpdateUserService";
@@ -49,9 +50,11 @@ export class AppConfig {
 
         // services
         const getPresentesByUserService = new GetPresentesByUserService(presenteRepository)
+        const getPresentesDisponiveisByUserService = new GetPresentesDisponiveisByUserService(presenteRepository)
 
         return new PresenteController(
-            getPresentesByUserService
+            getPresentesByUserService,
+            getPresentesDisponiveisByUserService
         )
     }
 

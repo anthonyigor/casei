@@ -37,7 +37,7 @@ const ConvidadoForm = () => {
         if (session.data?.user) {
             setUserId((session.data.user as CustomUser).id!)
             if (userId) {
-                axios.get(`${url}/users/${userId}/presentes`)
+                axios.get(`${url}/users/${userId}/presentes/disponiveis`)
                 .then((response) => {
                     setPresentes(response.data)
                 })
