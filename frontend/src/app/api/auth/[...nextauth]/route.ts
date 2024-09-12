@@ -27,7 +27,7 @@ export const authOptions: AuthOptions = {
                     if (decoded) {
                         if (typeof decoded === 'object' && 'user' in decoded) {
                             const user = (decoded as { user: string }).user;
-                            return user as any
+                            return { ...user as any, token: data.token };
                         }
                     }
                 } catch (error) {
@@ -48,7 +48,8 @@ export const authOptions: AuthOptions = {
             if (user) {
                 return {
                     ...token,
-                    id: customUser.id
+                    id: customUser.id,
+                    token: customUser.token,
                 }
             }
 
@@ -60,7 +61,8 @@ export const authOptions: AuthOptions = {
                 user: {
                     email: token.email,
                     name: token.name,
-                    id: token.id
+                    id: token.id,
+                    token: token.token
                 }
             }
         }
