@@ -25,9 +25,9 @@ const useRoutes = () => {
         },
         {
             label: 'Presentes',
-            href: '/presentes',
+            href: '/presentes/index',
             icon: AiFillGift,
-            active: pathname === '/presentes'
+            active: pathname === '/presentes/index'
         },
         {
             label: 'Convite',

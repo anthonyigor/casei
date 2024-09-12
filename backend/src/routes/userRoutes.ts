@@ -15,6 +15,6 @@ router.post('/login', validateRequestSchema(loginSchema), (req, res) => userCont
 router.patch('/update/:id', verifyToken, validateRequestSchema(createUserSchema), (req, res) => userController.update(req, res))
 router.post('/:id/convidados/create', verifyToken, validateRequestSchema(convidadoSchema), (req, res) => convidadoController.create(req, res))
 router.get('/:id/convidados', (req, res) => convidadoController.getConvidados(req, res))
-router.get('/:id/presentes', (req, res) => presenteController.getPresentes(req, res))
+router.get('/:id/presentes', verifyToken, (req, res) => presenteController.getPresentes(req, res))
 
 export default router
