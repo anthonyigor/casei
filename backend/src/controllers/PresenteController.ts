@@ -6,7 +6,6 @@ export class PresenteController {
 
     async getPresentes(req: Request, res: Response) {
         const { id } = req.params
-
         const presentes = await this.getPresentesByUserService.execute(id)
         return res.status(200).json(presentes)
     }

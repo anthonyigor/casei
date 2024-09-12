@@ -3,8 +3,9 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Select from "../Select";
+import toast from "react-hot-toast";
 
 type CustomUser = {
     name?: string | null;
@@ -13,9 +14,20 @@ type CustomUser = {
     id?: string;
 };
 
+const formatPhoneNumber = (value: string) => {
+    const cleanValue = value.replace(/\D/g, '');
+  
+    // Formata o número de telefone
+    if (cleanValue.length <= 10) {
+      return cleanValue.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+    } else {
+      return cleanValue.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+    }
+  };
 
 const ConvidadoForm = () => {
     const [presentes, setPresentes] = useState<any[]>([])
+    const [phone, setPhone] = useState('');
     const session = useSession()
     
     useEffect(() => {
@@ -26,6 +38,7 @@ const ConvidadoForm = () => {
             .then((response) => {
                 setPresentes(response.data)
             })
+            .catch((error) => toast.error(error))
         }
     }, [session.data?.user])
 
@@ -36,44 +49,55 @@ const ConvidadoForm = () => {
         watch
     } = useForm<FieldValues>({
         defaultValues: {
-            presente: ''
+            nome: "",
+            quant_familia: 0,
+            telefone: '',
+            presente: '',
+            confirmado: false
         }
     })
 
     const presente = watch('presente')
+    const confirmado = watch('confirmado')
 
-    console.log(presentes)
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const formattedPhone = formatPhoneNumber(event.target.value);
+        setPhone(formattedPhone);
+      };    
+
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        console.log(data)
+    }
+
     return (
         <div className="flex items-center justify-center p-12">
             <div className="mx-auto w-full max-w-[550px] bg-white">
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-5">
                         <label htmlFor="name" className="mb-3 block text-lg font-medium text-black">
                             Nome
+                            <span className="text-red-500">*</span>
                         </label>
-                        <input type="text" name="name" id="name" placeholder="Nome"
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" />
+                        <input type="text" id="name" placeholder="Nome"
+                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" {...register('nome', { required: true })}/>
                     </div>
                     <div className="mb-5">
                         <label htmlFor="phone" className="mb-3 block text-lg font-medium text-black">
                             Telefone
+                            <span className="text-red-500">*</span>
                         </label>
-                        <input type="text" name="phone" id="phone" placeholder="Informe o telefone"
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" />
+                        <input type="text" id="phone" placeholder="Informe o telefone" value={phone} maxLength={15}
+                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" {...register('telefone', {required: true})} onChange={handleChange}/>
                     </div>
                     <div className="mb-5">
                         <label htmlFor="email" className="mb-3 block text-lg font-medium text-black">
                             Quantidade de acompanhantes (familia)
+                            <span className="text-red-500">*</span>
                         </label>
-                        <input type="number" name="quant_familia" id="quant_familia" placeholder="Informe a quantidade"
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" />
+                        <input type="number" id="quant_familia" placeholder="Informe a quantidade"
+                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" {...register('quant_familia', { required: true })}/>
                     </div>
                     <div className="mb-5">
-                        {/* <label htmlFor="email" className="mb-3 block text-lg font-medium text-blakck">
-                            Presente
-                        </label>
-                        <input type="number" name="quant_familia" id="quant_familia" placeholder="Informe a quantidade"
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" /> */}
                         {presentes && (
                             <Select 
                                 disabled={false}
@@ -91,11 +115,25 @@ const ConvidadoForm = () => {
                         )}
                     </div>
                     <div className="mb-5">
-                        <label htmlFor="email" className="mb-3 block text-lg font-medium text-blakck">
-                            Confirmado
-                        </label>
-                        <input type="number" name="quant_familia" id="quant_familia" placeholder="Informe a quantidade"
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" />
+                        <Select 
+                                disabled={false}
+                                label="Confirmado"
+                                options={[
+                                    {
+                                        value: true,
+                                        label: "Sim"
+                                    },
+                                    {
+                                        value: false,
+                                        label: "Não"
+                                    }
+                                ]}
+                                onChange={(value) => setValue('confirmado', value, {
+                                    shouldValidate: true
+                                })}
+                                value={confirmado}
+                                multi={false}
+                            />
                     </div>
 
                     <div>

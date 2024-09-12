@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react';
 import ReactSelect from 'react-select';
 
 interface SelectProps {
@@ -21,41 +22,53 @@ const Select: React.FC<SelectProps> = ({
     multi,
     required
 }) => {
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
     return (
         <div className="z-50">
             <label className="
-                block
-                text-sm
-                font-medium
-                leading-6
-                text-gray-900
+                mb-3 block text-lg font-medium text-black
             ">
                 {label}
             </label>
             <div className="mt-2">
-                <ReactSelect
-                    isDisabled={disabled}
-                    value={value}
-                    onChange={onChange}
-                    isMulti={multi}
-                    options={options}
-                    menuPortalTarget={document.body}
-                    styles={{
-                        menuPortal: (base) => ({
-                            ...base,
-                            zIndex: 9999
-                        }),
-                        menu: (provided) => ({
-                            ...provided,
-                            zIndex: 9999
-                        })
-                    }}
-                    classNames={{
-                        control: () => 'text-base'
-                    }}
-                    required={required}
-                    menuPlacement="auto"
-                />
+                {isClient && (
+                    <ReactSelect
+                        isDisabled={disabled}
+                        value={value}
+                        onChange={onChange}
+                        isMulti={multi}
+                        options={options}
+                        menuPortalTarget={document.body}
+                        styles={{
+                            menuPortal: (base) => ({
+                                ...base,
+                                zIndex: 9999
+                            }),
+                            menu: (provided) => ({
+                                ...provided,
+                                zIndex: 9999
+                            }),
+                            control: (provided) => ({
+                                ...provided,
+                                borderRadius: '0.5rem',
+                                borderColor: '#e0e0e0',
+                                paddingTop: "0.5rem",
+                                paddingBottom: "0.5rem"
+                            })
+                        }}
+                        classNames={{
+                            control: () => 'text-base'
+                        }}
+                        required={required}
+                        menuPlacement="auto"
+                        placeholder="Selecione uma opção..."
+                    />
+                )}
             </div>
         </div>
     )
