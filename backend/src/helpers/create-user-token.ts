@@ -9,7 +9,7 @@ export const createUserToken = async(res: Response, user: any) => {
         const token = jwt.sign({
             user
         }, secret, {
-            expiresIn: '2h'
+            expiresIn: '30d'
         })
 
         res.status(200).json({token})
