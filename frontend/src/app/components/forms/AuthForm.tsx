@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import Input from "../Input"
+import Input from "../inputs/LoginInput"
 import { FieldValues, SubmitHandler, set, useForm } from "react-hook-form"
 import Button from "../Button"
 import { signIn, useSession } from "next-auth/react"

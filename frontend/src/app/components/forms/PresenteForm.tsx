@@ -6,6 +6,8 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import FormsInput from "../inputs/FormsInput";
+import ImageInput from "../inputs/ImageInput";
 
 type CustomUser = {
     name?: string | null;
@@ -62,85 +64,62 @@ const PresenteForm = () => {
     };
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        const token = (session.data?.user as CustomUser).token;
-        axios.post(`${url}/users/${userId}/convidados/create`, 
-            {
-                ...data,
-                quant_familia: Number(data.quant_familia),
-                confirmado: data.confirmado.value
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        )
-        .then(() => {
-            toast.success('Convidado cadastrado com sucesso!')
-            reset()
-        })
-        .catch((error) => toast.error(error.message))
+        console.log(typeof previewSrc)
+
+        // const token = (session.data?.user as CustomUser).token;
+        // axios.post(`${url}/users/${userId}/convidados/create`, 
+        //     {
+        //         ...data,
+        //         quant_familia: Number(data.quant_familia),
+        //         confirmado: data.confirmado.value
+        //     },
+        //     {
+        //         headers: {
+        //             Authorization: `Bearer ${token}`
+        //         }
+        //     }
+        // )
+        // .then(() => {
+        //     toast.success('Convidado cadastrado com sucesso!')
+        //     reset()
+        // })
+        // .catch((error) => toast.error(error.message))
     }
 
     return (
         <div className="flex items-center justify-center p-12">
             <div className="mx-auto w-full max-w-[550px] bg-white">
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-5">
-                        <label htmlFor="name" className="mb-3 block text-lg font-medium text-black">
-                            Nome
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <input type="text" id="name" placeholder="Nome"
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" {...register('nome', { required: true })}/>
-                    </div>
-                    <div className="mb-5">
-                        <label htmlFor="descricao" className="mb-3 block text-lg font-medium text-black">
-                            Descrição
-                        </label>
-                        <input type="text" id="description" placeholder="Informe a descrição"
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" {...register('descricao', {required: true})}/>
-                    </div>
-                    <div className="mb-5">
-                        <label htmlFor="valor" className="mb-3 block text-lg font-medium text-black">
-                            Valor
-                        </label>
-                        <input type="text" id="valor" placeholder="R$0,00" value={valor}
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" {...register('valor', {required: true})} onChange={handleValorChange}/>
-                    </div>
-                    <div className="mb-5">
-                        <label htmlFor="image" className="mb-3 block text-lg font-medium text-black">
-                            Imagem
-                        </label>    
-                        <div className="flex items-center space-x-6">
-                            <div className="shrink-0">
-                                <Image
-                                    id="preview_img"
-                                    className="h-16 w-16 object-cover rounded-full"
-                                    src={previewSrc!}
-                                    width={30}
-                                    height={30}
-                                    alt="Current profile photo"
-                                />
-                            </div>
-                            <label className="block">
-                                <span className="sr-only">Selecione uma imagem</span>
-                                <input
-                                    type="file"
-                                    onChange={loadFile}
-                                    className="block w-full text-sm text-slate-500
-                                        file:mr-4 file:py-2 file:px-4
-                                        file:rounded-full file:border-0
-                                        file:text-sm file:font-semibold
-                                        file:bg-teal-100 file:text-teal-600
-                                        hover:file:bg-teal-800
-                                        hover:file:text-white
-                                    "
-                                />
-                            </label>
-                        </div>
-                    </div>
-
+                    <FormsInput
+                        id="nome"
+                        label="Nome"
+                        register={register}
+                        type="text"
+                        placeholder="Nome"
+                        required={true}
+                        key="name"
+                    />
+                    <FormsInput
+                        id="descricao"
+                        label="Descrição"
+                        register={register}
+                        type="text"
+                        placeholder="Descrição"
+                        required={false}
+                        key="descricao"
+                    />
+                    <FormsInput
+                        id="valor"
+                        label="Valor"
+                        register={register}
+                        onChange={handleValorChange}
+                        type="text"
+                        placeholder="R$0,00"
+                        value={valor}
+                        required={false}
+                        key="descricao"
+                    />
+                    <ImageInput previewSrc={previewSrc} loadFile={loadFile}/>
                     <div>
                         <button
                             className="hover:shadow-form w-full rounded-md bg-teal-600 hover:bg-teal-800 py-3 px-8 text-center text-base font-semibold text-white outline-none">
