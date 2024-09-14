@@ -6,6 +6,7 @@ import { PresenteRepository } from "../repositories/PresenteRepository";
 import { UserRepository } from "../repositories/UserRepository";
 import { CreateConvidadoService } from "../services/convidadoServices/CreateConvidadoService";
 import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
+import { UploadFileToS3 } from "../services/fileServices/UploadFileToS3";
 import { GetPresentesByUserService } from "../services/presenteServices/GetPresentesByUserService";
 import { GetPresentesDisponiveisByUserService } from "../services/presenteServices/GetPresentesDisponiveisByUserService";
 import { CreateUserService } from "../services/userServices/CreateUserService";
@@ -51,10 +52,12 @@ export class AppConfig {
         // services
         const getPresentesByUserService = new GetPresentesByUserService(presenteRepository)
         const getPresentesDisponiveisByUserService = new GetPresentesDisponiveisByUserService(presenteRepository)
+        const uploadFileToS3 = new UploadFileToS3()
 
         return new PresenteController(
             getPresentesByUserService,
-            getPresentesDisponiveisByUserService
+            getPresentesDisponiveisByUserService,
+            uploadFileToS3
         )
     }
 
