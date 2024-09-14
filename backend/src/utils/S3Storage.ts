@@ -30,7 +30,7 @@ export class S3Storage {
         const urlFileS3 = `https://${bucketName}.s3.sa-east-1.amazonaws.com/${filename}`
 
         // remover arquivo da pasta tmps
-        unlink(originalPath)
+        await unlink(originalPath)
 
         return urlFileS3
     }

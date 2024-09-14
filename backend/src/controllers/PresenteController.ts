@@ -2,12 +2,18 @@ import { Request, Response } from "express";
 import { GetPresentesByUserService } from "../services/presenteServices/GetPresentesByUserService";
 import { GetPresentesDisponiveisByUserService } from "../services/presenteServices/GetPresentesDisponiveisByUserService";
 import { UploadFileToS3 } from "../services/fileServices/UploadFileToS3";
+import { randomUUID } from "crypto";
+import { CreatePresenteService } from "../services/presenteServices/CreatePresenteService";
+import { FindUserByIDService } from "../services/userServices/FindUserByIDService";
+import 'express-async-errors';
 
 export class PresenteController {
     constructor(
         private getPresentesByUserService: GetPresentesByUserService,
         private getPresentesDisponiveisService: GetPresentesDisponiveisByUserService,
-        private uploadFileService: UploadFileToS3
+        private uploadFileService: UploadFileToS3,
+        private createPresenteService: CreatePresenteService,
+        private findUserByEmailService: FindUserByIDService
     ) {}
 
     async create(req: Request | any, res: Response) {
@@ -15,9 +21,27 @@ export class PresenteController {
         const image = req.file
         const { nome, descricao, valor } = req.body
 
-        // send image to s3
+        const valorNumber = Number(Number(valor.replace(',', '.')).toFixed(2))
+
+        const user = await this.findUserByEmailService.execute(id)
+        if (!user) return res.status(400).json({ message: 'User not found' })
+
+        //send image to s3
         const fileUrl = await this.uploadFileService.execute(image.filename, image.mimetype)
-        res.status(200).json({ fileUrl })
+        
+        const presente: any = {
+            id: randomUUID(),
+            nome,
+            descricao,
+            valor: valorNumber,
+            image: fileUrl,
+            user_id: id,
+            selecionado: false
+        }
+
+        const newPresente = await this.createPresenteService.execute(presente)
+        
+        res.status(200).json({ newPresente })
     }
 
     async getPresentes(req: Request, res: Response) {

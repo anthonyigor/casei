@@ -3,6 +3,7 @@ import { CreateConvidadoService } from "../services/convidadoServices/CreateConv
 import { Convidado } from "@prisma/client";
 import { randomUUID } from "crypto";
 import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
+import 'express-async-errors';
 
 export class ConvidadoController {
     constructor(

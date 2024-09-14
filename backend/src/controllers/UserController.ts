@@ -6,6 +6,7 @@ import { randomUUID } from "crypto";
 import { CreateUserService } from "../services/userServices/CreateUserService";
 import { LoginService } from "../services/userServices/LoginService";
 import { UpdateUserService } from "../services/userServices/UpdateUserService";
+import 'express-async-errors';
 
 export class UserController {
     constructor(
