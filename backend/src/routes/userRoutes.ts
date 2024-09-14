@@ -3,6 +3,7 @@ import { verifyToken } from "../helpers/verify-token";
 import { AppConfig } from "../config/AppConfig";
 import { validateRequestSchema } from "../middlewares/validateRequest";
 import { convidadoSchema, createUserSchema, loginSchema } from "../utils/validators";
+import imageUpload from "../helpers/image-upload";
 
 const router = Router()
 
@@ -16,6 +17,7 @@ router.patch('/update/:id', verifyToken, validateRequestSchema(createUserSchema)
 router.post('/:id/convidados/create', verifyToken, validateRequestSchema(convidadoSchema), (req, res) => convidadoController.create(req, res))
 router.get('/:id/convidados', (req, res) => convidadoController.getConvidados(req, res))
 router.get('/:id/presentes', verifyToken, (req, res) => presenteController.getPresentes(req, res))
+router.post('/:id/presentes/create', imageUpload.single('image'), (req, res) => presenteController.create(req, res))
 router.get('/:id/presentes/disponiveis', (req, res) => presenteController.getPresentesDisponiveis(req, res))
 
 export default router

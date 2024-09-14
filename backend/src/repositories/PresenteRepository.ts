@@ -2,6 +2,18 @@ import { Presente } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 
 export class PresenteRepository {
+    async createPresente(presente: Presente): Promise<Presente | Error> {
+        try {
+            const newPresente = await prisma.presente.create({
+                data: presente
+            })
+
+            return newPresente
+        } catch (error) {
+            throw new Error("Erro ao criar presente")
+        }
+    }
+
     async getPresentesByUser(userId: string): Promise<Presente[] | null> {
         const presentes = await prisma.presente.findMany({
             where: {

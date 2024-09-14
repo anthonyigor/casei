@@ -8,6 +8,15 @@ export class PresenteController {
         private getPresentesDisponiveisService: GetPresentesDisponiveisByUserService
     ) {}
 
+    async create(req: Request | any, res: Response) {
+        const { id } = req.params
+        const image = req.file
+        const { nome, descricao, valor } = req.body
+
+        console.log(image)
+
+    }
+
     async getPresentes(req: Request, res: Response) {
         const { id } = req.params
         const presentes = await this.getPresentesByUserService.execute(id)
