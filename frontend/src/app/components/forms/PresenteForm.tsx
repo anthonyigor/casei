@@ -21,8 +21,8 @@ const url = process.env.NEXT_PUBLIC_BACKEND_URL
 
 const PresenteForm = () => {
     const [valor, setValor] = useState('');
-    const [userId, setUserId] = useState('')
     const [previewSrc, setPreviewSrc] = useState<string>('/img/presentes.png');
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     
     const session = useSession()
     
@@ -30,11 +30,12 @@ const PresenteForm = () => {
         register, 
         handleSubmit,
         setValue,
-        watch,
         reset
     } = useForm<FieldValues>({
         defaultValues: {
-           
+           nome: '',
+           descricao: '',
+           valor: ''
         }
     })
 
@@ -51,10 +52,17 @@ const PresenteForm = () => {
 
     const loadFile = (event: any) => {
         const file = event.target.files[0];
+        const types = ['image/png', 'image/jpeg'];
+
+        if (!types.includes(file.type)) {
+            toast.error('Apenas arquivos PNG e JPEG são permitidos.');
+            return;
+        }
 
         if (file) {
             const src = URL.createObjectURL(file);
-            setPreviewSrc(src);  // Atualiza o estado para renderizar a nova imagem
+            setPreviewSrc(src); 
+            setSelectedFile(file);
 
             // Opcional: Revogar a URL após o uso
             event.target.onload = function() {
@@ -63,27 +71,45 @@ const PresenteForm = () => {
         }
     };
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(typeof previewSrc)
+    const formatToNumber = (valor: string) => {
+        // Remove "R$" e espaços
+        let numericValue = valor.replace('R$', '').trim();
+        
+        // Substitui a vírgula por ponto
+        numericValue = numericValue.replace(',', '.');
+        
+        // Converte a string para um número
+        return numericValue;
+    }
 
-        // const token = (session.data?.user as CustomUser).token;
-        // axios.post(`${url}/users/${userId}/convidados/create`, 
-        //     {
-        //         ...data,
-        //         quant_familia: Number(data.quant_familia),
-        //         confirmado: data.confirmado.value
-        //     },
-        //     {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`
-        //         }
-        //     }
-        // )
-        // .then(() => {
-        //     toast.success('Convidado cadastrado com sucesso!')
-        //     reset()
-        // })
-        // .catch((error) => toast.error(error.message))
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        const formData = new FormData()
+
+        formData.append('nome', data.nome)
+        formData.append('descricao', data.descricao)
+        formData.append('valor', formatToNumber(valor))
+        
+        if (selectedFile) {
+            formData.append('image', selectedFile);
+        }
+
+        const token = (session.data?.user as CustomUser).token;
+        const userId = (session.data?.user as CustomUser).id!
+        axios.post(`${url}/users/${userId}/presentes/create`, 
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        .then(() => {
+            toast.success('Presente cadastrado com sucesso!')
+            reset()
+            setPreviewSrc('/img/presentes.png')
+        })
+        .catch((error) => toast.error(error.message))
     }
 
     return (
@@ -117,7 +143,7 @@ const PresenteForm = () => {
                         placeholder="R$0,00"
                         value={valor}
                         required={false}
-                        key="descricao"
+                        key="valor"
                     />
                     <ImageInput previewSrc={previewSrc} loadFile={loadFile}/>
                     <div>
