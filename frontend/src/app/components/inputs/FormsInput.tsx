@@ -9,9 +9,10 @@ interface InputProps {
     placeholder?: string;
     onChange?: (e: any) => void;
     value?: string;
+    maxLenght?: number
 }
 
-const FormsInput: React.FC<InputProps>  = ({ id, label, type, register, required, placeholder, onChange, value }) => {
+const FormsInput: React.FC<InputProps>  = ({ id, label, type, register, required, placeholder, onChange, value, maxLenght }) => {
     return (
         <div className="mb-5">
             <label className="mb-3 block text-lg font-medium text-black" htmlFor={id}>
@@ -24,6 +25,7 @@ const FormsInput: React.FC<InputProps>  = ({ id, label, type, register, required
                     type={type}
                     value={value}
                     autoComplete={id}
+                    maxLength={maxLenght}
                     placeholder={placeholder}
                     {...register(id, { required })}
                     onChange={onChange}

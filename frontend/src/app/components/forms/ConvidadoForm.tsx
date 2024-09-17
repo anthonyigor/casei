@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { FieldValues, set, SubmitHandler, useForm } from "react-hook-form";
 import Select from "../Select";
 import toast from "react-hot-toast";
+import FormsInput from "../inputs/FormsInput";
 
 type CustomUser = {
     name?: string | null;
@@ -94,22 +95,27 @@ const ConvidadoForm = () => {
         <div className="flex items-center justify-center p-12">
             <div className="mx-auto w-full max-w-[550px] bg-white">
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-5">
-                        <label htmlFor="name" className="mb-3 block text-lg font-medium text-black">
-                            Nome
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <input type="text" id="name" placeholder="Nome"
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" {...register('nome', { required: true })}/>
-                    </div>
-                    <div className="mb-5">
-                        <label htmlFor="phone" className="mb-3 block text-lg font-medium text-black">
-                            Telefone
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <input type="text" id="phone" placeholder="Informe o telefone" value={phone} maxLength={15}
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" {...register('telefone', {required: true})} onChange={handleChange}/>
-                    </div>
+                    <FormsInput
+                        id="nome"
+                        label="Nome"
+                        register={register}
+                        type="text"
+                        placeholder="Nome"
+                        required={true}
+                        key="name"
+                    />
+                    <FormsInput
+                        id="telefone"
+                        label="Telefone"
+                        maxLenght={15}
+                        register={register}
+                        type="text"
+                        placeholder="Informe o telefone"
+                        required={true}
+                        key="telefone"
+                        onChange={handleChange}
+                        value={phone}
+                    />
                     <div className="mb-5">
                         <label htmlFor="email" className="mb-3 block text-lg font-medium text-black">
                             Quantidade de acompanhantes (familia)
