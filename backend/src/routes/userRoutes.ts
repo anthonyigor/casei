@@ -2,8 +2,9 @@ import { Router } from "express";
 import { verifyToken } from "../helpers/verify-token";
 import { AppConfig } from "../config/AppConfig";
 import { validateRequestSchema } from "../middlewares/validateRequest";
-import { convidadoSchema, createUserSchema, loginSchema } from "../utils/validators";
+import { convidadoSchema, createUserSchema, getConvidadoSchema, loginSchema } from "../utils/validators";
 import imageUpload from "../helpers/image-upload";
+import { validateParamsRequest } from "../middlewares/validateParamsRequest";
 
 const router = Router()
 
@@ -16,6 +17,7 @@ router.post('/login', validateRequestSchema(loginSchema), (req, res) => userCont
 router.patch('/update/:id', verifyToken, validateRequestSchema(createUserSchema), (req, res) => userController.update(req, res))
 router.post('/:id/convidados/create', verifyToken, validateRequestSchema(convidadoSchema), (req, res) => convidadoController.create(req, res))
 router.get('/:id/convidados', (req, res) => convidadoController.getConvidados(req, res))
+router.get('/:id/convidados/:convidadoId', validateParamsRequest(getConvidadoSchema), (req, res) => convidadoController.getConvidado(req, res))
 router.get('/:id/presentes', verifyToken, (req, res) => presenteController.getPresentes(req, res))
 router.post('/:id/presentes/create', imageUpload.single('image'), (req, res) => presenteController.create(req, res))
 router.get('/:id/presentes/disponiveis', (req, res) => presenteController.getPresentesDisponiveis(req, res))

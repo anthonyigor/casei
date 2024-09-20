@@ -6,6 +6,7 @@ import { PresenteRepository } from "../repositories/PresenteRepository";
 import { UserRepository } from "../repositories/UserRepository";
 import { CreateConvidadoService } from "../services/convidadoServices/CreateConvidadoService";
 import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
+import { GetConvidadoService } from "../services/convidadoServices/GetConvidadoService";
 import { UploadFileToS3 } from "../services/fileServices/UploadFileToS3";
 import { CreatePresenteService } from "../services/presenteServices/CreatePresenteService";
 import { GetPresentesByUserService } from "../services/presenteServices/GetPresentesByUserService";
@@ -39,11 +40,13 @@ export class AppConfig {
 
         //services
         const createConvidadoService = new CreateConvidadoService(convidadoRepository, userRepository);
-        const getConvidadosByUserService = new GetConvidadosByUserService(convidadoRepository, userRepository)
+        const getConvidadosByUserService = new GetConvidadosByUserService(convidadoRepository, userRepository);
+        const getConvidadoService = new GetConvidadoService(convidadoRepository);
 
         return new ConvidadoController(
             createConvidadoService,
-            getConvidadosByUserService
+            getConvidadosByUserService,
+            getConvidadoService
         )
     }
 

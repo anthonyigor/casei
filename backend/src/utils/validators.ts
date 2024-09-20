@@ -17,3 +17,8 @@ export const convidadoSchema = Yup.object().shape({
   confirmado: Yup.boolean().required('Confirmado é obrigatório'),
   telefone: Yup.string().required('Telefone é obrigatório')
 });
+
+export const getConvidadoSchema = Yup.object().shape({
+  id: Yup.string().required('User ID é obrigatório'),
+  convidadoId: Yup.string().required('Convidado é obrigatório')
+});

@@ -35,4 +35,15 @@ export class ConvidadoRepository {
         return convidados
     }
     
+    async getConvidado(user_id: string, convidado_id: string): Promise<Convidado | null> {
+        const convidado = await prisma.convidado.findUnique({
+            where: {
+                id: convidado_id,
+                user_id: user_id
+            }
+        })
+
+        return convidado
+    }
+
 }
