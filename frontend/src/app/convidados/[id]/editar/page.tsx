@@ -1,8 +1,11 @@
 'use client'
 
 import Button from "@/app/components/Button";
+import { useSession } from "next-auth/react";
 import { Great_Vibes } from "next/font/google";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface IParams {
     id: string;
@@ -11,7 +14,28 @@ interface IParams {
 const greatVibes = Great_Vibes({ weight:'400', subsets: ['latin'] });  
 
 const EditarConvidado = ({ params }: { params: IParams }) => {
+    const { id } = params
+    const [convidado, setConvidado] = useState()
+    const session = useSession()
     const router = useRouter()
+
+    useEffect(() => {
+        async function fetchConvidado(userId: string, convidadoId: string) {
+            let res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/${convidadoId}`)
+            if (!res.ok) {
+                toast.error('Erro ao buscar convidado')
+            }
+            
+            let data = await res.json()
+            setConvidado(data)
+        }
+        
+        if (session.data?.user) {
+            const userId = (session.data.user as any).id
+            fetchConvidado(userId, id)
+        }
+
+    }, [id, session])
 
     return (
         <>  
