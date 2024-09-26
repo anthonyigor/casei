@@ -1,6 +1,8 @@
 'use client'
 
 import Button from "@/app/components/Button";
+import EditarConvidadoForm from "@/app/components/forms/EditarConvidadoForm";
+import { Convidado } from "@/types";
 import { useSession } from "next-auth/react";
 import { Great_Vibes } from "next/font/google";
 import { useRouter } from "next/navigation";
@@ -15,7 +17,7 @@ const greatVibes = Great_Vibes({ weight:'400', subsets: ['latin'] });
 
 const EditarConvidado = ({ params }: { params: IParams }) => {
     const { id } = params
-    const [convidado, setConvidado] = useState()
+    const [convidado, setConvidado] = useState<Convidado>()
     const session = useSession()
     const router = useRouter()
 
@@ -40,14 +42,14 @@ const EditarConvidado = ({ params }: { params: IParams }) => {
     return (
         <>  
         <div className={greatVibes.className}>
-            <h2 className="text-4xl text-center mt-4 text-teal-600 font-semibold py-2">Editar convidado</h2>
+            <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">Editar convidado</h2>
         </div>
         <div className="fixed top-0 left-48 m-4">
                 <Button type="button" onClick={() => router.push('/convidados/index')}>
                     Voltar
                 </Button>
         </div>
-        {/* <ConvidadoForm /> */}
+        {convidado && <EditarConvidadoForm convidado={convidado!}/>}
         </>
     )
 }

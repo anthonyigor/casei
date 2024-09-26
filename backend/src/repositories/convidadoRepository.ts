@@ -40,6 +40,9 @@ export class ConvidadoRepository {
             where: {
                 id: convidado_id,
                 user_id: user_id
+            },
+            include: {
+                presentes: true
             }
         })
 
