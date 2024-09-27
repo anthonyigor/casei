@@ -5,16 +5,18 @@ import { randomUUID } from "crypto";
 import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
 import 'express-async-errors';
 import { GetConvidadoService } from "../services/convidadoServices/GetConvidadoService";
+import { SetPresenteConvidado } from "../services/presenteServices/SetPresenteConvidado";
 
 export class ConvidadoController {
     constructor(
         private createConvidadoService: CreateConvidadoService,
         private getConvidadosByUserService: GetConvidadosByUserService,
-        private getConvidadoService: GetConvidadoService
+        private getConvidadoService: GetConvidadoService,
+        private setPresenteConvidado: SetPresenteConvidado
     ) {}
 
     async create(req: Request, res: Response) {
-        const { nome, quant_familia, confirmado, telefone } = req.body;
+        const { nome, quant_familia, confirmado, telefone, presentes } = req.body;
         const user_id = req.params.id;
 
         const convidado: Convidado = {
@@ -25,7 +27,14 @@ export class ConvidadoController {
             telefone,
             user_id
         }
+
         const newConvidado = await this.createConvidadoService.execute(convidado)
+        
+        if (presentes.length > 0) {
+            presentes.map((presente: any) => {
+                this.setPresenteConvidado.execute(presente.value, (newConvidado as any).id, user_id)
+            })
+        }
 
         return res.status(201).json({message: "Convidado criado com sucesso!", newConvidado})
 

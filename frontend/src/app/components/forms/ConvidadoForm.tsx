@@ -29,7 +29,7 @@ const formatPhoneNumber = (value: string) => {
   
 const url = process.env.NEXT_PUBLIC_BACKEND_URL
 const ConvidadoForm = () => {
-    const [presentes, setPresentes] = useState<any[]>([])
+    const [presentess, setPresentes] = useState<any[]>([])
     const [phone, setPhone] = useState('');
     const [userId, setUserId] = useState('')
     const session = useSession()
@@ -57,12 +57,12 @@ const ConvidadoForm = () => {
         defaultValues: {
             nome: "",
             telefone: '',
-            presente: '',
+            presentes: '',
             confirmado: false
         }
     })
 
-    const presente = watch('presente')
+    const presentes = watch('presentes')
     const confirmado = watch('confirmado')
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,19 +125,19 @@ const ConvidadoForm = () => {
                             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" {...register('quant_familia', { required: true })}/>
                     </div>
                     <div className="mb-5">
-                        {presentes && (
+                        {presentess && (
                             <Select 
                                 disabled={false}
                                 label="Presente"
-                                options={presentes.map((presente) => ({
+                                options={presentess.map((presente) => ({
                                     value: presente.id,
                                     label: presente.nome
                                 }))}
-                                onChange={(value) => setValue('presente', value, {
+                                onChange={(value) => setValue('presentes', value, {
                                     shouldValidate: true
                                 })}
-                                value={presente}
-                                multi={false}
+                                value={presentes}
+                                multi={true}
                             />
                         )}
                     </div>
