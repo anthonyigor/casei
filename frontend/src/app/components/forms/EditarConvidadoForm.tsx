@@ -85,23 +85,23 @@ const EditarConvidadoForm: React.FC<EditarConvidadoProps> = ({ convidado }) => {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const token = (session.data?.user as CustomUser).token;
-        // axios.post(`${url}/users/${userId}/convidados/create`, 
-        //     {
-        //         ...data,
-        //         quant_familia: Number(data.quant_familia),
-        //         confirmado: data.confirmado.value
-        //     },
-        //     {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`
-        //         }
-        //     }
-        // )
-        // .then(() => {
-        //     toast.success('Convidado cadastrado com sucesso!')
-        //     reset()
-        // })
-        // .catch((error) => toast.error(error.message))
+        axios.put(`${url}/users/${userId}/convidados/${convidado.id}`, 
+            {
+                ...data,
+                quant_familia: Number(data.quant_familia),
+                confirmado: data.confirmado.value
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        .then(() => {
+            toast.success('Convidado cadastrado com sucesso!')
+            reset()
+        })
+        .catch((error) => toast.error(error.message))
     }
 
     return (
@@ -147,7 +147,7 @@ const EditarConvidadoForm: React.FC<EditarConvidadoProps> = ({ convidado }) => {
                                     value: presente.id,
                                     label: presente.nome
                                 }))}
-                                onChange={(value) => setValue('presente', value, {
+                                onChange={(value) => setValue('presentes', value, {
                                     shouldValidate: true
                                 })}
                                 value={presentess}

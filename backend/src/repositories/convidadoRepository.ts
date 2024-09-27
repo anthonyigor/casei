@@ -1,5 +1,6 @@
 import { Convidado } from "@prisma/client";
 import { prisma } from '../lib/prisma';
+import { InternalError } from "../errors/InternalError";
 
 export class ConvidadoRepository {
     async create(convidado: Convidado): Promise<Convidado | Error> {
@@ -11,7 +12,7 @@ export class ConvidadoRepository {
             return newConvidado;
         } catch (error) {
             console.log(error)
-            throw new Error("Erro ao criar convidado!")
+            throw new InternalError("Erro ao criar convidado!")
         }
     }
 
@@ -47,6 +48,20 @@ export class ConvidadoRepository {
         })
 
         return convidado
+    }
+
+    async updateConvidado(convidado: Convidado): Promise<void> {
+        try {
+            await prisma.convidado.update({
+                where: {
+                    id: convidado.id
+                },
+                data: convidado
+            })
+        } catch (error) {
+            console.log(error)
+            throw new InternalError("Erro ao editar convidado!")
+        }
     }
 
 }

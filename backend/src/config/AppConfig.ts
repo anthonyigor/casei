@@ -7,9 +7,11 @@ import { UserRepository } from "../repositories/UserRepository";
 import { CreateConvidadoService } from "../services/convidadoServices/CreateConvidadoService";
 import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
 import { GetConvidadoService } from "../services/convidadoServices/GetConvidadoService";
+import { UpdateConvidadoService } from "../services/convidadoServices/UpdateConvidadoService";
 import { UploadFileToS3 } from "../services/fileServices/UploadFileToS3";
 import { CreatePresenteService } from "../services/presenteServices/CreatePresenteService";
 import { GetPresentesByUserService } from "../services/presenteServices/GetPresentesByUserService";
+import { GetPresentesConvidadoService } from "../services/presenteServices/GetPresentesConvidadoService";
 import { GetPresentesDisponiveisByUserService } from "../services/presenteServices/GetPresentesDisponiveisByUserService";
 import { SetPresenteConvidado } from "../services/presenteServices/SetPresenteConvidado";
 import { CreateUserService } from "../services/userServices/CreateUserService";
@@ -45,12 +47,16 @@ export class AppConfig {
         const getConvidadosByUserService = new GetConvidadosByUserService(convidadoRepository, userRepository);
         const getConvidadoService = new GetConvidadoService(convidadoRepository);
         const setPresenteConvidado = new SetPresenteConvidado(presenteRepository);
+        const updateConvidadoService = new UpdateConvidadoService(convidadoRepository);
+        const getPresenteConvidadoService = new GetPresentesConvidadoService(presenteRepository);
 
         return new ConvidadoController(
             createConvidadoService,
             getConvidadosByUserService,
             getConvidadoService,
-            setPresenteConvidado
+            setPresenteConvidado,
+            updateConvidadoService,
+            getPresenteConvidadoService
         )
     }
 
