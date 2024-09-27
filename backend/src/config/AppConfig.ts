@@ -14,6 +14,7 @@ import { GetPresentesByUserService } from "../services/presenteServices/GetPrese
 import { GetPresentesConvidadoService } from "../services/presenteServices/GetPresentesConvidadoService";
 import { GetPresentesDisponiveisByUserService } from "../services/presenteServices/GetPresentesDisponiveisByUserService";
 import { SetPresenteConvidado } from "../services/presenteServices/SetPresenteConvidado";
+import { UnsetPresenteConvidado } from "../services/presenteServices/UnsetPresenteConvidado";
 import { CreateUserService } from "../services/userServices/CreateUserService";
 import { FindUserByIDService } from "../services/userServices/FindUserByIDService";
 import { LoginService } from "../services/userServices/LoginService";
@@ -49,6 +50,7 @@ export class AppConfig {
         const setPresenteConvidado = new SetPresenteConvidado(presenteRepository);
         const updateConvidadoService = new UpdateConvidadoService(convidadoRepository);
         const getPresenteConvidadoService = new GetPresentesConvidadoService(presenteRepository);
+        const unsetPresenteConvidado = new UnsetPresenteConvidado(presenteRepository);
 
         return new ConvidadoController(
             createConvidadoService,
@@ -56,7 +58,8 @@ export class AppConfig {
             getConvidadoService,
             setPresenteConvidado,
             updateConvidadoService,
-            getPresenteConvidadoService
+            getPresenteConvidadoService,
+            unsetPresenteConvidado
         )
     }
 

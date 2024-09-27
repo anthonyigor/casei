@@ -3,11 +3,12 @@ import { CreateConvidadoService } from "../services/convidadoServices/CreateConv
 import { Convidado } from "@prisma/client";
 import { randomUUID } from "crypto";
 import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
-import 'express-async-errors';
 import { GetConvidadoService } from "../services/convidadoServices/GetConvidadoService";
 import { SetPresenteConvidado } from "../services/presenteServices/SetPresenteConvidado";
 import { UpdateConvidadoService } from "../services/convidadoServices/UpdateConvidadoService";
 import { GetPresentesConvidadoService } from "../services/presenteServices/GetPresentesConvidadoService";
+import { UnsetPresenteConvidado } from "../services/presenteServices/UnsetPresenteConvidado";
+import 'express-async-errors';
 
 export class ConvidadoController {
     constructor(
@@ -16,7 +17,8 @@ export class ConvidadoController {
         private getConvidadoService: GetConvidadoService,
         private setPresenteConvidado: SetPresenteConvidado,
         private updateConvidadoService: UpdateConvidadoService,
-        private getPresenteConvidadoService: GetPresentesConvidadoService
+        private getPresenteConvidadoService: GetPresentesConvidadoService,
+        private unsetPresenteConvidado: UnsetPresenteConvidado
     ) {}
 
     async create(req: Request, res: Response) {
@@ -76,7 +78,7 @@ export class ConvidadoController {
             user_id
         }
 
-        //await this.updateConvidadoService.execute(convidado)
+        await this.updateConvidadoService.execute(convidado)
 
         const presentesConvidado = await this.getPresenteConvidadoService.execute(convidadoId)
 
@@ -84,8 +86,17 @@ export class ConvidadoController {
         const presentesARemover = presentesConvidado.filter((presenteConvidado) => 
             !presentes.some((presente: any) => presente.value === presenteConvidado.id)
         )
+        for (const presente of presentesARemover) {
+            await this.unsetPresenteConvidado.execute(presente.id)
+        }
 
-        
+        // adicionar presentes
+        const presentesAAdicionar = presentes.filter((presente: any) => 
+            !presentesConvidado.some((presenteConvidado) => presenteConvidado.id === presente.value)
+        )
+        for (const presente of presentesAAdicionar) {
+            await this.setPresenteConvidado.execute(presente.value, convidadoId, user_id)
+        }
 
         return res.status(200).json({ message: "Convidado editado com sucesso" })
     }
