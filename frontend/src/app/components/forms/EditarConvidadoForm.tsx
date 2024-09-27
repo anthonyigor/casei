@@ -8,6 +8,7 @@ import Select from "../Select";
 import toast from "react-hot-toast";
 import FormsInput from "../inputs/FormsInput";
 import { Convidado } from "@/types";
+import { useRouter } from "next/navigation";
 
 type CustomUser = {
     name?: string | null;
@@ -39,6 +40,7 @@ const EditarConvidadoForm: React.FC<EditarConvidadoProps> = ({ convidado }) => {
     const [phone, setPhone] = useState(convidado.telefone);
     const [userId, setUserId] = useState('')
     const session = useSession()
+    const router = useRouter()
     
     useEffect(() => {
         if (session.data?.user) {
@@ -57,8 +59,7 @@ const EditarConvidadoForm: React.FC<EditarConvidadoProps> = ({ convidado }) => {
         register, 
         handleSubmit,
         setValue,
-        watch,
-        reset
+        watch
     } = useForm<FieldValues>({
         defaultValues: {
             nome: convidado.nome,
@@ -98,8 +99,8 @@ const EditarConvidadoForm: React.FC<EditarConvidadoProps> = ({ convidado }) => {
             }
         )
         .then(() => {
-            toast.success('Convidado cadastrado com sucesso!')
-            reset()
+            toast.success('Convidado editado com sucesso!')
+            router.push('/convidados/index')
         })
         .catch((error) => toast.error(error.message))
     }
