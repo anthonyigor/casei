@@ -19,6 +19,7 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
         .slice(pagesVisited, pagesVisited + guestsPerPage)
         .map((convidado) => (
             <ConvidadosItem
+                id={convidado.id}
                 nome={convidado.nome}
                 key={convidado.id}
                 confirmado={convidado.confirmado}
@@ -43,6 +44,7 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
                         <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Familiares</th>
                         <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Telefone</th>
                         <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Confirmado</th>
+                        <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">Editar</th>
                     </tr>
                 </thead>
                 <tbody className="bg-white">

@@ -1,8 +1,11 @@
 'use client'
 
 import clsx from "clsx"
+import { useRouter } from "next/navigation"
+import { FaUserEdit } from "react-icons/fa"
 
 interface convidadosItemProps {
+    id: string
     nome: string
     quant_familia?: number
     confirmado?: boolean
@@ -13,8 +16,15 @@ const ConvidadosItem: React.FC<convidadosItemProps> = ({
     nome,
     quant_familia,
     confirmado,
-    telefone
+    telefone,
+    id
 }) => {
+    const router = useRouter();
+
+    const handleIconClick = (e: any) => {
+        router.push(`/convidados/${id}/editar`)
+    }
+
     return (
         <tr>
             <td className="py-4 px-6 border-b border-gray-200">{nome}</td>
@@ -36,6 +46,7 @@ const ConvidadosItem: React.FC<convidadosItemProps> = ({
                         )}
                     </span>
             </td>
+            <td className="py-4 px-6 border-b border-gray-200"><FaUserEdit size={30} onClick={handleIconClick} style={{ cursor: 'pointer' }}/></td>
         </tr>
     )
 }

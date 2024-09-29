@@ -1,8 +1,11 @@
 'use client'
 
 import clsx from "clsx"
+import { useRouter } from "next/navigation"
+import { FaEdit } from "react-icons/fa"
 
 interface presentesItemProps {
+    id: string
     nome: string
     descricao?: string
     selecionado?: boolean
@@ -19,8 +22,15 @@ const PresentesItem: React.FC<presentesItemProps> = ({
     image,
     valor,
     convidado,
-    index
+    index,
+    id
 }) => {
+    const router = useRouter();
+
+    const handleIconClick = () => {
+        router.push(`/presentes/${id}/editar`)
+    }
+
     return (
         <tr>
             <td className="py-4 px-6 border-b border-gray-200">{index}</td>
@@ -45,6 +55,7 @@ const PresentesItem: React.FC<presentesItemProps> = ({
                     </span>
             </td>
             <td className="py-4 px-6 border-b border-gray-200">{selecionado ? convidado : '-'}</td>
+            <td className="py-4 px-6 border-b border-gray-200"><FaEdit size={20} onClick={handleIconClick} style={{ cursor: 'pointer' }}/></td>
         </tr>
     )
 }

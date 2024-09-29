@@ -36,6 +36,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
         .slice(pagesVisited, pagesVisited + guestsPerPage)
         .map((presente, index) => (
             <PresentesItem
+                id={presente.id}
                 index={index + 1}
                 nome={presente.nome}
                 key={presente.id}
@@ -66,7 +67,8 @@ const PresentesList: React.FC<PresentesListProps> = ({
                         <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Valor</th>
                         <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Selecionado?</th>
                         <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Escolhido por</th>
-                    </tr>
+                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Editar</th>
+                    </tr>   
                 </thead>
                 <tbody className="bg-white">
                     {displayGuests}

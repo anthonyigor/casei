@@ -27,6 +27,7 @@ model Presente {
   user_id      String?
   image        String?
   valor        Float?
+  url_produto  String?
   convidado    Convidado? @relation(fields: [convidado_id], references: [id])
   user         User?      @relation(fields: [user_id], references: [id])
 }
