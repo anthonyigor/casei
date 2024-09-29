@@ -38,22 +38,28 @@ interface EditarConvidadoProps {
 const EditarConvidadoForm: React.FC<EditarConvidadoProps> = ({ convidado }) => {
     const [presentes, setPresentes] = useState<any[]>([])
     const [phone, setPhone] = useState(convidado.telefone);
-    const [userId, setUserId] = useState('')
     const session = useSession()
     const router = useRouter()
     
     useEffect(() => {
-        if (session.data?.user) {
-            setUserId((session.data.user as CustomUser).id!)
-            if (userId) {
-                axios.get(`${url}/users/${userId}/presentes/disponiveis`)
-                .then((response) => {
-                    setPresentes(response.data)
-                })
-                .catch((error) => toast.error(error.message))
-            }
+        async function getPresentesDisponiveis(userId: string, token: string) {
+            axios.get(`${url}/users/${userId}/presentes/disponiveis`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then((response) => {
+                setPresentes(response.data)
+            })
+            .catch((error) => toast.error(error.message))
         }
-    }, [session.data?.user, userId])
+
+        if (session.data?.user) {
+            const userId = (session.data.user as any).id
+            const token = (session.data.user as any).token
+            getPresentesDisponiveis(userId, token)
+        }
+    }, [session])
 
     const {
         register, 
@@ -86,6 +92,7 @@ const EditarConvidadoForm: React.FC<EditarConvidadoProps> = ({ convidado }) => {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const token = (session.data?.user as CustomUser).token;
+        const userId = (session.data?.user as CustomUser).id;
         axios.put(`${url}/users/${userId}/convidados/${convidado.id}`, 
             {
                 ...data,

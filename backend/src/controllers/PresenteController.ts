@@ -6,6 +6,7 @@ import { randomUUID } from "crypto";
 import { CreatePresenteService } from "../services/presenteServices/CreatePresenteService";
 import { FindUserByIDService } from "../services/userServices/FindUserByIDService";
 import 'express-async-errors';
+import { GetPresenteService } from "../services/presenteServices/GetPresenteService";
 
 export class PresenteController {
     constructor(
@@ -13,7 +14,8 @@ export class PresenteController {
         private getPresentesDisponiveisService: GetPresentesDisponiveisByUserService,
         private uploadFileService: UploadFileToS3,
         private createPresenteService: CreatePresenteService,
-        private findUserByEmailService: FindUserByIDService
+        private findUserByEmailService: FindUserByIDService,
+        private getPresenteService: GetPresenteService,
     ) {}
 
     async create(req: Request | any, res: Response) {
@@ -54,6 +56,12 @@ export class PresenteController {
         const { id } = req.params
         const presentes = await this.getPresentesDisponiveisService.execute(id)
         return res.status(200).json(presentes)
+    }
+
+    async getPresente(req: Request, res: Response) {
+        const { id, presenteId } = req.params
+        const presente = await this.getPresenteService.execute(presenteId, id)
+        return res.status(200).json(presente)
     }
 
 }

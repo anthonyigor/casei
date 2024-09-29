@@ -17,10 +17,11 @@ router.post('/login', validateRequestSchema(loginSchema), (req, res) => userCont
 router.patch('/update/:id', verifyToken, validateRequestSchema(createUserSchema), (req, res) => userController.update(req, res))
 router.post('/:id/convidados/create', verifyToken, validateRequestSchema(convidadoSchema), (req, res) => convidadoController.create(req, res))
 router.get('/:id/convidados', (req, res) => convidadoController.getConvidados(req, res))
-router.get('/:id/convidados/:convidadoId', validateParamsRequest(getConvidadoSchema), (req, res) => convidadoController.getConvidado(req, res))
+router.get('/:id/convidados/:convidadoId', verifyToken, (req, res) => convidadoController.getConvidado(req, res))
 router.put('/:id/convidados/:convidadoId', (req, res) => convidadoController.editConvidado(req, res))
+router.get('/:id/presentes/disponiveis', verifyToken, (req, res) => presenteController.getPresentesDisponiveis(req, res))
 router.get('/:id/presentes', verifyToken, (req, res) => presenteController.getPresentes(req, res))
+router.get('/:id/presentes/:presenteId', verifyToken, (req, res) => presenteController.getPresente(req, res))
 router.post('/:id/presentes/create', imageUpload.single('image'), (req, res) => presenteController.create(req, res))
-router.get('/:id/presentes/disponiveis', (req, res) => presenteController.getPresentesDisponiveis(req, res))
 
 export default router

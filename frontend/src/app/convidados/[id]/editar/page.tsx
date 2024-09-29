@@ -22,8 +22,12 @@ const EditarConvidado = ({ params }: { params: IParams }) => {
     const router = useRouter()
 
     useEffect(() => {
-        async function fetchConvidado(userId: string, convidadoId: string) {
-            let res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/${convidadoId}`)
+        async function fetchConvidado(userId: string, convidadoId: string, token: string) {
+            let res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/${convidadoId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
             if (!res.ok) {
                 toast.error('Erro ao buscar convidado')
             }
@@ -34,7 +38,8 @@ const EditarConvidado = ({ params }: { params: IParams }) => {
         
         if (session.data?.user) {
             const userId = (session.data.user as any).id
-            fetchConvidado(userId, id)
+            const token = (session.data.user as any).token
+            fetchConvidado(userId, id, token)
         }
 
     }, [id, session])
