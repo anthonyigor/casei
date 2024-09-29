@@ -1,7 +1,11 @@
 'use client'
 
+import Button from "@/app/components/Button";
+import EditarPresenteForm from "@/app/components/forms/EditarPresenteForm";
 import { Presente } from "@/types";
 import { useSession } from "next-auth/react";
+import { Great_Vibes } from "next/font/google";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -9,10 +13,13 @@ interface IParams {
     id: string;
 }
 
+const greatVibes = Great_Vibes({ weight:'400', subsets: ['latin'] });  
+
 const EditarPresente = ({ params }: { params: IParams }) => {
     const { id } = params;
     const [presente, setPresente ] = useState<Presente>()
     const session = useSession();
+    const router = useRouter();
 
     useEffect(() => {
         async function fetchPresente(userId: string, token: string) {
@@ -35,13 +42,18 @@ const EditarPresente = ({ params }: { params: IParams }) => {
         }
     }, [id, session])
 
-    console.log(presente)
-
     return (
-        <div>
-            <h1>Editar Presente</h1>
-            <p>{presente?.nome}</p>
+        <>
+         <div className={greatVibes.className}>
+            <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">Editar presente</h2>
         </div>
+        <div className="fixed top-0 left-48 m-4">
+                <Button type="button" onClick={() => router.push('/presentes/index')}>
+                    Voltar
+                </Button>
+        </div>
+        {presente && <EditarPresenteForm presente={presente!}/>}
+        </>
     )
 }
 
