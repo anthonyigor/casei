@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import FormsInput from "../inputs/FormsInput";
 import ImageInput from "../inputs/ImageInput";
 import { Presente } from "@/types";
+import { useRouter } from "next/navigation";
 
 type CustomUser = {
     name?: string | null;
@@ -38,6 +39,7 @@ const EditarPresenteForm: React.FC<EditarPresenteProps> = ({ presente }) => {
     const [valor, setValor] = useState(`R$${presente.valor?.toFixed(2).replace('.', ',')}` || '');
     const [previewSrc, setPreviewSrc] = useState<string>(presente.image || '/img/presentes.png');
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const router = useRouter();
     
     const session = useSession()
     
@@ -88,33 +90,33 @@ const EditarPresenteForm: React.FC<EditarPresenteProps> = ({ presente }) => {
     };
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        // const formData = new FormData()
+        const formData = new FormData()
 
-        // formData.append('nome', data.nome)
-        // formData.append('descricao', data.descricao)
-        // formData.append('valor', formatToNumber(valor))
+        formData.append('nome', data.nome)
+        formData.append('descricao', data.descricao)
+        formData.append('valor', formatToNumber(valor))
+        formData.append('url_produto', data.url_produto)
         
-        // if (selectedFile) {
-        //     formData.append('image', selectedFile);
-        // }
+        if (selectedFile) {
+            formData.append('image', selectedFile);
+        }
 
-        // const token = (session.data?.user as CustomUser).token;
-        // const userId = (session.data?.user as CustomUser).id!
-        // axios.post(`${url}/users/${userId}/presentes/create`, 
-        //     formData,
-        //     {
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data',
-        //             Authorization: `Bearer ${token}`
-        //         }
-        //     }
-        // )
-        // .then(() => {
-        //     toast.success('Presente cadastrado com sucesso!')
-        //     reset()
-        //     setPreviewSrc('/img/presentes.png')
-        // })
-        // .catch((error) => toast.error(error.message))
+        const token = (session.data?.user as CustomUser).token;
+        const userId = (session.data?.user as CustomUser).id!
+        axios.put(`${url}/users/${userId}/presentes/${presente.id}`, 
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        .then(() => {
+            toast.success('Presente editado com sucesso!')
+            router.push('/presentes/index')
+        })
+        .catch((error) => toast.error(error.message))
     }
 
     return (
