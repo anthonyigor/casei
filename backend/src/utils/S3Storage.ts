@@ -35,4 +35,12 @@ export class S3Storage {
         return urlFileS3
     }
 
+    async deleteFile(filename: string): Promise<void> {
+        const bucketName = process.env.AWS_BUCKET_NAME || ''
+        this.client.deleteObject({
+            Bucket: bucketName,
+            Key: filename
+        }).promise()
+    }
+
 }

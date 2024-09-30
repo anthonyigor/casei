@@ -8,6 +8,7 @@ import { CreateConvidadoService } from "../services/convidadoServices/CreateConv
 import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
 import { GetConvidadoService } from "../services/convidadoServices/GetConvidadoService";
 import { UpdateConvidadoService } from "../services/convidadoServices/UpdateConvidadoService";
+import { DeleteFileFromS3 } from "../services/fileServices/DeleteFileFromS3";
 import { UploadFileToS3 } from "../services/fileServices/UploadFileToS3";
 import { CreatePresenteService } from "../services/presenteServices/CreatePresenteService";
 import { GetPresentesByUserService } from "../services/presenteServices/GetPresentesByUserService";
@@ -78,6 +79,7 @@ export class AppConfig {
         const findUserByEmailService = new FindUserByIDService(userRepository)
         const getPresenteService = new GetPresenteService(presenteRepository);
         const updatePresenteService = new UpdatePresenteService(presenteRepository);
+        const deleteFileService = new DeleteFileFromS3();
 
         return new PresenteController(
             getPresentesByUserService,
@@ -86,7 +88,8 @@ export class AppConfig {
             createPresenteService,
             findUserByEmailService,
             getPresenteService,
-            updatePresenteService
+            updatePresenteService,
+            deleteFileService
         )
     }
 

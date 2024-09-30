@@ -8,6 +8,7 @@ import { FindUserByIDService } from "../services/userServices/FindUserByIDServic
 import 'express-async-errors';
 import { GetPresenteService } from "../services/presenteServices/GetPresenteService";
 import { UpdatePresenteService } from "../services/presenteServices/UpdatePresenteService";
+import { DeleteFileFromS3 } from "../services/fileServices/DeleteFileFromS3";
 
 export class PresenteController {
     constructor(
@@ -17,7 +18,8 @@ export class PresenteController {
         private createPresenteService: CreatePresenteService,
         private findUserByEmailService: FindUserByIDService,
         private getPresenteService: GetPresenteService,
-        private updatePresenteService: UpdatePresenteService
+        private updatePresenteService: UpdatePresenteService,
+        private deleteFileService: DeleteFileFromS3
     ) {}
 
     async create(req: Request | any, res: Response) {
@@ -91,6 +93,13 @@ export class PresenteController {
         if (image) {
             const fileUrl = await this.uploadFileService.execute(image.filename, image.mimetype)
             updatedPresente.image = fileUrl
+
+            // remover antiga img do bucket
+            if (presente.image) {
+                const parts = presente.image.split('/')
+                const filename = parts[parts.length - 1]
+                this.deleteFileService.execute(filename)
+            }
         }
 
         await this.updatePresenteService.execute(updatedPresente)
