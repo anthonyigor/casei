@@ -50,7 +50,8 @@ const EditarPresenteForm: React.FC<EditarPresenteProps> = ({ presente }) => {
         defaultValues: {
            nome: presente.nome,
            descricao: presente.descricao,
-           valor: presente.valor
+           valor: presente.valor,
+           url_produto: presente.url_produto
         }
     })
 
@@ -149,6 +150,15 @@ const EditarPresenteForm: React.FC<EditarPresenteProps> = ({ presente }) => {
                         value={valor}
                         required={false}
                         key="valor"
+                    />
+                    <FormsInput
+                        id="url_produto"
+                        label="Url produto"
+                        register={register}
+                        type="text"
+                        placeholder="Informe a URL do produto"
+                        required={false}
+                        key="url_produto"
                     />
                     <ImageInput previewSrc={previewSrc} loadFile={loadFile}/>
                     <div>

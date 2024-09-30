@@ -150,7 +150,6 @@ const PresenteForm = () => {
                         id="url_produto"
                         label="Url produto"
                         register={register}
-                        onChange={handleValorChange}
                         type="text"
                         placeholder="Informe a URL do produto"
                         required={false}
