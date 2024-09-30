@@ -35,7 +35,8 @@ const PresenteForm = () => {
         defaultValues: {
            nome: '',
            descricao: '',
-           valor: ''
+           valor: '',
+           url_produto: ''
         }
     })
 
@@ -144,6 +145,16 @@ const PresenteForm = () => {
                         value={valor}
                         required={false}
                         key="valor"
+                    />
+                    <FormsInput
+                        id="url_produto"
+                        label="Url produto"
+                        register={register}
+                        onChange={handleValorChange}
+                        type="text"
+                        placeholder="Informe a URL do produto"
+                        required={false}
+                        key="url_produto"
                     />
                     <ImageInput previewSrc={previewSrc} loadFile={loadFile}/>
                     <div>

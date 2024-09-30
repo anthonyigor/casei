@@ -21,7 +21,7 @@ export class PresenteController {
     async create(req: Request | any, res: Response) {
         const { id } = req.params
         const image = req.file
-        const { nome, descricao, valor } = req.body
+        const { nome, descricao, valor, url_produto } = req.body
 
         const valorNumber = Number(Number(valor.replace(',', '.')).toFixed(2))
 
@@ -35,6 +35,7 @@ export class PresenteController {
             id: randomUUID(),
             nome,
             descricao,
+            url_produto,
             valor: valorNumber,
             image: fileUrl,
             user_id: id,

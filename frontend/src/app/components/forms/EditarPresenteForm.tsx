@@ -23,8 +23,19 @@ interface EditarPresenteProps {
     presente: Presente
 }
 
+const formatToNumber = (valor: string) => {
+    // Remove "R$" e espaços
+    let numericValue = valor.replace('R$', '').trim();
+    
+    // Substitui a vírgula por ponto
+    numericValue = numericValue.replace(',', '.');
+    
+    // Converte a string para um número
+    return numericValue;
+}
+
 const EditarPresenteForm: React.FC<EditarPresenteProps> = ({ presente }) => {
-    const [valor, setValor] = useState('');
+    const [valor, setValor] = useState(`R$${presente.valor?.toFixed(2).replace('.', ',')}` || '');
     const [previewSrc, setPreviewSrc] = useState<string>(presente.image || '/img/presentes.png');
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     
@@ -75,45 +86,34 @@ const EditarPresenteForm: React.FC<EditarPresenteProps> = ({ presente }) => {
         }
     };
 
-    const formatToNumber = (valor: string) => {
-        // Remove "R$" e espaços
-        let numericValue = valor.replace('R$', '').trim();
-        
-        // Substitui a vírgula por ponto
-        numericValue = numericValue.replace(',', '.');
-        
-        // Converte a string para um número
-        return numericValue;
-    }
-
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        const formData = new FormData()
+        // const formData = new FormData()
 
-        formData.append('nome', data.nome)
-        formData.append('descricao', data.descricao)
-        formData.append('valor', formatToNumber(valor))
+        // formData.append('nome', data.nome)
+        // formData.append('descricao', data.descricao)
+        // formData.append('valor', formatToNumber(valor))
         
-        if (selectedFile) {
-            formData.append('image', selectedFile);
-        }
+        // if (selectedFile) {
+        //     formData.append('image', selectedFile);
+        // }
 
-        const token = (session.data?.user as CustomUser).token;
-        const userId = (session.data?.user as CustomUser).id!
-        axios.post(`${url}/users/${userId}/presentes/create`, 
-            formData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        )
-        .then(() => {
-            toast.success('Presente cadastrado com sucesso!')
-            reset()
-            setPreviewSrc('/img/presentes.png')
-        })
-        .catch((error) => toast.error(error.message))
+        // const token = (session.data?.user as CustomUser).token;
+        // const userId = (session.data?.user as CustomUser).id!
+        // axios.post(`${url}/users/${userId}/presentes/create`, 
+        //     formData,
+        //     {
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data',
+        //             Authorization: `Bearer ${token}`
+        //         }
+        //     }
+        // )
+        // .then(() => {
+        //     toast.success('Presente cadastrado com sucesso!')
+        //     reset()
+        //     setPreviewSrc('/img/presentes.png')
+        // })
+        // .catch((error) => toast.error(error.message))
     }
 
     return (
