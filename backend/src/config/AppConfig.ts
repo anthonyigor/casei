@@ -16,6 +16,7 @@ import { GetPresentesDisponiveisByUserService } from "../services/presenteServic
 import { GetPresenteService } from "../services/presenteServices/GetPresenteService";
 import { SetPresenteConvidado } from "../services/presenteServices/SetPresenteConvidado";
 import { UnsetPresenteConvidado } from "../services/presenteServices/UnsetPresenteConvidado";
+import { UpdatePresenteService } from "../services/presenteServices/UpdatePresenteService";
 import { CreateUserService } from "../services/userServices/CreateUserService";
 import { FindUserByIDService } from "../services/userServices/FindUserByIDService";
 import { LoginService } from "../services/userServices/LoginService";
@@ -76,6 +77,7 @@ export class AppConfig {
         const createPresenteService = new CreatePresenteService(presenteRepository)
         const findUserByEmailService = new FindUserByIDService(userRepository)
         const getPresenteService = new GetPresenteService(presenteRepository);
+        const updatePresenteService = new UpdatePresenteService(presenteRepository);
 
         return new PresenteController(
             getPresentesByUserService,
@@ -83,7 +85,8 @@ export class AppConfig {
             uploadFileToS3,
             createPresenteService,
             findUserByEmailService,
-            getPresenteService
+            getPresenteService,
+            updatePresenteService
         )
     }
 

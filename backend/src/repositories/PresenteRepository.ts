@@ -95,4 +95,18 @@ export class PresenteRepository {
         }
     }
 
+    async updatePresente(presente: Presente): Promise<void> {
+        try {
+            await prisma.presente.update({
+                where: {
+                    id: presente.id
+                },
+                data: presente
+            })
+        } catch (error) {
+            console.log(error)
+            throw new InternalError('Erro ao atualizar presente')
+        }
+    }
+
 }
