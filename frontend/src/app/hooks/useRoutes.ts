@@ -7,6 +7,7 @@ import { FaUserFriends } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 import { signOut } from "next-auth/react";
 import { FaHome } from "react-icons/fa";
+import { IoSettingsSharp } from "react-icons/io5";
 
 const useRoutes = () => {
     const pathname = usePathname()
@@ -34,6 +35,12 @@ const useRoutes = () => {
             href: '/convite',
             icon: HiMiniEnvelopeOpen,
             active: pathname === '/convite'
+        },
+        {
+            label: 'Preferências',
+            href: '/config',
+            icon: IoSettingsSharp,
+            active: pathname === '/config'
         },
         {
             label: 'Logout',
