@@ -10,6 +10,7 @@ interface convidadosItemProps {
     quant_familia?: number
     confirmado?: boolean
     telefone?: string
+    index: number
 }
 
 const ConvidadosItem: React.FC<convidadosItemProps> = ({
@@ -17,7 +18,8 @@ const ConvidadosItem: React.FC<convidadosItemProps> = ({
     quant_familia,
     confirmado,
     telefone,
-    id
+    id,
+    index
 }) => {
     const router = useRouter();
 
@@ -27,6 +29,7 @@ const ConvidadosItem: React.FC<convidadosItemProps> = ({
 
     return (
         <tr>
+            <td className="py-4 px-6 border-b border-gray-200">{index}</td>
             <td className="py-4 px-6 border-b border-gray-200">{nome}</td>
             <td className="py-4 px-6 border-b border-gray-200 truncate">{quant_familia}</td>
             <td className="py-4 px-6 border-b border-gray-200">{telefone}</td>
