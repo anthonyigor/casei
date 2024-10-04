@@ -40,7 +40,7 @@ const Presentes = () => {
     return (
        <>
             <div className={greatVibes.className}>
-                <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">Presentes</h2>
+                <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">Lista de Presentes</h2>
             </div>
             <div className="fixed top-0 right-0 m-4">
                 <Button type="button" onClick={() => router.push('/presentes/adicionar')}>
