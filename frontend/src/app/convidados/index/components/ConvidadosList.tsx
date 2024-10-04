@@ -13,10 +13,15 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
     convidados
 }) => {
     const [pageNumber, setPageNumber] = useState(0)
+    const [search, setSearch] = useState('')
     const guestsPerPage = 10
     const pagesVisited = pageNumber * guestsPerPage
 
-    const displayGuests = convidados
+    const filteredGuests = convidados.filter((convidado) => 
+        convidado.nome.toLowerCase().includes(search.toLowerCase())
+    )
+
+    const displayGuests = filteredGuests
         .slice(pagesVisited, pagesVisited + guestsPerPage)
         .map((convidado, index) => (
             <ConvidadosItem
@@ -50,7 +55,9 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
                     px-10
                     focus: outline-none
                     focus:border-slate-600"
-                    placeholder="Pesquisar"
+                    placeholder="Pesquise por nome"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                 />
                 <FaSearch className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"/>
             </div>
@@ -71,7 +78,7 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
                     {displayGuests}
                 </tbody>
             </table>
-            <div className="pagination-container mt-4 flex justify-between items-center">
+            <div className="pagination-container mt-4 flex justify-center items-center mb-2">
                 <ReactPaginate
                     previousLabel={'Anterior'}
                     nextLabel={'Próximo'}
@@ -81,7 +88,8 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
                     previousLinkClassName={'pagination__link'}
                     nextLinkClassName={'pagination__link'}
                     disabledClassName={'pagination__link--disabled'}
-                    activeClassName={'pagination__link--active'}
+                    activeClassName={'border-2 px-1.5 border-slate-300 rounded-md'}
+                    className="flex justify-center items-center space-x-4 gap-2"
                 />
             </div>
         </div>
