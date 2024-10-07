@@ -27,15 +27,24 @@ const Item: React.FC<ItemProps> = ({
     onClick
 }) => {
     return (
-        <div className="flex flex-col items-center gap-1">
-            <div className="flex flex-col items-center justify-center w-20 h-14 bg-teal-800 rounded-md" onClick={onClick}>
-                {iconDict[icon]}
+        <div className="flex flex-col items-center gap-2"> {/* Ajuste o gap aqui */}
+            {/* Caixa do ícone */}
+            <div
+                className="flex items-center justify-center w-20 h-14 bg-teal-800 rounded-md cursor-pointer"
+                onClick={onClick}
+            >
+                <div className="flex items-center justify-center w-full h-full"> {/* Garantindo centralização */}
+                    {iconDict[icon]}
+                </div>
             </div>
-            <div className={greatVibes.className}>
-                <span className='text-teal-800 text-2xl font-semibold'>{text}</span>
+
+            {/* Texto abaixo do ícone */}
+            <div className={`${greatVibes.className} leading-none`}> {/* Ajuste do line-height */}
+                <span className='text-teal-800 text-2xl font-semibold text-center whitespace-pre-wrap'>{text}</span>
             </div>
         </div>
-    )
-}
+    );
+};
+
 
 export default Item;
