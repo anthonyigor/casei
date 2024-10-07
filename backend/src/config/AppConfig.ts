@@ -20,6 +20,7 @@ import { UnsetPresenteConvidado } from "../services/presenteServices/UnsetPresen
 import { UpdatePresenteService } from "../services/presenteServices/UpdatePresenteService";
 import { CreateUserService } from "../services/userServices/CreateUserService";
 import { FindUserByIDService } from "../services/userServices/FindUserByIDService";
+import { GetUserCasamento } from "../services/userServices/GetUserCasamento";
 import { LoginService } from "../services/userServices/LoginService";
 import { UpdateUserService } from "../services/userServices/UpdateUserService";
 
@@ -32,11 +33,13 @@ export class AppConfig {
         const createUserService = new CreateUserService(userRepository);
         const loginService = new LoginService(userRepository)
         const updateUserService = new UpdateUserService(userRepository)
+        const getUserCasamentoService = new GetUserCasamento(userRepository) 
 
         return new UserController(
             createUserService,
             loginService,
-            updateUserService
+            updateUserService,
+            getUserCasamentoService
         )
     }
 

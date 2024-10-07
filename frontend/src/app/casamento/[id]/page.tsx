@@ -3,6 +3,10 @@
 import { Great_Vibes } from "next/font/google";
 import Image from "next/image";
 import Item from "./components/Item";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { UserCasamento } from "@/types";
+import { useRouter } from "next/navigation";
 
 interface IParams {
     id: string;
@@ -11,7 +15,23 @@ interface IParams {
 const greatVibes = Great_Vibes({ weight: '400', subsets: ['latin'] });
 
 const Casamento = ({ params }: { params: IParams }) => {
-    const userId = params.id;
+    const [userCasamento, setUserCasamento] = useState<UserCasamento>()
+    const router = useRouter();
+
+    useEffect(() => {
+        async function fetchUserCasamento(userId: string) {
+            try {
+                const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`);
+                setUserCasamento(response.data.user);
+            } catch (error) {
+                router.push('/error');  
+            }
+        }
+
+        if (params.id) {
+            fetchUserCasamento(params.id);
+        }
+    }, [params.id, router]); 
 
     return (
         <div className="relative flex flex-col items-center justify-center min-h-screen">
@@ -26,7 +46,7 @@ const Casamento = ({ params }: { params: IParams }) => {
                 {/* Título */}
                 <div className={`${greatVibes.className} text-center mt-14`}>
                     <h1 className='text-5xl text-teal-800 font-semibold'>
-                        José e Maria
+                        {userCasamento?.nome} e {userCasamento?.nome_parceiro}
                     </h1>
                 </div>
 
@@ -40,8 +60,8 @@ const Casamento = ({ params }: { params: IParams }) => {
 
                 {/* Data */}
                 <div className="text-center mt-6 text-gray-600">
-                    <p className="text-2xl font-bold">15 SETEMBRO 2024</p>
-                    <p className="text-lg">16h00</p>
+                    <p className="text-2xl font-bold">{userCasamento?.data_casamento}</p>
+                    <p className="text-lg">{userCasamento?.horario}</p>
                 </div>
 
                 {/* Opções */}

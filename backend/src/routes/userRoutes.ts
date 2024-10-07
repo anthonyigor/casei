@@ -14,6 +14,7 @@ const presenteController = AppConfig.createPresenteController()
 
 router.post('/create', validateRequestSchema(createUserSchema), (req, res) => userController.create(req, res))
 router.post('/login', validateRequestSchema(loginSchema), (req, res) => userController.login(req, res))
+router.get('/:id', (req, res) => userController.getUser(req, res))
 router.patch('/update/:id', verifyToken, validateRequestSchema(createUserSchema), (req, res) => userController.update(req, res))
 router.post('/:id/convidados/create', verifyToken, validateRequestSchema(convidadoSchema), (req, res) => convidadoController.create(req, res))
 router.get('/:id/convidados', (req, res) => convidadoController.getConvidados(req, res))

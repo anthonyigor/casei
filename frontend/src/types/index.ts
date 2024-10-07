@@ -19,3 +19,12 @@ export type Presente = {
     valor?: number,
     url_produto?: string
 }
+
+export type UserCasamento = {
+    nome: string
+    nome_parceiro: string
+    data_casamento: string, 
+    localizacao: string, 
+    endereco: string, 
+    horario: string
+}

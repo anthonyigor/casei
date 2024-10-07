@@ -4,7 +4,7 @@ import { Great_Vibes } from "next/font/google";
 import { BsFillEnvelopeOpenHeartFill } from "react-icons/bs";
 import { FaGift } from "react-icons/fa";
 import { GiConfirmed } from "react-icons/gi";
-import { TbGpsFilled } from "react-icons/tb"
+import { TbGps } from "react-icons/tb"
 
 interface ItemProps {
     icon: any,
@@ -15,7 +15,7 @@ interface ItemProps {
 const greatVibes = Great_Vibes({ weight:'400', subsets: ['latin'] });
 
 const iconDict: any = {
-    local: <TbGpsFilled className="h-12 w-12 text-white"/>,
+    local: <TbGps className="h-12 w-12 text-white"/>,
     presenca: <GiConfirmed  className="h-10 w-10 text-white"/>,
     convite: <BsFillEnvelopeOpenHeartFill className="h-10 w-10 text-white"/>,
     presentes: <FaGift className="h-10 w-10 text-white"/>
