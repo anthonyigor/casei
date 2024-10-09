@@ -24,6 +24,7 @@ const Input: React.FC<InputProps>  = ({ id, label, type, register, required, dis
                     disabled={disabled}
                     {...register(id, { required })}
                     className={clsx(`
+                        bg-slate-100
                         text-slate-600
                         form-input
                         block
@@ -37,9 +38,8 @@ const Input: React.FC<InputProps>  = ({ id, label, type, register, required, dis
                         ring-inset
                         ring-gray-300
                         placeholder:text-gray-400
-                        focus:ring-2
-                        focus:ring-inset
-                        focus:ring-sky-600
+                        focus:ring-0
+                        focus:ring-teal-400
                         sm:text-sm
                         sm:leading-6`,
                         disabled && 'opacity-50 cursor-default'
