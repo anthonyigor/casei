@@ -9,6 +9,7 @@ import { UpdateConvidadoService } from "../services/convidadoServices/UpdateConv
 import { GetPresentesConvidadoService } from "../services/presenteServices/GetPresentesConvidadoService";
 import { UnsetPresenteConvidado } from "../services/presenteServices/UnsetPresenteConvidado";
 import 'express-async-errors';
+import { GetConvidadoByTelefoneService } from "../services/convidadoServices/GetConvidadoByTelefoneService";
 
 export class ConvidadoController {
     constructor(
@@ -18,7 +19,8 @@ export class ConvidadoController {
         private setPresenteConvidado: SetPresenteConvidado,
         private updateConvidadoService: UpdateConvidadoService,
         private getPresenteConvidadoService: GetPresentesConvidadoService,
-        private unsetPresenteConvidado: UnsetPresenteConvidado
+        private unsetPresenteConvidado: UnsetPresenteConvidado,
+        private getConvidadoByTelefoneService: GetConvidadoByTelefoneService
     ) {}
 
     async create(req: Request, res: Response) {
@@ -99,6 +101,15 @@ export class ConvidadoController {
         }
 
         return res.status(200).json({ message: "Convidado editado com sucesso" })
+    }
+
+    async identificateConvidado(req: Request, res: Response) {
+        const { id } = req.params
+        const { nome, telefone } = req.body
+
+        const convidado = await this.getConvidadoByTelefoneService.execute(id, telefone)
+
+        return res.status(200).json({ convidado })
     }
 
 }
