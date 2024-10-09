@@ -5,12 +5,16 @@ interface InputProps {
     id: string;
     label: string;
     type: string;
-    required?: string
+    required?: boolean
     register: UseFormRegister<FieldValues>
     disabled?: boolean;
+    value?: string;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    maxLength?: number;
+    placeholder?: string;
 }
 
-const Input: React.FC<InputProps>  = ({ id, label, type, register, required, disabled }) => {
+const Input: React.FC<InputProps>  = ({ id, label, type, register, required, disabled, value, onChange, maxLength, placeholder }) => {
     return (
         <div>
             <label className="block text-sm font-semibold leading-6 text-teal-600" htmlFor={id}>
@@ -22,6 +26,9 @@ const Input: React.FC<InputProps>  = ({ id, label, type, register, required, dis
                     type={type}
                     autoComplete={id}
                     disabled={disabled}
+                    placeholder={placeholder}
+                    maxLength={maxLength}
+                    value={value}
                     {...register(id, { required })}
                     className={clsx(`
                         bg-slate-100
@@ -44,6 +51,7 @@ const Input: React.FC<InputProps>  = ({ id, label, type, register, required, dis
                         sm:leading-6`,
                         disabled && 'opacity-50 cursor-default'
                     )}
+                    onChange={onChange}
                 />
             </div>
         </div>

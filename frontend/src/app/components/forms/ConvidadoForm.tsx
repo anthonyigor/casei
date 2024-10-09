@@ -25,7 +25,7 @@ const formatPhoneNumber = (value: string) => {
     } else {
       return cleanValue.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
     }
-  };
+};
   
 const url = process.env.NEXT_PUBLIC_BACKEND_URL
 const ConvidadoForm = () => {
