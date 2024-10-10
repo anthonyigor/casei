@@ -2,8 +2,11 @@
 
 import Button from "@/app/components/Button";
 import Input from "@/app/components/inputs/LoginInput";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 const formatPhoneNumber = (value: string) => {
     const cleanValue = value.replace(/\D/g, '');
@@ -16,8 +19,13 @@ const formatPhoneNumber = (value: string) => {
     }
 };
 
-const AuthConvidadoForm = () => {
+interface AuthConvidadoFormProps {
+    userId: string
+}
+
+const AuthConvidadoForm: React.FC<AuthConvidadoFormProps> = ( { userId }) => {
     const [phone, setPhone] = useState('');
+    const router = useRouter();
     
     const { register, handleSubmit } = useForm<FieldValues>({
         defaultValues: {
@@ -31,8 +39,19 @@ const AuthConvidadoForm = () => {
         setPhone(formattedPhone);
     };
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data)
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/identificate`, {
+                nome: data.nome,
+                telefone: phone
+            })
+
+            const convidado = response.data.convidado
+            toast.success('Perfeito, já te identificamos!')
+            router.push(`/casamento/${userId}/convidado/${convidado.id}`)
+        } catch (error: any) {
+            toast.error('Opa, não conseguimos te identificar. Por favor verifique se o número de telefone está correto')
+        }
     }
     
     return (

@@ -48,7 +48,7 @@ const CasamentoHome = ({ params }: { params: IParams }) => {
                             <h2 className="text-3xl text-teal-600 font-semibold py-2 text-center">Bem vindo(a) ao casamento de {userCasamento?.nome} e {userCasamento?.nome_parceiro}!</h2>
                             <p className="mt-4 text-lg text-teal-600 text-center font-semibold">Informe seu nome e telefone para te identificarmos 😉</p>
                         </div>
-                        <AuthConvidadoForm />
+                        <AuthConvidadoForm userId={params.id}/>
                     </div>
                 </div>
             )}
