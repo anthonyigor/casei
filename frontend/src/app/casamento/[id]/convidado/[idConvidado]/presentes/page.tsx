@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Presente, UserCasamento } from "@/types";
 import { useRouter } from "next/navigation";
+import SelectPresenteModal from "./components/SelectPresenteModal";
 
 interface IParams {
     id: string;
@@ -15,6 +16,8 @@ const greatVibes = Great_Vibes({ weight: '400', subsets: ['latin'] });
 
 const Casamento = ({ params }: { params: IParams }) => {
     const [gifts, setGifts] = useState<Presente[]>()
+    const [selectedGift, setSelectedGift] = useState<Presente>()
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const router = useRouter();
 
     useEffect(() => {
@@ -34,12 +37,12 @@ const Casamento = ({ params }: { params: IParams }) => {
 
     return (
         <div className="relative flex flex-col items-center min-h-screen">
-            
+
             {/* Background com camada de sobreposição */}
             <div className="absolute inset-0 bg-center bg-no-repeat bg-cover z-0" style={{ backgroundImage: "url('/img/background-lista.jpg')" }}>
                 <div className="absolute inset-0 bg-white bg-opacity-25 "></div>
             </div>
-
+            {isModalOpen && <SelectPresenteModal presente={selectedGift!} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
             {/* Conteúdo principal, garantindo que fique acima do background */}
             <div className="mt-4 relative z-10 flex flex-col items-center w-full">
                 <div className={greatVibes.className}>
@@ -54,6 +57,10 @@ const Casamento = ({ params }: { params: IParams }) => {
                             {gift.descricao && <p className="text-sm text-gray-500 mb-4">{gift.descricao}</p>}
                             <button
                                 className="w-full py-2 text-white rounded-lg bg-teal-500 hover:bg-teal-700"
+                                onClick={() => {
+                                    setIsModalOpen(true)
+                                    setSelectedGift(gift)
+                                }}
                             >
                                 Selecionar
                             </button>

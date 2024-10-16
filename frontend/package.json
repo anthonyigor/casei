@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^2.1.9",
+    "@headlessui/react": "^2.1.10",
     "axios": "^1.6.8",
     "clsx": "^2.1.0",
     "jsonwebtoken": "^9.0.2",
