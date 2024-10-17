@@ -12,9 +12,10 @@ interface SelectPixModalProps {
     presente: Presente;
     userId: string;
     convidadoId: string;
+    onSelectComplete: () => void;
 }
 
-const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presente, userId, convidadoId }) => {
+const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presente, userId, convidadoId, onSelectComplete }) => {
     const [pixBase64, setPixBase64] = useState('');
 
     useEffect(() => {
@@ -38,7 +39,7 @@ const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presen
                 convidadoId
             })
             toast.success(response.data.message)
-            onClose()
+            onSelectComplete();
         } catch (error: any) {
             toast.error(error.response.data.message)
         }

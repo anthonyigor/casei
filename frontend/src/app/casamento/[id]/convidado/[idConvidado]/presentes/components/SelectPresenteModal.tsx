@@ -15,16 +15,23 @@ interface SelectPresenteModalProps {
     presente: Presente;
     userId: string;
     convidadoId: string;
+    onReloadGifts: () => void;
 }
 
 const greatVibes = Great_Vibes({ weight: '400', subsets: ['latin'] });
 
-const SelectPresenteModal: React.FC<SelectPresenteModalProps> = ({ isOpen, onClose, presente, userId, convidadoId }) => {
+const SelectPresenteModal: React.FC<SelectPresenteModalProps> = ({ isOpen, onClose, presente, userId, convidadoId, onReloadGifts }) => {
     const [isPixModalOpen, setIsPixModalOpen] = useState<boolean>(false)
+
+    const handleSelectComplete = () => {
+        setIsPixModalOpen(false);
+        onClose(); 
+        onReloadGifts();
+    }
 
     return (
         <>
-        {isPixModalOpen && <SelectPixModal convidadoId={convidadoId} isOpen={isPixModalOpen} onClose={() => setIsPixModalOpen(false)} presente={presente} userId={userId}/>}
+        {isPixModalOpen && <SelectPixModal convidadoId={convidadoId} isOpen={isPixModalOpen} onClose={() => setIsPixModalOpen(false)} presente={presente} userId={userId} onSelectComplete={handleSelectComplete}/>}
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className="text-center">
                 <div className={greatVibes.className}>

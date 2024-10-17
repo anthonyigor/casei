@@ -20,20 +20,20 @@ const Casamento = ({ params }: { params: IParams }) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const router = useRouter();
 
-    useEffect(() => {
-        async function fetchGifts(userId: string) {
-            try {
-                const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/disponiveis`);
-                setGifts(response.data);
-            } catch (error) {
-                router.push('/error');  
-            }
+    const fetchGifts = async (userId: string) => {
+        try {
+            const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/disponiveis`);
+            setGifts(response.data);
+        } catch (error) {
+            router.push('/error');  
         }
+    }
 
+    useEffect(() => {
         if (params.id) {
             fetchGifts(params.id);
         }
-    }, [params.id, router]); 
+    }, [params.id, router]);
 
     return (
         <div className="relative flex flex-col items-center min-h-screen">
@@ -42,7 +42,7 @@ const Casamento = ({ params }: { params: IParams }) => {
             <div className="absolute inset-0 bg-center bg-no-repeat bg-cover z-0" style={{ backgroundImage: "url('/img/background-lista.jpg')" }}>
                 <div className="absolute inset-0 bg-white bg-opacity-25 "></div>
             </div>
-            {isModalOpen && <SelectPresenteModal convidadoId={params.idConvidado} userId={params.id} presente={selectedGift!} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+            {isModalOpen && <SelectPresenteModal convidadoId={params.idConvidado} userId={params.id} presente={selectedGift!} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onReloadGifts={() => fetchGifts(params.id)} />}
             {/* Conteúdo principal, garantindo que fique acima do background */}
             <div className="mt-4 relative z-10 flex flex-col items-center w-full">
                 <div className={greatVibes.className}>
