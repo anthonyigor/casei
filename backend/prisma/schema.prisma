@@ -41,6 +41,8 @@ model User {
   horario        String?
   localizacao    String?
   endereco       String?
+  chave_pix      String?
+  cidade         String?
   password       String
   convidados     Convidado[]
   presentes      Presente[]

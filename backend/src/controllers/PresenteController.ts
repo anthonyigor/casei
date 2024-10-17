@@ -10,13 +10,16 @@ import { GetPresenteService } from "../services/presenteServices/GetPresenteServ
 import { UpdatePresenteService } from "../services/presenteServices/UpdatePresenteService";
 import { DeleteFileFromS3 } from "../services/fileServices/DeleteFileFromS3";
 
+import { base64ToPng } from "../utils/base64ToPng";
+import { QrCodePix } from "qrcode-pix";
+
 export class PresenteController {
     constructor(
         private getPresentesByUserService: GetPresentesByUserService,
         private getPresentesDisponiveisService: GetPresentesDisponiveisByUserService,
         private uploadFileService: UploadFileToS3,
         private createPresenteService: CreatePresenteService,
-        private findUserByEmailService: FindUserByIDService,
+        private findUserByIdService: FindUserByIDService,
         private getPresenteService: GetPresenteService,
         private updatePresenteService: UpdatePresenteService,
         private deleteFileService: DeleteFileFromS3
@@ -29,7 +32,7 @@ export class PresenteController {
 
         const valorNumber = Number(Number(valor.replace(',', '.')).toFixed(2))
 
-        const user = await this.findUserByEmailService.execute(id)
+        const user = await this.findUserByIdService.execute(id)
         if (!user) return res.status(400).json({ message: 'User not found' })
 
         //send image to s3
@@ -105,6 +108,28 @@ export class PresenteController {
         await this.updatePresenteService.execute(updatedPresente)
 
         return res.status(200).json({ message: 'Presente atualizado' })
+    }
+
+    async gerarQrCode(req: Request, res: Response) {
+        const { id } = req.params
+        const { valor } = req.body
+
+        if (!valor) return res.status(400).json({ message: 'Valor não informado' })
+
+        const user = await this.findUserByIdService.execute(id)
+        if (!user) return res.status(400).json({ message: 'User not found' })
+
+        const qrCodePix = QrCodePix({
+            version: '01',
+            key: user.chave_pix!,
+            name: user.nome,
+            city: user.nome,
+            value: valor,
+        });
+
+        const qrCodeBase64 = await qrCodePix.base64();
+
+        return res.status(200).json({ qrCode: qrCodeBase64 })
     }
 
 }
