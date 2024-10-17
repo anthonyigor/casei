@@ -12,6 +12,7 @@ import { DeleteFileFromS3 } from "../services/fileServices/DeleteFileFromS3";
 
 import { base64ToPng } from "../utils/base64ToPng";
 import { QrCodePix } from "qrcode-pix";
+import { SetPresenteConvidado } from "../services/presenteServices/SetPresenteConvidado";
 
 export class PresenteController {
     constructor(
@@ -22,7 +23,8 @@ export class PresenteController {
         private findUserByIdService: FindUserByIDService,
         private getPresenteService: GetPresenteService,
         private updatePresenteService: UpdatePresenteService,
-        private deleteFileService: DeleteFileFromS3
+        private deleteFileService: DeleteFileFromS3,
+        private setPresenteConvidadoService: SetPresenteConvidado
     ) {}
 
     async create(req: Request | any, res: Response) {
@@ -130,6 +132,15 @@ export class PresenteController {
         const qrCodeBase64 = await qrCodePix.base64();
 
         return res.status(200).json({ qrCode: qrCodeBase64 })
+    }
+
+    async selectPresente(req: Request, res: Response) {
+        const { id, presenteId } = req.params
+        const { convidadoId } = req.body
+
+        await this.setPresenteConvidadoService.execute(presenteId, convidadoId, id)
+
+        return res.status(200).json({ message: 'Presente selecionado, obrigado por colaborar com o casal ❤️' })
     }
 
 }

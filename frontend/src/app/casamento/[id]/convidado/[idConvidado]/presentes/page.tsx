@@ -42,7 +42,7 @@ const Casamento = ({ params }: { params: IParams }) => {
             <div className="absolute inset-0 bg-center bg-no-repeat bg-cover z-0" style={{ backgroundImage: "url('/img/background-lista.jpg')" }}>
                 <div className="absolute inset-0 bg-white bg-opacity-25 "></div>
             </div>
-            {isModalOpen && <SelectPresenteModal userId={params.id} presente={selectedGift!} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+            {isModalOpen && <SelectPresenteModal convidadoId={params.idConvidado} userId={params.id} presente={selectedGift!} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
             {/* Conteúdo principal, garantindo que fique acima do background */}
             <div className="mt-4 relative z-10 flex flex-col items-center w-full">
                 <div className={greatVibes.className}>

@@ -26,6 +26,7 @@ router.get('/:id/presentes', verifyToken, (req, res) => presenteController.getPr
 router.get('/:id/presentes/:presenteId', verifyToken, (req, res) => presenteController.getPresente(req, res))
 router.put('/:id/presentes/:presenteId', verifyToken, imageUpload.single('image'), (req, res) => presenteController.editPresente(req, res))
 router.post('/:id/presentes/create', verifyToken, imageUpload.single('image'), (req, res) => presenteController.create(req, res))
+router.post('/:id/presentes/:presenteId/selecionar', (req, res) => presenteController.selectPresente(req, res))
 router.post('/:id/presentes/qrcode', (req, res) => presenteController.gerarQrCode(req, res))
 
 export default router

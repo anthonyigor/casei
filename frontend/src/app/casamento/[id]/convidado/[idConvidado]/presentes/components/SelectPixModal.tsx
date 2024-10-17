@@ -9,11 +9,12 @@ import toast from "react-hot-toast";
 interface SelectPixModalProps {
     isOpen: boolean;
     onClose: () => void;
-    presente: Presente
-    userId: string
+    presente: Presente;
+    userId: string;
+    convidadoId: string;
 }
 
-const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presente, userId }) => {
+const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presente, userId, convidadoId }) => {
     const [pixBase64, setPixBase64] = useState('');
 
     useEffect(() => {
@@ -31,6 +32,18 @@ const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presen
         fetchPix()
     }, [userId, presente])
 
+    const selectPresente = async() => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/${presente.id}/selecionar`, {
+                convidadoId
+            })
+            toast.success(response.data.message)
+            onClose()
+        } catch (error: any) {
+            toast.error(error.response.data.message)
+        }
+    }
+
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className="text-center">
@@ -39,6 +52,10 @@ const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presen
             </div>
             <div className="flex flex-row gap-3 mt-6 justify-center">
                 {pixBase64 && <img src={pixBase64} alt="QR Code" />}
+            </div>
+            <div className="flex flex-col gap-2 justify-center">
+                <p className="text-base text-slate-500 mt-2">Clique no botão abaixo para confirmar a seleção do presente</p>
+                <button className="w-full py-2 text-white rounded-lg bg-teal-500 hover:bg-teal-700" onClick={selectPresente}>Confirmar</button>
             </div>
         </Modal>
     )

@@ -85,6 +85,7 @@ export class AppConfig {
         const findUserByEmailService = new FindUserByIDService(userRepository)
         const getPresenteService = new GetPresenteService(presenteRepository);
         const updatePresenteService = new UpdatePresenteService(presenteRepository);
+        const setPresenteConvidadoService = new SetPresenteConvidado(presenteRepository);
         const deleteFileService = new DeleteFileFromS3();
 
         return new PresenteController(
@@ -95,7 +96,8 @@ export class AppConfig {
             findUserByEmailService,
             getPresenteService,
             updatePresenteService,
-            deleteFileService
+            deleteFileService,
+            setPresenteConvidadoService
         )
     }
 
