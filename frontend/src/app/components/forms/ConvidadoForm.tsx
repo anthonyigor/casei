@@ -58,12 +58,14 @@ const ConvidadoForm = () => {
             nome: "",
             telefone: '',
             presentes: '',
-            confirmado: false
+            confirmado: false,
+            tipo_selecao: ''
         }
     })
 
     const presentes = watch('presentes')
     const confirmado = watch('confirmado')
+    const tipo_selecao = watch('tipo_selecao')
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const formattedPhone = formatPhoneNumber(event.target.value);
@@ -76,7 +78,8 @@ const ConvidadoForm = () => {
             {
                 ...data,
                 quant_familia: Number(data.quant_familia),
-                confirmado: data.confirmado.value
+                confirmado: data.confirmado.value,
+                tipo_selecao: data.tipo_selecao.value
             },
             {
                 headers: {
@@ -141,6 +144,30 @@ const ConvidadoForm = () => {
                             />
                         )}
                     </div>
+                    
+                    <div className="mb-5">
+                        {presentess && (
+                            <Select 
+                                disabled={false}
+                                label="Tipo de seleção"
+                                options={[
+                                    {
+                                        value: 'entregar',
+                                        label: "Entrega"
+                                    },
+                                    {
+                                        value: 'pix',
+                                        label: "Pix"
+                                    }
+                                ]}
+                                onChange={(value) => setValue('tipo_selecao', value, {
+                                    shouldValidate: true
+                                })}
+                                value={tipo_selecao}
+                            />
+                        )}
+                    </div>
+                    
                     <div className="mb-5">
                         <Select 
                                 disabled={false}

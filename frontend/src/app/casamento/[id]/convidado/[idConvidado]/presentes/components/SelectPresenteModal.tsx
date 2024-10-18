@@ -26,6 +26,7 @@ const SelectPresenteModal: React.FC<SelectPresenteModalProps> = ({ isOpen, onClo
 
     const handleSelectComplete = () => {
         setIsPixModalOpen(false);
+        setIsEntregarModalOpen(false);
         onClose(); 
         onReloadGifts();
     }
