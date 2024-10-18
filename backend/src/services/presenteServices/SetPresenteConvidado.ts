@@ -6,7 +6,7 @@ import { PresenteRepository } from "../../repositories/PresenteRepository";
 export class SetPresenteConvidado {
     constructor(private readonly presenteRepository: PresenteRepository) {}
 
-    async execute(presente_id: string, convidado_id: string, user_id: string): Promise<void> {
+    async execute(presente_id: string, convidado_id: string, user_id: string, tipo_selecao: string): Promise<void> {
         const presente = await this.presenteRepository.getPresenteById(presente_id, user_id)
 
         if (!presente) {
@@ -18,7 +18,7 @@ export class SetPresenteConvidado {
         }
 
         try {
-            await this.presenteRepository.setPresenteConvidado(presente.id, convidado_id)
+            await this.presenteRepository.setPresenteConvidado(presente.id, convidado_id, tipo_selecao)
         } catch (error: any) {
             throw new InternalError(error.message)
         }

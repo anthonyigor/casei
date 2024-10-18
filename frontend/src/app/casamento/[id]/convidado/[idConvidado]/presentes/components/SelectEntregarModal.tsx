@@ -21,7 +21,8 @@ const SelectEntregarModal: React.FC<SelectEntregarModalProps> = ({ isOpen, onClo
     const selectPresente = async() => {
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/${presente.id}/selecionar`, {
-                convidadoId
+                convidadoId,
+                tipo_selecao: 'entregar'
             })
             toast.success(response.data.message)
             onSelectComplete();

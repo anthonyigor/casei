@@ -136,9 +136,9 @@ export class PresenteController {
 
     async selectPresente(req: Request, res: Response) {
         const { id, presenteId } = req.params
-        const { convidadoId } = req.body
+        const { convidadoId, tipo_selecao } = req.body
 
-        await this.setPresenteConvidadoService.execute(presenteId, convidadoId, id)
+        await this.setPresenteConvidadoService.execute(presenteId, convidadoId, id, tipo_selecao)
 
         return res.status(200).json({ message: 'Presente selecionado, obrigado por colaborar com o casal ❤️' })
     }

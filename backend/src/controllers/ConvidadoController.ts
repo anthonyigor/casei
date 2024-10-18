@@ -24,7 +24,7 @@ export class ConvidadoController {
     ) {}
 
     async create(req: Request, res: Response) {
-        const { nome, quant_familia, confirmado, telefone, presentes } = req.body;
+        const { nome, quant_familia, confirmado, telefone, presentes, tipo_selecao } = req.body;
         const user_id = req.params.id;
 
         const convidado: Convidado = {
@@ -40,7 +40,7 @@ export class ConvidadoController {
         
         if (presentes) {
             presentes.map((presente: any) => {
-                this.setPresenteConvidado.execute(presente.value, (newConvidado as any).id, user_id)
+                this.setPresenteConvidado.execute(presente.value, (newConvidado as any).id, user_id, tipo_selecao)
             })
         }
 
@@ -62,7 +62,7 @@ export class ConvidadoController {
     }
 
     async editConvidado(req: Request, res: Response) {
-        const { nome, quant_familia, confirmado, telefone, presentes } = req.body
+        const { nome, quant_familia, confirmado, telefone, presentes, tipo_selecao } = req.body
         const { convidadoId } = req.params
         const user_id = req.params.id;
 
@@ -97,7 +97,7 @@ export class ConvidadoController {
             !presentesConvidado.some((presenteConvidado) => presenteConvidado.id === presente.value)
         )
         for (const presente of presentesAAdicionar) {
-            await this.setPresenteConvidado.execute(presente.value, convidadoId, user_id)
+            await this.setPresenteConvidado.execute(presente.value, convidadoId, user_id, tipo_selecao)
         }
 
         return res.status(200).json({ message: "Convidado editado com sucesso" })

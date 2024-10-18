@@ -61,7 +61,7 @@ export class PresenteRepository {
         return presentes
     }
 
-    async setPresenteConvidado(presenteId: string, convidadoId: string): Promise<void> {
+    async setPresenteConvidado(presenteId: string, convidadoId: string, tipo_selecao: string): Promise<void> {
         try {
             await prisma.presente.update({
                 where: {
@@ -69,7 +69,8 @@ export class PresenteRepository {
                 },
                 data: {
                     convidado_id: convidadoId,
-                    selecionado: true
+                    selecionado: true,
+                    tipo_selecao
                 }
             })
         } catch (error) {
