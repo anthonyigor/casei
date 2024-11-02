@@ -21,7 +21,7 @@ const CasamentoHome = ({ params }: { params: IParams }) => {
     useEffect(() => {
         async function fetchUserCasamento(userId: string) {
             try {
-                const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`);
+                const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/casamento`);
                 setUserCasamento(response.data.user);
             } catch (error) {
                 router.push('/error');  

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 
 interface IParams {
     id: string;
+    idConvidado: string
 }
 
 const greatVibes = Great_Vibes({ weight: '400', subsets: ['latin'] });
@@ -21,7 +22,7 @@ const Casamento = ({ params }: { params: IParams }) => {
     useEffect(() => {
         async function fetchUserCasamento(userId: string) {
             try {
-                const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`);
+                const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/casamento`);
                 setUserCasamento(response.data.user);
             } catch (error) {
                 router.push('/error');  
@@ -69,7 +70,9 @@ const Casamento = ({ params }: { params: IParams }) => {
                     <Item text="Local" icon='local' onClick={() => { }} />
                     <Item text={"Confirmar\nPresença"} icon='presenca' onClick={() => { }} />
                     <Item text="Convite" icon='convite' onClick={() => { }} />
-                    <Item text="Presentes" icon='presentes' onClick={() => { }} />
+                    <Item text="Presentes" icon='presentes' onClick={() => {
+                        router.push(`/casamento/${params.id}/convidado/${params.idConvidado}/presentes`)
+                    }} />
                 </div>
             </div>
 

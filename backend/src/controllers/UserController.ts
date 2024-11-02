@@ -8,13 +8,14 @@ import { LoginService } from "../services/userServices/LoginService";
 import { UpdateUserService } from "../services/userServices/UpdateUserService";
 import 'express-async-errors';
 import { GetUserCasamento } from "../services/userServices/GetUserCasamento";
+import { FindUserByIDService } from "../services/userServices/FindUserByIDService";
 
 export class UserController {
     constructor(
         private createUserService: CreateUserService,
         private loginService: LoginService,
         private updateUserService: UpdateUserService,
-        private getUserCasamentoService: GetUserCasamento
+        private getUserCasamentoService: GetUserCasamento,
     ) {}
 
     async create(req: Request, res: Response) {
@@ -68,7 +69,13 @@ export class UserController {
         return res.status(200).json({ message: "Usuário atualizado com sucesso!", updatedUser });
     }
 
-    async getUser(req: Request, res: Response) {
+    async getUser(req: Request | any, res: Response) {
+        const { id } = req.params
+        
+        return res.status(200).json({ user: req.user })
+    }
+
+    async getUserCasamento(req: Request, res: Response) {
         const { id } = req.params;
 
         const user =  await this.getUserCasamentoService.execute(id);

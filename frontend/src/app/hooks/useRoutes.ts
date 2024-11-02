@@ -3,7 +3,7 @@ import { useMemo } from "react"
 
 import { HiMiniEnvelopeOpen } from "react-icons/hi2";
 import { AiFillGift } from "react-icons/ai";
-import { FaUserFriends } from "react-icons/fa";
+import { FaUserFriends, FaUserCog } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 import { signOut } from "next-auth/react";
 import { FaHome } from "react-icons/fa";
@@ -37,10 +37,10 @@ const useRoutes = () => {
             active: pathname === '/convite'
         },
         {
-            label: 'Preferências',
-            href: '/config',
-            icon: IoSettingsSharp,
-            active: pathname === '/config'
+            label: 'Usuário',
+            href: '/usuario',
+            icon: FaUserCog,
+            active: pathname === '/usuario'
         },
         {
             label: 'Logout',

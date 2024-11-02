@@ -28,3 +28,17 @@ export type UserCasamento = {
     endereco: string, 
     horario: string
 }
+
+export type User = {
+    id: string,
+    nome: string,
+    email: string,
+    nome_parceiro: string,
+    data_casamento: string,
+    password: string,
+    endereco: string,
+    horario: string,
+    localizacao: string,
+    chave_pix: string,
+    cidade: string
+}
