@@ -8,6 +8,8 @@ import { Great_Vibes } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { BiEdit } from "react-icons/bi";
+import EditarUsuarioForm from "../components/forms/EditarUsuarioForm";
 
 const greatVibes = Great_Vibes({ weight:'400', subsets: ['latin'] });  
 
@@ -28,7 +30,7 @@ const Usuario = () => {
             }
             
             let data = await res.json()
-            setUsuario(data)
+            setUsuario(data.user)
         }
         
         if (session.data?.user) {
@@ -38,8 +40,6 @@ const Usuario = () => {
         }
 
     }, [session])
-
-    console.log(usuario)
 
     return (
         <>  
@@ -51,7 +51,7 @@ const Usuario = () => {
                     Voltar
                 </Button>
         </div>
-        {/* {convidado && <EditarConvidadoForm convidado={convidado!}/>} */}
+        {usuario && <EditarUsuarioForm usuario={usuario!}/>}
         </>
     )
 }

@@ -44,6 +44,7 @@ model User {
   endereco       String?
   chave_pix      String?
   cidade         String?
+  telefone       String?
   password       String
   convidados     Convidado[]
   presentes      Presente[]

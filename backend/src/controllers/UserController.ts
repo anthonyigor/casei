@@ -19,7 +19,7 @@ export class UserController {
     ) {}
 
     async create(req: Request, res: Response) {
-        const { nome, email, password, nome_parceiro, data_casamento, horario_casamento, localizacao, endereco, chave_pix, cidade } = req.body
+        const { nome, email, password, nome_parceiro, data_casamento, horario_casamento, localizacao, endereco, chave_pix, cidade, telefone } = req.body
 
         const user: User = {
             id: randomUUID(),
@@ -32,7 +32,8 @@ export class UserController {
             endereco,
             horario: horario_casamento,
             chave_pix,
-            cidade
+            cidade,
+            telefone
         }
 
         await this.createUserService.execute(user)
@@ -47,7 +48,7 @@ export class UserController {
     }
 
     async update(req: Request, res: Response) {
-        const { nome, email, password, nome_parceiro, data_casamento, localizacao, endereco, horario_casamento, chave_pix, cidade } = req.body;
+        const { nome, email, password, nome_parceiro, data_casamento, localizacao, endereco, horario_casamento, chave_pix, cidade, telefone } = req.body;
         const id = req.params.id;
         
         const user: User = {
@@ -61,7 +62,8 @@ export class UserController {
             endereco,
             horario: horario_casamento,
             chave_pix,
-            cidade
+            cidade,
+            telefone
         }
         
         const updatedUser = await this.updateUserService.execute(id, user)

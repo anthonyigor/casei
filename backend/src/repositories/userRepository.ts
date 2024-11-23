@@ -46,7 +46,8 @@ export class UserRepository {
                     email: user.email,
                     password: user.password,
                     nome_parceiro: user.nome_parceiro,
-                    data_casamento: user.data_casamento
+                    data_casamento: user.data_casamento,
+                    telefone: user.telefone
                 }
             })
     

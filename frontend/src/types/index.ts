@@ -40,5 +40,6 @@ export type User = {
     horario: string,
     localizacao: string,
     chave_pix: string,
-    cidade: string
+    cidade: string,
+    telefone: string
 }
