@@ -34,7 +34,7 @@ const SelectPresenteModal: React.FC<SelectPresenteModalProps> = ({ isOpen, onClo
     return (
         <>
         {isPixModalOpen && <SelectPixModal convidadoId={convidadoId} isOpen={isPixModalOpen} onClose={() => setIsPixModalOpen(false)} presente={presente} userId={userId} onSelectComplete={handleSelectComplete}/>}
-        {isEntregarModalOpen && <SelectEntregarModal convidadoId={convidadoId} isOpen={isEntregarModalOpen} onClose={() => setIsEntregarModalOpen(false)} presente={presente} userId={userId} onSelectComplete={onReloadGifts}/>}
+        {isEntregarModalOpen && <SelectEntregarModal convidadoId={convidadoId} isOpen={isEntregarModalOpen} onClose={() => setIsEntregarModalOpen(false)} presente={presente} userId={userId} onSelectComplete={handleSelectComplete}/>}
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className="text-center">
                 <div className={greatVibes.className}>

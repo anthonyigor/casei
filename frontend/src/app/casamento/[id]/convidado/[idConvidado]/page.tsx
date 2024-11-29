@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { UserCasamento } from "@/types";
 import { useRouter } from "next/navigation";
+import LoadingModal from "@/app/components/LoadingModal";
+import ConfirmarPresencaModal from "./components/ConfirmarPresencaModal";
 
 interface IParams {
     id: string;
@@ -17,6 +19,8 @@ const greatVibes = Great_Vibes({ weight: '400', subsets: ['latin'] });
 
 const Casamento = ({ params }: { params: IParams }) => {
     const [userCasamento, setUserCasamento] = useState<UserCasamento>()
+    const [isLoading, setIsLoading] = useState(false);
+    const [isConfirmarModalOpen, setIsConfirmarModalOpen] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -35,6 +39,9 @@ const Casamento = ({ params }: { params: IParams }) => {
     }, [params.id, router]); 
 
     return (
+        <>
+        {isLoading && <LoadingModal />}
+        {isConfirmarModalOpen && <ConfirmarPresencaModal isOpen={isConfirmarModalOpen} onClose={() => setIsConfirmarModalOpen(false)} userId={params.id} convidadoId={params.idConvidado}/>}
         <div className="relative flex flex-col items-center justify-center min-h-screen">
             
             {/* Background com camada de sobreposição */}
@@ -68,15 +75,19 @@ const Casamento = ({ params }: { params: IParams }) => {
                 {/* Opções */}
                 <div className="flex justify-evenly flex-wrap w-full mt-8 gap-8">
                     <Item text="Local" icon='local' onClick={() => { }} />
-                    <Item text={"Confirmar\nPresença"} icon='presenca' onClick={() => { }} />
+                    <Item text={"Confirmar\nPresença"} icon='presenca' onClick={() => {
+                        setIsConfirmarModalOpen(true)
+                    }} />
                     <Item text="Convite" icon='convite' onClick={() => { }} />
                     <Item text="Presentes" icon='presentes' onClick={() => {
+                        setIsLoading(true)
                         router.push(`/casamento/${params.id}/convidado/${params.idConvidado}/presentes`)
                     }} />
                 </div>
             </div>
 
         </div>
+        </>
     )
 }
 

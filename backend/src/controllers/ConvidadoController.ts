@@ -10,6 +10,7 @@ import { GetPresentesConvidadoService } from "../services/presenteServices/GetPr
 import { UnsetPresenteConvidado } from "../services/presenteServices/UnsetPresenteConvidado";
 import 'express-async-errors';
 import { GetConvidadoByTelefoneService } from "../services/convidadoServices/GetConvidadoByTelefoneService";
+import { ConfirmarPresencaConvidadoService } from "../services/convidadoServices/ConfirmarPresencaConvidadoService";
 
 export class ConvidadoController {
     constructor(
@@ -20,7 +21,8 @@ export class ConvidadoController {
         private updateConvidadoService: UpdateConvidadoService,
         private getPresenteConvidadoService: GetPresentesConvidadoService,
         private unsetPresenteConvidado: UnsetPresenteConvidado,
-        private getConvidadoByTelefoneService: GetConvidadoByTelefoneService
+        private getConvidadoByTelefoneService: GetConvidadoByTelefoneService,
+        private confirmarPresencaConvidadoService: ConfirmarPresencaConvidadoService
     ) {}
 
     async create(req: Request, res: Response) {
@@ -110,6 +112,20 @@ export class ConvidadoController {
         const convidado = await this.getConvidadoByTelefoneService.execute(id, telefone)
 
         return res.status(200).json({ convidado })
+    }
+
+    async confirmarPresenca(req: Request, res: Response) {
+        const { id, convidadoId } = req.params
+
+        const convidado = await this.getConvidadoService.execute(id, convidadoId)
+
+        if (!convidado) {
+            return res.status(404).json({ message: 'Convidado não encontrado' })
+        }
+
+        await this.confirmarPresencaConvidadoService.execute(id, convidadoId)
+
+        return res.status(200).json({ message: 'Presença confirmada' })
     }
 
 }

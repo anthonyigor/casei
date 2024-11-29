@@ -75,4 +75,20 @@ export class ConvidadoRepository {
         }
     }
 
+    async confirmarPresenca(user_id: string, convidado_id: string): Promise<void> {
+        try {
+            await prisma.convidado.update({
+                where: {
+                    id: convidado_id,
+                    user_id: user_id
+                },
+                data: {
+                    confirmado: true
+                }
+            })
+        } catch (error) {
+            throw new InternalError("Erro ao confirmar presença!")
+        }
+    }
+
 }

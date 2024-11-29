@@ -22,6 +22,7 @@ router.get('/:id/convidados', (req, res) => convidadoController.getConvidados(re
 router.get('/:id/convidados/:convidadoId', verifyToken, (req, res) => convidadoController.getConvidado(req, res))
 router.post('/:id/convidados/identificate', (req, res) => convidadoController.identificateConvidado(req, res))
 router.put('/:id/convidados/:convidadoId', verifyToken, (req, res) => convidadoController.editConvidado(req, res))
+router.put('/:id/convidados/:convidadoId/confirmar-presenca', (req, res) => convidadoController.confirmarPresenca(req, res))
 router.get('/:id/presentes/disponiveis', (req, res) => presenteController.getPresentesDisponiveis(req, res))
 router.get('/:id/presentes', verifyToken, (req, res) => presenteController.getPresentes(req, res))
 router.get('/:id/presentes/:presenteId', verifyToken, (req, res) => presenteController.getPresente(req, res))

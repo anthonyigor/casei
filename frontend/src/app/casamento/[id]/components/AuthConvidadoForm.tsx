@@ -2,6 +2,7 @@
 
 import Button from "@/app/components/Button";
 import Input from "@/app/components/inputs/LoginInput";
+import LoadingModal from "@/app/components/LoadingModal";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,6 +26,7 @@ interface AuthConvidadoFormProps {
 
 const AuthConvidadoForm: React.FC<AuthConvidadoFormProps> = ( { userId }) => {
     const [phone, setPhone] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     
     const { register, handleSubmit } = useForm<FieldValues>({
@@ -48,6 +50,7 @@ const AuthConvidadoForm: React.FC<AuthConvidadoFormProps> = ( { userId }) => {
 
             const convidado = response.data.convidado
             toast.success('Perfeito, já te identificamos!')
+            setIsLoading(true)
             router.push(`/casamento/${userId}/convidado/${convidado.id}`)
         } catch (error: any) {
             toast.error('Opa, não conseguimos te identificar. Por favor verifique se o número de telefone está correto')
@@ -55,6 +58,8 @@ const AuthConvidadoForm: React.FC<AuthConvidadoFormProps> = ( { userId }) => {
     }
     
     return (
+        <>
+        {isLoading && <LoadingModal />}
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <div className="px-4 py-6 sm:rounded-lg sm:px-10">
                 <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
@@ -87,6 +92,7 @@ const AuthConvidadoForm: React.FC<AuthConvidadoFormProps> = ( { userId }) => {
                 </form>
             </div>
         </div>
+        </>
     )
 }
 
