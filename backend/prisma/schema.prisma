@@ -40,7 +40,8 @@ model User {
   nome_parceiro  String?
   data_casamento String?
   horario        String?
-  localizacao    String?
+  lat            String?
+  lon            String?
   endereco       String?
   chave_pix      String?
   cidade         String?

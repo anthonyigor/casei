@@ -1,12 +1,8 @@
 'use client'
 
 import Modal from "@/app/components/Modal"
-import { Presente } from "@/types";
 import { Great_Vibes } from "next/font/google";
-import { useState } from "react";
 import toast from "react-hot-toast";
-import { FaGifts } from "react-icons/fa";
-import { FaPix } from "react-icons/fa6";
 
 interface ConfirmarPresencaModalProps {
     isOpen: boolean;

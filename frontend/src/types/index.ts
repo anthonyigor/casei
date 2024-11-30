@@ -24,7 +24,8 @@ export type UserCasamento = {
     nome: string
     nome_parceiro: string
     data_casamento: string, 
-    localizacao: string, 
+    lat: string,
+    lon: string,
     endereco: string, 
     horario: string
 }

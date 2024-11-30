@@ -12,6 +12,7 @@ import ConfirmarPresencaModal from "./components/ConfirmarPresencaModal";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { FaCheck } from "react-icons/fa";
+import LocalizacaoModal from "./components/LocalizacaoModal";
 
 interface IParams {
     id: string;
@@ -25,6 +26,7 @@ const Casamento = ({ params }: { params: IParams }) => {
     const [convidado, setConvidado] = useState<Convidado>()
     const [isLoading, setIsLoading] = useState(true);
     const [isConfirmarModalOpen, setIsConfirmarModalOpen] = useState(false);
+    const [isLocalizacaoModalOpen, setIsLocalizacaoModalOpen] = useState(false);
     const router = useRouter();
     const session = useSession()
 
@@ -65,6 +67,7 @@ const Casamento = ({ params }: { params: IParams }) => {
         <>
         {isLoading && <LoadingModal />}
         {isConfirmarModalOpen && <ConfirmarPresencaModal isOpen={isConfirmarModalOpen} onClose={() => setIsConfirmarModalOpen(false)} userId={params.id} convidadoId={params.idConvidado}/>}
+        {isLocalizacaoModalOpen && <LocalizacaoModal isOpen={isLocalizacaoModalOpen} onClose={() => setIsLocalizacaoModalOpen(false)} lat={Number(userCasamento?.lat)} lon={Number(userCasamento?.lon)}/>}
         <div className="relative flex flex-col items-center justify-center min-h-screen">
             
             {/* Background com camada de sobreposição */}
@@ -104,7 +107,11 @@ const Casamento = ({ params }: { params: IParams }) => {
 
                 {/* Opções */}
                 <div className="flex justify-evenly flex-wrap w-full mt-8 gap-8">
-                    <Item text="Local" icon='local' onClick={() => { }} />
+                    <Item text="Local" icon='local' onClick={() => {
+                        userCasamento?.lat && userCasamento.lon ?
+                        setIsLocalizacaoModalOpen(true) :
+                        toast.error("As coordenadas da localização ainda não foram informadas")
+                    }} />
                     {!convidado?.confirmado && <Item text={"Confirmar\nPresença"} icon='presenca' onClick={() => {
                         setIsConfirmarModalOpen(true)
                     }} />}

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import bcrypt from 'bcrypt';
 import { User } from "@prisma/client";
 import { createUserToken } from "../helpers/create-user-token";
 import { randomUUID } from "crypto";
@@ -19,7 +18,7 @@ export class UserController {
     ) {}
 
     async create(req: Request, res: Response) {
-        const { nome, email, password, nome_parceiro, data_casamento, horario_casamento, localizacao, endereco, chave_pix, cidade, telefone } = req.body
+        const { nome, email, password, nome_parceiro, data_casamento, horario_casamento, lat, lon, endereco, chave_pix, cidade, telefone } = req.body
 
         const user: User = {
             id: randomUUID(),
@@ -28,7 +27,8 @@ export class UserController {
             password,
             nome_parceiro,
             data_casamento,
-            localizacao,
+            lat,
+            lon,
             endereco,
             horario: horario_casamento,
             chave_pix,
@@ -48,7 +48,7 @@ export class UserController {
     }
 
     async update(req: Request, res: Response) {
-        const { nome, email, password, nome_parceiro, data_casamento, localizacao, endereco, horario_casamento, chave_pix, cidade, telefone } = req.body;
+        const { nome, email, password, nome_parceiro, data_casamento, endereco, lat, lon, horario_casamento, chave_pix, cidade, telefone } = req.body;
         const id = req.params.id;
         
         const user: User = {
@@ -58,7 +58,8 @@ export class UserController {
             password,
             nome_parceiro,
             data_casamento,
-            localizacao,
+            lat,
+            lon,
             endereco,
             horario: horario_casamento,
             chave_pix,
@@ -72,8 +73,6 @@ export class UserController {
     }
 
     async getUser(req: Request | any, res: Response) {
-        const { id } = req.params
-        
         return res.status(200).json({ user: req.user })
     }
 
