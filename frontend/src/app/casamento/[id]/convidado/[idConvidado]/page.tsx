@@ -5,10 +5,13 @@ import Image from "next/image";
 import Item from "./components/Item";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { UserCasamento } from "@/types";
+import { Convidado, UserCasamento } from "@/types";
 import { useRouter } from "next/navigation";
 import LoadingModal from "@/app/components/LoadingModal";
 import ConfirmarPresencaModal from "./components/ConfirmarPresencaModal";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
+import { FaCheck } from "react-icons/fa";
 
 interface IParams {
     id: string;
@@ -19,9 +22,11 @@ const greatVibes = Great_Vibes({ weight: '400', subsets: ['latin'] });
 
 const Casamento = ({ params }: { params: IParams }) => {
     const [userCasamento, setUserCasamento] = useState<UserCasamento>()
-    const [isLoading, setIsLoading] = useState(false);
+    const [convidado, setConvidado] = useState<Convidado>()
+    const [isLoading, setIsLoading] = useState(true);
     const [isConfirmarModalOpen, setIsConfirmarModalOpen] = useState(false);
     const router = useRouter();
+    const session = useSession()
 
     useEffect(() => {
         async function fetchUserCasamento(userId: string) {
@@ -30,13 +35,31 @@ const Casamento = ({ params }: { params: IParams }) => {
                 setUserCasamento(response.data.user);
             } catch (error) {
                 router.push('/error');  
+            } finally {
+                setIsLoading(false);
             }
         }
 
-        if (params.id) {
-            fetchUserCasamento(params.id);
+        async function fetchConvidado(userId: string, convidadoId: string, token: string) {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/${convidadoId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setConvidado(response.data);
+            } catch (error) {
+                toast.error('Erro ao buscar convidado')
+            }
         }
-    }, [params.id, router]); 
+
+        if (params.id && session.data?.user) {
+            const userId = (session.data.user as any).id
+            const token = (session.data.user as any).token
+            fetchUserCasamento(params.id);
+            fetchConvidado(userId, params.idConvidado, token);
+        }
+    }, [params.id, router, params.idConvidado, session]);
 
     return (
         <>
@@ -70,14 +93,22 @@ const Casamento = ({ params }: { params: IParams }) => {
                 <div className="text-center mt-6 text-gray-600">
                     <p className="text-2xl font-bold">{userCasamento?.data_casamento}</p>
                     <p className="text-lg">{userCasamento?.horario}</p>
+
+                    {convidado?.confirmado && 
+                    <div className="mt-4 flex flex-row items-center gap-2">
+                        <p className="text-lg">Você já confirmou sua presença nesse evento!</p>
+                        <FaCheck className="w-5 h-5 text-green-600"/>
+                    </div>
+                    }
                 </div>
 
                 {/* Opções */}
                 <div className="flex justify-evenly flex-wrap w-full mt-8 gap-8">
                     <Item text="Local" icon='local' onClick={() => { }} />
-                    <Item text={"Confirmar\nPresença"} icon='presenca' onClick={() => {
+                    {!convidado?.confirmado && <Item text={"Confirmar\nPresença"} icon='presenca' onClick={() => {
                         setIsConfirmarModalOpen(true)
-                    }} />
+                    }} />}
+                   
                     <Item text="Convite" icon='convite' onClick={() => { }} />
                     <Item text="Presentes" icon='presentes' onClick={() => {
                         setIsLoading(true)
