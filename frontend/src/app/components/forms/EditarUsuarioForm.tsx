@@ -36,6 +36,7 @@ interface EditarUsuarioProps {
 
 const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
     const [phone, setPhone] = useState(usuario.telefone);
+    const [dataCasamento, setDataCasamento] = useState(usuario.data_casamento)
     const session = useSession()
     const router = useRouter()
     
@@ -56,13 +57,17 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
         // Converter para o formato YYYY-MM-DD
         const [day, month, year] = usuario.data_casamento.split("/");
         const formattedDate = `${year}-${month}-${day}`;
-        setValue("data_casamento", formattedDate);
-    }, [usuario.data_casamento, setValue]);
+        setDataCasamento(formattedDate);
+    }, [usuario.data_casamento]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const formattedPhone = formatPhoneNumber(event.target.value);
         setPhone(formattedPhone);
-    };    
+    };
+
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDataCasamento(e.target.value);
+    };
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const token = (session.data?.user as CustomUser).token;
@@ -112,7 +117,7 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         register={register}
                         type="text"
                         placeholder="Nome parceiro(a)"
-                        required={true}
+                        required={false}
                         key="nome_parceiro"
                         value={usuario.nome_parceiro}
                     />
@@ -122,9 +127,43 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         register={register}
                         type="date"
                         placeholder="Data do casamento"
-                        required={true}
+                        required={false}
                         key="data_casamento"
-                        value={usuario.data_casamento}
+                        value={dataCasamento}
+                        onChange={handleDateChange}
+                    />
+                    <FormsInput
+                        id="horario_casamento"
+                        label="Horário do casamento"
+                        register={register}
+                        type="text"
+                        placeholder="Horario do casamento"
+                        required={false}
+                        key="horario_casamento"
+                        value={usuario.horario}
+                    />
+                    <FormsInput
+                        id="endereco"
+                        label="Endereço do local"
+                        register={register}
+                        type="text"
+                        placeholder="endereço"
+                        required={false}
+                        key="endereco"
+                        value={usuario.endereco}
+                    />
+                    <h2 className="mb-3 block text-2xl font-medium text-black">
+                        Credenciais para recebimento
+                    </h2>
+                    <FormsInput
+                        id="endereco"
+                        label="Endereço do local"
+                        register={register}
+                        type="text"
+                        placeholder="endereço"
+                        required={false}
+                        key="endereco"
+                        value={usuario.endereco}
                     />
 
                     <div>
