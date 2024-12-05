@@ -28,10 +28,10 @@ const Casamento = ({ params }: { params: IParams }) => {
     const [isConfirmarModalOpen, setIsConfirmarModalOpen] = useState(false);
     const [isLocalizacaoModalOpen, setIsLocalizacaoModalOpen] = useState(false);
     const router = useRouter();
-    const session = useSession()
 
     useEffect(() => {
         async function fetchUserCasamento(userId: string) {
+            console.log('aqui')
             try {
                 const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/casamento`);
                 setUserCasamento(response.data.user);
@@ -42,26 +42,20 @@ const Casamento = ({ params }: { params: IParams }) => {
             }
         }
 
-        async function fetchConvidado(userId: string, convidadoId: string, token: string) {
+        async function fetchConvidado(userId: string, convidadoId: string) {
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/${convidadoId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/${convidadoId}`);
                 setConvidado(response.data);
             } catch (error) {
                 toast.error('Erro ao buscar convidado')
             }
         }
 
-        if (params.id && session.data?.user) {
-            const userId = (session.data.user as any).id
-            const token = (session.data.user as any).token
+        if (params.id) {
             fetchUserCasamento(params.id);
-            fetchConvidado(userId, params.idConvidado, token);
+            fetchConvidado(params.id, params.idConvidado);
         }
-    }, [params.id, router, params.idConvidado, session]);
+    }, [params.id, router, params.idConvidado]);
 
     return (
         <>

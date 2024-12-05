@@ -6,6 +6,7 @@ import axios from "axios";
 import { Presente, UserCasamento } from "@/types";
 import { useRouter } from "next/navigation";
 import SelectPresenteModal from "./components/SelectPresenteModal";
+import CreateNewPresente from "./components/CreateNewPresente";
 
 interface IParams {
     id: string;
@@ -18,6 +19,7 @@ const Casamento = ({ params }: { params: IParams }) => {
     const [gifts, setGifts] = useState<Presente[]>()
     const [selectedGift, setSelectedGift] = useState<Presente>()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+    const [isCreateNewPresenteOpen, setIsCreateNewPresenteOpen] = useState<boolean>(false)
     const router = useRouter();
 
     const fetchGifts = async (userId: string) => {
@@ -33,7 +35,7 @@ const Casamento = ({ params }: { params: IParams }) => {
         if (params.id) {
             fetchGifts(params.id);
         }
-    }, [params.id, router]);
+    }, [params.id]);
 
     return (
         <div className="relative flex flex-col items-center min-h-screen">
@@ -42,13 +44,18 @@ const Casamento = ({ params }: { params: IParams }) => {
             <div className="absolute inset-0 bg-center bg-no-repeat bg-cover z-0" style={{ backgroundImage: "url('/img/background-lista.jpg')" }}>
                 <div className="absolute inset-0 bg-white bg-opacity-25 "></div>
             </div>
+            
             {isModalOpen && <SelectPresenteModal convidadoId={params.idConvidado} userId={params.id} presente={selectedGift!} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onReloadGifts={() => fetchGifts(params.id)} />}
+            {isCreateNewPresenteOpen && <CreateNewPresente isOpen={isCreateNewPresenteOpen} onClose={() => setIsCreateNewPresenteOpen(false)} userId={params.id} convidadoId={params.idConvidado}/>}
+            
             {/* Conteúdo principal, garantindo que fique acima do background */}
             <div className="mt-4 relative z-10 flex flex-col items-center w-full">
                 <div className={greatVibes.className}>
                     <h1 className="text-5xl font-semibold text-teal-200">Lista de presentes</h1>
                 </div>
-
+                <div className="m-3">
+                    <p className="text-white font-semibold italic">Deseja dar algum presente que não está na lista? <button className="text-teal-300 italic underline hover:text-teal-500" onClick={() => setIsCreateNewPresenteOpen(true)}>Clique aqui</button></p>
+                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 w-full max-w-5xl">
                     {gifts?.map((gift) => (
                         <div key={gift.id} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
