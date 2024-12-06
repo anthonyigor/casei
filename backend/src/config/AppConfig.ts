@@ -36,12 +36,14 @@ export class AppConfig {
         const loginService = new LoginService(userRepository)
         const updateUserService = new UpdateUserService(userRepository)
         const getUserCasamentoService = new GetUserCasamento(userRepository) 
+        const findUserByIdService = new FindUserByIDService(userRepository)
 
         return new UserController(
             createUserService,
             loginService,
             updateUserService,
-            getUserCasamentoService
+            getUserCasamentoService,
+            findUserByIdService
         )
     }
 

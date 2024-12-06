@@ -43,13 +43,12 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
     const {
         register, 
         handleSubmit,
-        setValue,
-        watch
     } = useForm<FieldValues>({
         defaultValues: {
             nome: usuario.nome,
             email: usuario.email,
-            nome_parceiro: usuario.telefone,
+            nome_parceiro: usuario.nome_parceiro,
+            data_casamento: dataCasamento
         }
     })
 
@@ -72,6 +71,8 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const token = (session.data?.user as CustomUser).token;
         const userId = (session.data?.user as CustomUser).id;
+
+        console.log(data)
         
     }
 
@@ -136,7 +137,7 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         id="horario_casamento"
                         label="Horário do casamento"
                         register={register}
-                        type="text"
+                        type="time"
                         placeholder="Horario do casamento"
                         required={false}
                         key="horario_casamento"
@@ -153,17 +154,27 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         value={usuario.endereco}
                     />
                     <h2 className="mb-3 block text-2xl font-medium text-black">
-                        Credenciais para recebimento
+                        Dados de recebimento
                     </h2>
                     <FormsInput
-                        id="endereco"
-                        label="Endereço do local"
+                        id="chave_pix"
+                        label="Chave pix"
                         register={register}
                         type="text"
-                        placeholder="endereço"
+                        placeholder="Chave pix"
                         required={false}
-                        key="endereco"
-                        value={usuario.endereco}
+                        key="chave_pix"
+                        value={usuario.chave_pix}
+                    />
+                    <FormsInput
+                        id="cidade"
+                        label="Cidade"
+                        register={register}
+                        type="text"
+                        placeholder="Cidade"
+                        required={false}
+                        key="cidade"
+                        value={usuario.cidade}
                     />
 
                     <div>

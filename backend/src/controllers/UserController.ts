@@ -15,6 +15,7 @@ export class UserController {
         private loginService: LoginService,
         private updateUserService: UpdateUserService,
         private getUserCasamentoService: GetUserCasamento,
+        private findUserByIdService: FindUserByIDService
     ) {}
 
     async create(req: Request, res: Response) {
@@ -48,14 +49,19 @@ export class UserController {
     }
 
     async update(req: Request, res: Response) {
-        const { nome, email, password, nome_parceiro, data_casamento, endereco, lat, lon, horario_casamento, chave_pix, cidade, telefone } = req.body;
+        const { nome, email, nome_parceiro, data_casamento, endereco, lat, lon, horario_casamento, chave_pix, cidade, telefone } = req.body;
         const id = req.params.id;
+
+        const userExists = await this.findUserByIdService.execute(id)
+        if (!userExists) {
+            return res.status(404).json({ message: 'Usuário não encontrado' })
+        }
         
         const user: User = {
             id,
             nome,
             email,
-            password,
+            password: userExists.password,
             nome_parceiro,
             data_casamento,
             lat,
