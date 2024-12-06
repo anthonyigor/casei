@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues, set, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import FormsInput from "../inputs/FormsInput";
@@ -37,6 +37,7 @@ interface EditarUsuarioProps {
 const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
     const [phone, setPhone] = useState(usuario.telefone);
     const [dataCasamento, setDataCasamento] = useState(usuario.data_casamento)
+    const [horario, setHorario] = useState(usuario.horario)
     const session = useSession()
     const router = useRouter()
     
@@ -48,7 +49,8 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
             nome: usuario.nome,
             email: usuario.email,
             nome_parceiro: usuario.nome_parceiro,
-            data_casamento: dataCasamento
+            data_casamento: dataCasamento,
+            horario_casamento: horario
         }
     })
 
@@ -66,6 +68,10 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
 
     const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDataCasamento(e.target.value);
+    };
+
+    const handleHourChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setHorario(e.target.value);
     };
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -141,7 +147,8 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         placeholder="Horario do casamento"
                         required={false}
                         key="horario_casamento"
-                        value={usuario.horario}
+                        value={horario}
+                        onChange={handleHourChange}
                     />
                     <FormsInput
                         id="endereco"
