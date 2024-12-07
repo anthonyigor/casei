@@ -10,9 +10,8 @@ export class PresenteRepository {
             })
 
             return newPresente
-        } catch (error) {
-            console.log(error)
-            throw new Error("Erro ao criar presente")
+        } catch (error: any) {
+            throw new Error(error.message)
         }
     }
 

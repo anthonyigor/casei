@@ -72,23 +72,18 @@ const PresenteForm = () => {
         }
     };
 
-    const formatToNumber = (valor: string) => {
-        // Remove "R$" e espaços
-        let numericValue = valor.replace('R$', '').trim();
-        
-        // Substitui a vírgula por ponto
-        numericValue = numericValue.replace(',', '.');
-        
-        // Converte a string para um número
-        return numericValue;
-    }
+    const formatToNumber = (valor: string): number => {
+        // Remove "R$" e espaços, substitui "." por vazio e vírgula por ponto
+        const numericValue = valor.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+        return parseFloat(numericValue);
+    };
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const formData = new FormData()
 
         formData.append('nome', data.nome)
         formData.append('descricao', data.descricao)
-        formData.append('valor', formatToNumber(valor))
+        formData.append('valor', formatToNumber(valor).toString())
         
         if (selectedFile) {
             formData.append('image', selectedFile);

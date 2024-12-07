@@ -1,13 +1,11 @@
 'use client'
 
-import FormsInput from "@/app/components/inputs/FormsInput";
 import Modal from "@/app/components/Modal"
 import { Great_Vibes } from "next/font/google";
 import { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
-import { FaGifts } from "react-icons/fa";
 import { FaPix } from "react-icons/fa6";
-import CreateNewPresentePix from "./CreateNewPresentePix";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 interface CreateNewPresenteProps {
     isOpen: boolean;
@@ -19,51 +17,169 @@ interface CreateNewPresenteProps {
 const greatVibes = Great_Vibes({ weight: '400', subsets: ['latin'] });
 
 const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, userId, convidadoId }) => {
-    const [isPixModalOpen, setIsPixModalOpen] = useState<boolean>(false)
+    const [valor, setValor] = useState<string>('')
+    const [nome, setNome] = useState<string | null>(null)
+    const [description, setDescription] = useState<string>('')
+    const [pixBase64, setPixBase64] = useState('');
 
-    const { register } = useForm<FieldValues>()
+    async function fetchPix() {
+        if (!nome) {
+            toast.error("Informe o nome do presente")
+            return;
+        }
+
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/qrcode`, {
+                valor: formatToNumber(valor),
+            });
+            setPixBase64(response.data.qrCode);
+        } catch (error: any) {
+            toast.error(error.response.data.message)
+        }
+    }
+
+    async function createPresente() {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/create/avulso`, {
+                nome,
+                descricao: description,
+                valor: formatToNumber(valor),
+                convidado_id: convidadoId
+            })
+
+            toast.success('Presente selecionado com sucesso!')
+            onClose()
+        } catch (error: any) {
+            toast.error(`Erro ao selecionar presente: ${error.response.data.message}`)
+        }
+    }
+
+    const handleValorChange = (e: any) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
+        value = (value / 100).toFixed(2) + ''; // Converte para formato decimal
+        value = value.replace('.', ','); // Substitui ponto por vírgula
+        value = 'R$' + value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona pontos para milhar
+        
+        setValor(value);
+    }
+
+    const formatToNumber = (valor: string): number => {
+        // Remove "R$" e espaços, substitui "." por vazio e vírgula por ponto
+        const numericValue = valor.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+        return parseFloat(numericValue);
+    };
 
     return (
-        <>
-        {isPixModalOpen && <CreateNewPresentePix nome='test'convidadoId={convidadoId} userId={userId} isOpen={isPixModalOpen} onClose={() => setIsPixModalOpen(false)}/>}
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className="text-center">
                 <div className={greatVibes.className}>
                     <h1 className="text-4xl text-teal-800 font-semibold">Informe o que desejar dar ao casal</h1>
                 </div>
-                <p className="text-base text-slate-500 mt-2">Escolha uma forma de presentear</p>
             </div>
-            <div className="mt-2">
-                <form>
-                    <FormsInput
-                        id="name"
-                        label="Nome"
-                        required
-                        type="text"
-                        register={register}
-                    />
-                    <FormsInput
-                        id="description"
-                        label="Descrição"
-                        type="text"
-                        register={register}
-                    />
-                    <div className="flex flex-row gap-3 mt-6 justify-center">
-                        <div onClick={() => {}}
-                            className="flex flex-row gap-2 items-center bg-teal-600 rounded-md px-3 py-1.5 shadow-sm hover:cursor-pointer hover:bg-teal-900">
-                            <FaGifts className="h-6 w-6 text-white"/>
-                            <p className="text-white text-base font-semibold">Comprar e entregar</p>
+            {!pixBase64 ? (
+                    <div className="mt-2">
+                        <div className="mb-5">
+                            <label className="mb-3 block text-lg font-medium text-black" htmlFor='name'>
+                                Nome
+                            </label>
+                            <div className="mt-1">
+                                <input 
+                                    id='name'
+                                    type='text'
+                                    placeholder='Informe o nome'
+                                    className="
+                                        w-full
+                                        rounded-md
+                                        border 
+                                        border-[#e0e0e0]
+                                        bg-white 
+                                        py-3 
+                                        px-6 
+                                        text-base 
+                                        font-medium 
+                                        text-gray-600 
+                                        outline-none 
+                                        focus:border-teal-600 
+                                        focus:shadow-md"
+                                    onChange={(e) => setNome(e.target.value)}
+                                />
+                            </div> 
                         </div>
-                        <div onClick={() => setIsPixModalOpen(true)}
-                            className="flex flex-row gap-2 items-center bg-teal-600 rounded-md px-3 py-1.5 shadow-sm hover:cursor-pointer hover:bg-teal-900">
-                            <FaPix className="h-6 w-6 text-white"/>
-                            <p className="text-white text-base font-semibold">Fazer pix</p>
+                        <div className="mb-5">
+                            <label className="mb-3 block text-lg font-medium text-black" htmlFor='description'>
+                                Descrição
+                            </label>
+                            <div className="mt-1">
+                                <input 
+                                    id='description'
+                                    type='text'
+                                    placeholder='Descrição'
+                                    className="
+                                        w-full
+                                        rounded-md
+                                        border 
+                                        border-[#e0e0e0]
+                                        bg-white 
+                                        py-3 
+                                        px-6 
+                                        text-base 
+                                        font-medium 
+                                        text-gray-600 
+                                        outline-none 
+                                        focus:border-teal-600 
+                                        focus:shadow-md"
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </div> 
+                        </div>
+                        <div className="mb-5">
+                            <label className="mb-3 block text-lg font-medium text-black" htmlFor='valor'>
+                                Valor
+                            </label>
+                            <div className="mt-1">
+                                <input 
+                                    id='valor'
+                                    type='text'
+                                    placeholder='Valor'
+                                    className="
+                                        w-full
+                                        rounded-md
+                                        border 
+                                        border-[#e0e0e0]
+                                        bg-white 
+                                        py-3 
+                                        px-6 
+                                        text-base 
+                                        font-medium 
+                                        text-gray-600 
+                                        outline-none 
+                                        focus:border-teal-600 
+                                        focus:shadow-md"
+                                    onChange={handleValorChange}
+                                    value={valor}
+                                />
+                            </div> 
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <div onClick={() => fetchPix()}
+                                className="flex flex-row gap-2 items-center bg-teal-600 rounded-md px-3 py-1.5 shadow-sm hover:cursor-pointer hover:bg-teal-900">
+                                <FaPix className="h-6 w-6 text-white"/>
+                                <p className="text-white text-base font-semibold">Gerar QRCode pix</p>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
+            ) : (
+                <>
+                <div className="flex flex-row gap-3 mt-6 justify-center">
+                    {pixBase64 && <img src={pixBase64} alt="QR Code" />}
+                </div>
+                <div className="flex flex-col gap-2 justify-center">
+                    <p className="text-base text-slate-500 mt-2">Clique no botão abaixo para confirmar a seleção do presente</p>
+                    <button className="w-full py-2 text-white rounded-lg bg-teal-500 hover:bg-teal-700" onClick={() => createPresente()}>Confirmar</button>
+                </div>
+                </>
+            )}
         </Modal>
-        </>
     )
 }
 

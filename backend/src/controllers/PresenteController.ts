@@ -30,9 +30,9 @@ export class PresenteController {
     async create(req: Request | any, res: Response) {
         const { id } = req.params
         const image = req.file
-        const { nome, descricao, valor, url_produto } = req.body
+        const { nome, descricao, url_produto } = req.body
 
-        const valorNumber = Number(Number(valor.replace(',', '.')).toFixed(2))
+        const valorNumber = parseFloat(req.body.valor); 
 
         const user = await this.findUserByIdService.execute(id)
         if (!user) return res.status(400).json({ message: 'User not found' })
@@ -56,6 +56,27 @@ export class PresenteController {
         res.status(200).json({ newPresente })
     }
 
+    async createAvulso(req: Request, res: Response) {
+        const { id } = req.params
+        const { nome, descricao, valor, convidado_id } = req.body
+
+        const presente: any = {
+            id: randomUUID(),
+            nome,
+            descricao,
+            valor,
+            selecionado: true,
+            user_id: id,
+            convidado_id,
+            tipo_selecao: 'pix'
+        }
+
+        const newPresente = await this.createPresenteService.execute(presente)
+        
+        res.status(200).json({ newPresente })
+
+    }
+
     async getPresentes(req: Request, res: Response) {
         const { id } = req.params
         const presentes = await this.getPresentesByUserService.execute(id)
@@ -77,9 +98,9 @@ export class PresenteController {
     async editPresente(req: Request, res: Response) {
         const { id, presenteId } = req.params
         const image = req.file
-        const { nome, descricao, valor, url_produto } = req.body
+        const { nome, descricao, url_produto } = req.body
 
-        const valorNumber = Number(Number(valor.replace(',', '.')).toFixed(2))
+        const valorNumber = parseFloat(req.body.valor); 
 
         const presente = await this.getPresenteService.execute(presenteId, id)
 
