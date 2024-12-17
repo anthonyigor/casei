@@ -7,13 +7,14 @@ import { Great_Vibes } from "next/font/google";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const greatVibes = Great_Vibes({ weight:'400', subsets: ['latin'] });  
+const greatVibes = Great_Vibes({ weight: '400', subsets: ['latin'] });
 
 const Convite = () => {
-    const [selectedFile, setSelectedFile] = useState(null)
-    const [convidados, setConvidados] = useState<Convidado[] | null>(null)
-    const [convidadosSelecionados, setConvidadosSelecionados] = useState<string[]>([])
-    const session = useSession()
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [filePreview, setFilePreview] = useState<string | null>(null);
+    const [convidados, setConvidados] = useState<Convidado[] | null>(null);
+    const [convidadosSelecionados, setConvidadosSelecionados] = useState<string[]>([]);
+    const session = useSession();
 
     useEffect(() => {
         async function getConvidados(userId: string, token: string) {
@@ -22,33 +23,40 @@ const Convite = () => {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
-                })
+                });
 
-                setConvidados(response.data)
+                setConvidados(response.data);
             } catch (error: any) {
-                toast.error(`Erro ao carregar lista de contatos ${error.response.data}`)
+                toast.error(`Erro ao carregar lista de contatos: ${error.response.data}`);
             }
         }
 
         if (session.data?.user) {
-            const userId = (session.data.user as any).id
-            const token = (session.data.user as any).token
+            const userId = (session.data.user as any).id;
+            const token = (session.data.user as any).token;
 
-            getConvidados(userId, token)
+            getConvidados(userId, token);
         }
-    }, [session])
+    }, [session]);
 
-    const handleFileChange = (e: any) => {
-        setSelectedFile(e.target.files[0])
-    } 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setSelectedFile(file);
+
+        if (file) {
+            setFilePreview(URL.createObjectURL(file));
+        } else {
+            setFilePreview(null);
+        }
+    };
 
     const toggleConvidadoSelection = (id: string) => {
         if (convidadosSelecionados.includes(id)) {
-            setConvidadosSelecionados(convidadosSelecionados.filter(convidadoId => convidadoId !== id))
+            setConvidadosSelecionados(convidadosSelecionados.filter(convidadoId => convidadoId !== id));
         } else {
-            setConvidadosSelecionados([...convidadosSelecionados, id])
+            setConvidadosSelecionados([...convidadosSelecionados, id]);
         }
-    }
+    };
 
     return (
         <>
@@ -58,19 +66,32 @@ const Convite = () => {
             <div className="max-w-4xl mx-auto mt-8 p-4 border rounded shadow-lg">
                 <label className="block mb-4">
                     <span className="text-lg font-semibold text-gray-600">Faça upload do arquivo PDF do convite:</span>
-                    <input 
+                    <input
                         type="file"
                         accept="application/pdf"
                         onChange={handleFileChange}
                         className="block mt-2 w-full px-4 py-2 border rounded text-gray-700"
                     />
                 </label>
+
+                {/* Preview do arquivo PDF */}
+                {filePreview && (
+                    <div className="mt-4">
+                        <h4 className="text-lg font-semibold text-gray-600 mb-2">Preview do arquivo:</h4>
+                        <iframe
+                            src={filePreview}
+                            className="w-full h-96 border rounded"
+                            title="Preview do PDF"
+                        />
+                    </div>
+                )}
+
                 <h4 className="text-lg font-semibold text-gray-600 mt-8 mb-4">Envie para seus contatos</h4>
                 <ul className="divide-y divide-gray-200">
                     {convidados?.map(convidado => (
                         <li key={convidado.id} className="flex items-center justify-between py-2">
                             <span className="text-gray-800">{convidado.nome} - {convidado.telefone}</span>
-                            <input 
+                            <input
                                 type="checkbox"
                                 checked={convidadosSelecionados.includes(convidado.id)}
                                 onChange={() => toggleConvidadoSelection(convidado.id)}
@@ -81,7 +102,7 @@ const Convite = () => {
                 </ul>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Convite
+export default Convite;

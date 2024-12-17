@@ -8,6 +8,8 @@ import { UpdateUserService } from "../services/userServices/UpdateUserService";
 import 'express-async-errors';
 import { GetUserCasamento } from "../services/userServices/GetUserCasamento";
 import { FindUserByIDService } from "../services/userServices/FindUserByIDService";
+import { UploadFileToS3 } from "../services/fileServices/UploadFileToS3";
+import { UpdateConviteService } from "../services/userServices/UpdateConviteService";
 
 export class UserController {
     constructor(
@@ -15,7 +17,9 @@ export class UserController {
         private loginService: LoginService,
         private updateUserService: UpdateUserService,
         private getUserCasamentoService: GetUserCasamento,
-        private findUserByIdService: FindUserByIDService
+        private findUserByIdService: FindUserByIDService,
+        private uploadFileService: UploadFileToS3,
+        private upadteConviteUrlService: UpdateConviteService
     ) {}
 
     async create(req: Request, res: Response) {
@@ -33,6 +37,7 @@ export class UserController {
             endereco,
             horario: horario_casamento,
             chave_pix,
+            convite_url: null,
             cidade,
             telefone
         }
@@ -69,6 +74,7 @@ export class UserController {
             endereco,
             horario: horario_casamento,
             chave_pix,
+            convite_url: userExists.convite_url,
             cidade,
             telefone
         }
@@ -88,6 +94,17 @@ export class UserController {
         const user =  await this.getUserCasamentoService.execute(id);
 
         return res.status(200).json({ user })
+    }
+
+    async uploadConvite(req: Request, res: Response) {
+        const { id } = req.params;
+        const file: any = req.file;
+
+        const fileUrl = await this.uploadFileService.execute(file.filename, file.mimetype)
+
+        const updatedUser = await this.upadteConviteUrlService.execute(id, fileUrl)
+
+        return res.status(200).json({ fileUrl: updatedUser.convite_url })
     }
 
 }

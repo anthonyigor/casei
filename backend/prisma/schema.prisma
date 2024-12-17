@@ -47,6 +47,7 @@ model User {
   cidade         String?
   telefone       String?
   password       String
+  convite_url    String?
   convidados     Convidado[]
   presentes      Presente[]
 }

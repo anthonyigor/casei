@@ -24,6 +24,7 @@ import { CreateUserService } from "../services/userServices/CreateUserService";
 import { FindUserByIDService } from "../services/userServices/FindUserByIDService";
 import { GetUserCasamento } from "../services/userServices/GetUserCasamento";
 import { LoginService } from "../services/userServices/LoginService";
+import { UpdateConviteService } from "../services/userServices/UpdateConviteService";
 import { UpdateUserService } from "../services/userServices/UpdateUserService";
 
 export class AppConfig {
@@ -37,13 +38,17 @@ export class AppConfig {
         const updateUserService = new UpdateUserService(userRepository)
         const getUserCasamentoService = new GetUserCasamento(userRepository) 
         const findUserByIdService = new FindUserByIDService(userRepository)
+        const uploadFileService = new UploadFileToS3()
+        const updateConviteUrlService = new UpdateConviteService(userRepository)
 
         return new UserController(
             createUserService,
             loginService,
             updateUserService,
             getUserCasamentoService,
-            findUserByIdService
+            findUserByIdService,
+            uploadFileService,
+            updateConviteUrlService
         )
     }
 

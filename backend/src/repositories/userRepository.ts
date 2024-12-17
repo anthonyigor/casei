@@ -57,4 +57,17 @@ export class UserRepository {
         }
     }
 
+    async updateConviteUrl(id: string, url: string): Promise<User> {
+        const updatedUser = await prisma.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                convite_url: url
+            }
+        })
+
+        return updatedUser
+    }
+
 }
