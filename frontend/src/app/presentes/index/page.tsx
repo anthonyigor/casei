@@ -52,15 +52,15 @@ const Presentes = () => {
             <div className={greatVibes.className}>
                 <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">Lista de Presentes</h2>
             </div>
-            <div className="fixed top-0 right-0 m-4">
-                <Button type="button" onClick={onAddPresente}>
-                    Adicionar
-                </Button>
-            </div>
             <div className="lg:pl-40 h-full lg:block mt-4">
                 {presentes && (
                     <PresentesList presentes={presentes}/>
                 )}
+            </div>
+            <div className="flex justify-center mt-6">
+                <Button type="button" onClick={onAddPresente}>
+                    Adicionar
+                </Button>
             </div>
        </>
     )

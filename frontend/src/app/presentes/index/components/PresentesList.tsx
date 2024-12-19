@@ -63,7 +63,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
     return (
         <>
          <div className="text-center mt-8">
-            <div className="relative w-[500px] mx-auto">
+            <div className="relative w-1/2 mx-auto">
                 <input type="text" 
                     className="
                     border-2
@@ -81,24 +81,26 @@ const PresentesList: React.FC<PresentesListProps> = ({
                 <FaSearch className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"/>
             </div>
         </div>
-        <div className="shadow-lg rounded-lg overflow-hidden mx-4 md:mx-8 mt-5">
-            <table className="w-full table-fixed">
-                <thead>
-                    <tr className="bg-gray-100">
-                        <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">ID</th>
-                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Nome</th>
-                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Descrição</th>
-                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Imagem</th>
-                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Valor</th>
-                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Selecionado?</th>
-                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Escolhido por</th>
-                        <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Editar</th>
-                    </tr>   
-                </thead>
-                <tbody className="bg-white">
-                    {displayGifts}
-                </tbody>
-            </table>
+        <div className="shadow-lg rounded-lg overflow-hidden mx-4 sm:mx-16 mt-5">
+            <div className="overflow-x-auto">
+                <table className="w-full table-fixed">
+                    <thead>
+                        <tr className="bg-gray-100">
+                            <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">ID</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Nome</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden sm:table-cell">Descrição</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden sm:table-cell">Imagem</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden sm:table-cell">Valor</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Selecionado?</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden sm:table-cell">Escolhido por</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Editar</th>
+                        </tr>   
+                    </thead>
+                    <tbody className="bg-white">
+                        {displayGifts}
+                    </tbody>
+                </table>
+            </div>
             <div className="pagination-container mt-4 flex justify-center items-center">
                 <ReactPaginate
                     previousLabel={'Anterior'}
