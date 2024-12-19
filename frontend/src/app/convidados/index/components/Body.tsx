@@ -15,30 +15,33 @@ interface BodyProps {
 }
 
 const Body: React.FC<BodyProps> = ({ convidados }) => {
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const onAddConvidado = () => {
-        router.push('/convidados/adicionar')
-        setIsLoading(true)
-    }
+        router.push('/convidados/adicionar');
+        setIsLoading(true);
+    };
 
-    const router = useRouter()
+    const router = useRouter();
     return (
         <>
             {isLoading && <LoadingModal />}
             <div className={greatVibes.className}>
-                <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">Lista de Convidados</h2>
+                <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">
+                    Lista de Convidados
+                </h2>
             </div>
-            <div className="fixed top-0 right-0 m-4">
+            <div className="lg:pl-40 h-full lg:block mt-4">
+                <ConvidadosList convidados={convidados} />
+            </div>
+            {/* Botão reposicionado para baixo da tabela */}
+            <div className="flex justify-center mt-6">
                 <Button type="button" onClick={onAddConvidado}>
                     Adicionar
                 </Button>
             </div>
-            <div className="lg:pl-40 h-full lg:block mt-4">
-                <ConvidadosList convidados={convidados}/>
-            </div>
         </>
-)
-}
+    );
+};
 
-export default Body
+export default Body;

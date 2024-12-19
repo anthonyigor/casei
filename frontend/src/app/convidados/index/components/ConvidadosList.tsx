@@ -43,41 +43,26 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
 
     return (
         <>
-        <div className="text-center mt-8">
-            <div className="relative w-[500px] mx-auto">
-                <input type="text" 
-                    className="
-                    border-2
-                    border-slate-200
-                    rounded-md 
-                    w-full 
-                    h-[40px]
-                    px-10
-                    focus: outline-none
-                    focus:border-slate-600"
-                    placeholder="Pesquise por nome"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-                <FaSearch className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"/>
+        <div className="shadow-lg rounded-lg overflow-hidden mx-4 sm:mx-16 mt-5">
+            {/* Container que permite rolagem horizontal */}
+            <div className="overflow-x-auto">
+                <table className="w-full table-fixed">
+                    <thead>
+                        <tr className="bg-gray-100">
+                            <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">ID</th>
+                            <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Nome</th>
+                            <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden sm:table-cell">Familiares</th>
+                            <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden md:table-cell">Telefone</th>
+                            <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase md:table-cell">Confirmado</th>
+                            <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody className="bg-white">
+                        {displayGuests}
+                    </tbody>
+                </table>
             </div>
-        </div>
-        <div className="shadow-lg rounded-lg overflow-hidden mx-16 mt-5">
-            <table className="w-full table-fixed">
-                <thead>
-                    <tr className="bg-gray-100">
-                        <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">ID</th>
-                        <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Nome</th>
-                        <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Familiares</th>
-                        <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Telefone</th>
-                        <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Confirmado</th>
-                        <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">Editar</th>
-                    </tr>
-                </thead>
-                <tbody className="bg-white">
-                    {displayGuests}
-                </tbody>
-            </table>
+            {/* Paginação */}
             <div className="pagination-container mt-4 flex justify-center items-center mb-2">
                 <ReactPaginate
                     previousLabel={'Anterior'}
@@ -93,6 +78,7 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
                 />
             </div>
         </div>
+
         </>
     )
 }

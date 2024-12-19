@@ -28,12 +28,25 @@ const ConvidadosItem: React.FC<convidadosItemProps> = ({
     }
 
     return (
-        <tr>
-            <td className="py-4 px-6 border-b border-gray-200">{index}</td>
-            <td className="py-4 px-6 border-b border-gray-200">{nome}</td>
-            <td className="py-4 px-6 border-b border-gray-200 truncate">{quant_familia}</td>
-            <td className="py-4 px-6 border-b border-gray-200">{telefone}</td>
-            <td className="py-4 px-6 border-b border-gray-200">
+        <tr className="border-b border-gray-200">
+            {/* ID sempre visível */}
+            <td className="py-4 px-6">{index}</td>
+            
+            {/* Nome sempre visível */}
+            <td className="py-4 px-6">{nome}</td>
+            
+            {/* Familiares visível apenas em telas médias ou maiores */}
+            <td className="py-4 px-6 truncate hidden sm:table-cell">
+                {quant_familia ?? '-'}
+            </td>
+            
+            {/* Telefone visível apenas em telas médias ou maiores */}
+            <td className="py-4 px-6 hidden md:table-cell">
+                {telefone ?? 'N/A'}
+            </td>
+            
+            {/* Confirmado com badge de cores */}
+            <td className="py-4 px-6 md:table-cell">
                 <span className={clsx(`
                     py-1 
                     px-2 
@@ -41,17 +54,21 @@ const ConvidadosItem: React.FC<convidadosItemProps> = ({
                     text-xs
                     text-white`,
                     confirmado ? 'bg-green-500' : 'bg-red-500'
-                    )}>
-                        {confirmado ? (
-                            'Sim'
-                        ) : (
-                            'Não'
-                        )}
-                    </span>
+                )}>
+                    {confirmado ? 'Sim' : 'Não'}
+                </span>
             </td>
-            <td className="py-4 px-6 border-b border-gray-200"><FaUserEdit size={30} onClick={handleIconClick} style={{ cursor: 'pointer' }}/></td>
+            
+            {/* Ícone de edição sempre visível */}
+            <td className="py-4 px-6">
+                <FaUserEdit 
+                    size={30} 
+                    onClick={handleIconClick} 
+                    style={{ cursor: 'pointer' }}
+                />
+            </td>
         </tr>
     )
 }
 
-export default ConvidadosItem
+export default ConvidadosItem;
