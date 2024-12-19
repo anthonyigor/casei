@@ -4,6 +4,7 @@ import { Convidado } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { Great_Vibes } from "next/font/google";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -15,6 +16,7 @@ const Convite = () => {
     const [convidados, setConvidados] = useState<Convidado[] | null>(null);
     const [convidadosSelecionados, setConvidadosSelecionados] = useState<string[]>([]);
     const session = useSession();
+    const router = useRouter()
 
     useEffect(() => {
         async function getConvidados(userId: string, token: string) {
@@ -31,11 +33,28 @@ const Convite = () => {
             }
         }
 
+        async function getUser(userId: string, token: string) {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+
+                if (response.data.user.convite_url) {
+                    setFilePreview(response.data.user.convite_url)
+                }
+            } catch (error) {
+                toast.error('Erro ao buscar convite cadastrado')
+            }
+        }
+
         if (session.data?.user) {
             const userId = (session.data.user as any).id;
             const token = (session.data.user as any).token;
 
             getConvidados(userId, token);
+            getUser(userId, token)
         }
     }, [session]);
 
@@ -57,6 +76,32 @@ const Convite = () => {
             setConvidadosSelecionados([...convidadosSelecionados, id]);
         }
     };
+
+    const handleUpload = () => {
+        if (selectedFile) {
+            const formData = new FormData();
+            formData.append('convite', selectedFile);
+
+            const userId = (session.data?.user as any).id;
+            const token = (session.data?.user as any).token;
+
+            axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/upload-convite`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(response => {
+                toast.success('Arquivo do convite enviado com sucesso!');
+                router.push(`/dashboard`)
+            })
+            .catch(error => {
+                toast.error(`Erro ao enviar arquivo: ${error.response.data}`);
+            });
+        } else {
+            toast.error('Por favor, selecione um novo arquivo.');
+        }	
+    }
 
     return (
         <>
@@ -85,8 +130,15 @@ const Convite = () => {
                         />
                     </div>
                 )}
+                
+                <button
+                    onClick={handleUpload}
+                    className="mt-4 px-4 py-2 rounded bg-teal-700 text-white"
+                >
+                    Salvar
+                </button>
 
-                <h4 className="text-lg font-semibold text-gray-600 mt-8 mb-4">Envie para seus contatos</h4>
+                {/* <h4 className="text-lg font-semibold text-gray-600 mt-8 mb-4">Envie para seus contatos</h4>
                 <ul className="divide-y divide-gray-200">
                     {convidados?.map(convidado => (
                         <li key={convidado.id} className="flex items-center justify-between py-2">
@@ -99,7 +151,7 @@ const Convite = () => {
                             />
                         </li>
                     ))}
-                </ul>
+                </ul> */}
             </div>
         </>
     );

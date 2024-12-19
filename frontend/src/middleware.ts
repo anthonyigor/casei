@@ -11,6 +11,7 @@ export const config = {
         "/dashboard/:path*",
         "/convidados/:path*",
         "/presentes/:path*",
-        "/usuario"
+        "/usuario",
+        "/convite"
     ]
 }
