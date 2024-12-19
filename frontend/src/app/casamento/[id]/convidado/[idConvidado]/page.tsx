@@ -27,11 +27,11 @@ const Casamento = ({ params }: { params: IParams }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isConfirmarModalOpen, setIsConfirmarModalOpen] = useState(false);
     const [isLocalizacaoModalOpen, setIsLocalizacaoModalOpen] = useState(false);
+    const [isEnvelopeOpening, setIsEnvelopeOpening] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
         async function fetchUserCasamento(userId: string) {
-            console.log('aqui')
             try {
                 const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/casamento`);
                 setUserCasamento(response.data.user);
@@ -57,6 +57,26 @@ const Casamento = ({ params }: { params: IParams }) => {
         }
     }, [params.id, router, params.idConvidado]);
 
+    const handleEnvelopeClick = () => {
+        if (!userCasamento) {
+            toast.error('O link do convite ainda não foi informado')
+            return
+        }
+
+        setIsEnvelopeOpening(true)
+
+        setTimeout(() => {
+            window.open(
+                userCasamento?.convite_url,
+                "_blank"
+            );
+
+            setTimeout(() => {
+                setIsEnvelopeOpening(false); // Volta ao estado inicial
+            }, 1000); 
+        }, 1000); // Aguarda o tempo da animação
+    }
+
     return (
         <>
         {isLoading && <LoadingModal />}
@@ -80,10 +100,22 @@ const Casamento = ({ params }: { params: IParams }) => {
 
                 {/* Envelope */}
                 <div className="mt-12">
-                    <button className="relative w-40 h-28 flex items-center justify-center bg-transparent rounded-lg shadow-lg">
-                        <Image src='/img/envelope.png' alt="Envelope" width={160} height={160} />
+                    <button
+                        className={`relative w-40 h-28 flex items-center justify-center bg-transparent rounded-lg shadow-lg ${
+                            isEnvelopeOpening ? "envelope-abrindo" : ""
+                        }`}
+                        onClick={handleEnvelopeClick}
+                    >
+                        <Image
+                            src="/img/envelope.png"
+                            alt="Envelope"
+                            width={160}
+                            height={160}
+                        />
                     </button>
-                    <span className="text-gray-500 text-sm mx-6">Toque para abrir</span>
+                    <span className="text-gray-500 text-sm mx-6">
+                        Toque para abrir
+                    </span>
                 </div>
 
                 {/* Data */}
@@ -110,7 +142,17 @@ const Casamento = ({ params }: { params: IParams }) => {
                         setIsConfirmarModalOpen(true)
                     }} />}
                    
-                    <Item text="Convite" icon='convite' onClick={() => { }} />
+                    <Item text="Convite" icon='convite' onClick={() => {
+                        if (!userCasamento?.convite_url) {
+                            toast.error("O link do convite ainda não foi informado")
+                            return
+                        }
+
+                        window.open(
+                            userCasamento?.convite_url,
+                            "_blank"
+                        );
+                    }} />
                     <Item text="Presentes" icon='presentes' onClick={() => {
                         setIsLoading(true)
                         router.push(`/casamento/${params.id}/convidado/${params.idConvidado}/presentes`)

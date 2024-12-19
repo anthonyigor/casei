@@ -27,7 +27,8 @@ export type UserCasamento = {
     lat: string,
     lon: string,
     endereco: string, 
-    horario: string
+    horario: string,
+    convite_url: string
 }
 
 export type User = {
