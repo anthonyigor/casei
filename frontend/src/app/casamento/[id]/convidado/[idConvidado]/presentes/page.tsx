@@ -42,7 +42,7 @@ const Casamento = ({ params }: { params: IParams }) => {
 
             {/* Background com camada de sobreposição */}
             <div className="absolute inset-0 bg-center bg-no-repeat bg-cover z-0" style={{ backgroundImage: "url('/img/background-lista.jpg')" }}>
-                <div className="absolute inset-0 bg-white bg-opacity-25 "></div>
+                <div className="absolute inset-0 bg-slate-100 bg-opacity-100 "></div>
             </div>
             
             {isModalOpen && <SelectPresenteModal convidadoId={params.idConvidado} userId={params.id} presente={selectedGift!} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onReloadGifts={() => fetchGifts(params.id)} />}
@@ -51,10 +51,10 @@ const Casamento = ({ params }: { params: IParams }) => {
             {/* Conteúdo principal, garantindo que fique acima do background */}
             <div className="mt-4 relative z-10 flex flex-col items-center w-full">
                 <div className={greatVibes.className}>
-                    <h1 className="text-5xl font-semibold text-teal-200">Lista de presentes</h1>
+                    <h1 className="text-5xl font-semibold text-teal-600">Lista de presentes</h1>
                 </div>
                 <div className="m-3">
-                    <p className="text-white font-semibold italic">Deseja dar algum presente que não está na lista? <button className="text-teal-300 italic underline hover:text-teal-500" onClick={() => setIsCreateNewPresenteOpen(true)}>Clique aqui</button></p>
+                    <p className="text-teal-600 font-semibold italic">Deseja dar algum presente que não está na lista? <button className="text-teal-500 italic underline hover:text-teal-500" onClick={() => setIsCreateNewPresenteOpen(true)}>Clique aqui</button></p>
                 </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 w-full max-w-5xl">
                     {gifts?.map((gift) => (
