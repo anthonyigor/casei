@@ -11,6 +11,7 @@ import { UnsetPresenteConvidado } from "../services/presenteServices/UnsetPresen
 import 'express-async-errors';
 import { GetConvidadoByTelefoneService } from "../services/convidadoServices/GetConvidadoByTelefoneService";
 import { ConfirmarPresencaConvidadoService } from "../services/convidadoServices/ConfirmarPresencaConvidadoService";
+import { GetConvidadoByNomeService } from "../services/convidadoServices/GetConvidadoByNomeService";
 
 export class ConvidadoController {
     constructor(
@@ -22,7 +23,8 @@ export class ConvidadoController {
         private getPresenteConvidadoService: GetPresentesConvidadoService,
         private unsetPresenteConvidado: UnsetPresenteConvidado,
         private getConvidadoByTelefoneService: GetConvidadoByTelefoneService,
-        private confirmarPresencaConvidadoService: ConfirmarPresencaConvidadoService
+        private confirmarPresencaConvidadoService: ConfirmarPresencaConvidadoService,
+        private getConvidadoByNomeService: GetConvidadoByNomeService
     ) {}
 
     async create(req: Request, res: Response) {
@@ -109,9 +111,27 @@ export class ConvidadoController {
         const { id } = req.params
         const { nome, telefone } = req.body
 
-        const convidado = await this.getConvidadoByTelefoneService.execute(id, telefone)
+        const convidadoByTelefone = await this.getConvidadoByTelefoneService.execute(id, telefone)
+        if (convidadoByTelefone) {
+            return res.status(200).json({ convidado: convidadoByTelefone })
+        }
 
-        return res.status(200).json({ convidado })
+        const convidadoByNome = await this.getConvidadoByNomeService.execute(id, nome)
+        if (convidadoByNome) {
+            return res.status(200).json({ convidado: convidadoByNome })
+        }
+        
+        const convidado: Convidado = {
+            id: randomUUID(),
+            nome,
+            quant_familia: 1,
+            confirmado: false,
+            telefone,
+            user_id: id
+        }
+
+        const newConvidado = await this.createConvidadoService.execute(convidado)
+        return res.status(200).json({ convidado: newConvidado })
     }
 
     async confirmarPresenca(req: Request, res: Response) {

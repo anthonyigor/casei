@@ -97,9 +97,13 @@ const Casamento = ({ params }: { params: IParams }) => {
                         {userCasamento?.nome} e {userCasamento?.nome_parceiro}
                     </h1>
                 </div>
+                
+                <div className="text-center mt-8">
+                    <h3 className="text-xl text-gray-500">Olá, {convidado?.nome.split(' ')[0]}!</h3>
+                </div>
 
                 {/* Envelope */}
-                <div className="mt-12">
+                <div className="mt-4">
                     <button
                         className={`relative w-40 h-28 flex items-center justify-center bg-transparent rounded-lg shadow-lg ${
                             isEnvelopeOpening ? "envelope-abrindo" : ""

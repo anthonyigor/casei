@@ -37,6 +37,17 @@ export class ConvidadoRepository {
         return convidado
     }
 
+    async getConvidadoByNomeAndUser(userId: string, nome: string): Promise<Convidado | null> {
+        const convidado = await prisma.convidado.findFirst({
+            where: {
+                nome: nome,
+                user_id: userId
+            }
+        })
+
+        return convidado
+    }
+
     async getConvidadosByUser(user_id: string): Promise<Convidado[]> {
         const convidados = await prisma.convidado.findMany({
             where: {

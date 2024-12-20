@@ -53,7 +53,7 @@ const AuthConvidadoForm: React.FC<AuthConvidadoFormProps> = ( { userId }) => {
             setIsLoading(true)
             router.push(`/casamento/${userId}/convidado/${convidado.id}`)
         } catch (error: any) {
-            toast.error('Opa, não conseguimos te identificar. Por favor verifique se o número de telefone está correto')
+            toast.error('Opa, não conseguimos te identificar. Por favor verifique se os dados estão correto')
         }
     }
     
