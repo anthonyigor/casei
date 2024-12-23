@@ -43,6 +43,25 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
 
     return (
         <>
+        <div className="text-center mt-8">
+            <div className="relative w-1/2 mx-auto">
+                <input type="text" 
+                    className="
+                    border-2
+                    border-slate-200
+                    rounded-md 
+                    w-full 
+                    h-[40px]
+                    px-10
+                    focus: outline-none
+                    focus:border-slate-600"
+                    placeholder="Pesquise por nome"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <FaSearch className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"/>
+            </div>
+        </div>
         <div className="shadow-lg rounded-lg overflow-hidden mx-4 sm:mx-16 mt-5">
             {/* Container que permite rolagem horizontal */}
             <div className="overflow-x-auto">

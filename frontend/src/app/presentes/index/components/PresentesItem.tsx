@@ -36,7 +36,7 @@ const PresentesItem: React.FC<presentesItemProps> = ({
             <td className="py-4 px-6 border-b border-gray-200">{index}</td>
             <td className="py-4 px-6 border-b border-gray-200">{nome}</td>
             <td className="py-4 px-6 border-b border-gray-200 truncate hidden sm:table-cell">{descricao}</td>
-            <td className="py-4 px-6 border-b border-gray-200 hidden sm:table-cell"><img src={image} alt="Imagem" width={60} height={60}/></td>
+            <td className="py-4 px-6 border-b border-gray-200 hidden sm:table-cell"><img src={image || '/img/presentes.png'} alt="Imagem" width={60} height={60}/></td>
             <td className="py-4 px-6 border-b border-gray-200 hidden sm:table-cell">R${valor?.toFixed(2)}</td>
             <td className="py-4 px-6 border-b border-gray-200">
                 <span className={clsx(`

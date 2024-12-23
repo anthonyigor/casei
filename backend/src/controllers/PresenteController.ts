@@ -38,7 +38,10 @@ export class PresenteController {
         if (!user) return res.status(400).json({ message: 'User not found' })
 
         //send image to s3
-        const fileUrl = await this.uploadFileService.execute(image.filename, image.mimetype)
+        let fileUrl = null
+        if (image) {
+            fileUrl = await this.uploadFileService.execute(image.filename, image.mimetype)
+        }
         
         const presente: any = {
             id: randomUUID(),

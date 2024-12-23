@@ -1,6 +1,6 @@
 import { Convidado } from "@prisma/client";
 import { ConvidadoRepository } from "../../repositories/ConvidadoRepository";
-import { UserRepository } from "../../repositories/userRepository";
+import { UserRepository } from "../../repositories/UserRepository";
 import { Conflict } from "../../errors/Conflict";
 import { NotFound } from "../../errors/NotFound";
 import { InternalError } from "../../errors/InternalError";
