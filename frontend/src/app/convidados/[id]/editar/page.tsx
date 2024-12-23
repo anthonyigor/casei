@@ -49,7 +49,7 @@ const EditarConvidado = ({ params }: { params: IParams }) => {
         <div className={greatVibes.className}>
             <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">Editar convidado</h2>
         </div>
-        <div className="fixed top-0 left-48 m-4">
+        <div className="fixed top-0 lg:left-48 m-4">
                 <Button type="button" onClick={() => router.push('/convidados/index')}>
                     Voltar
                 </Button>
