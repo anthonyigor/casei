@@ -111,7 +111,10 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
             email: usuario.email,
             nome_parceiro: usuario.nome_parceiro,
             data_casamento: dataCasamento,
-            horario_casamento: horario
+            horario_casamento: horario,
+            endereco: usuario.endereco,
+            chave_pix: usuario.chave_pix,
+            cidade: usuario.cidade
         }
     })
 
@@ -135,15 +138,27 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
         setHorario(e.target.value);
     };
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = async(data) => {
         const token = (session.data?.user as CustomUser).token;
         const userId = (session.data?.user as CustomUser).id;
 
-        console.log({
-            ...data,
-            lat: location?.lat,
-            lon: location?.lng
-        })
+        try {
+            const response = await axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/update/${userId}`, {
+                ...data,
+                lat: location?.lat,
+                lon: location?.lng
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            
+            toast.success(response.data.message)
+            router.push('/usuario')
+        } catch (error: any) {
+            console.log(error)
+            toast.error(`Erro ao atualizar usuário: ${JSON.stringify(error.response.data)}`)
+        }
         
     }
 
@@ -159,7 +174,6 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         placeholder="Nome"
                         required={true}
                         key="name"
-                        value={usuario.nome}
                     />
                     <FormsInput
                         id="telefone"
@@ -181,7 +195,6 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         placeholder="Email"
                         required={true}
                         key="email"
-                        value={usuario.email}
                     />
                     <FormsInput
                         id="nome_parceiro"
@@ -191,7 +204,6 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         placeholder="Nome parceiro(a)"
                         required={false}
                         key="nome_parceiro"
-                        value={usuario.nome_parceiro}
                     />
                     <FormsInput
                         id="data_casamento"
@@ -223,7 +235,6 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         placeholder="endereço"
                         required={false}
                         key="endereco"
-                        value={usuario.endereco}
                     />
 
                     <h3 className="text-lg font-semibold">Selecione a localização:</h3>
@@ -237,12 +248,12 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         }}
                     />
                     {location && (
-                        <p className="mt-2">
+                        <p className="mt-2 text-gray-500">
                             Localização: Latitude {location.lat}, Longitude {location.lng}
                         </p>
                     )}
 
-                    <h2 className="mb-3 block text-2xl font-medium text-black">
+                    <h2 className="mt-6 mb-3 block text-2xl font-medium text-black">
                         Dados de recebimento
                     </h2>
                     <FormsInput
@@ -253,7 +264,6 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         placeholder="Chave pix"
                         required={false}
                         key="chave_pix"
-                        value={usuario.chave_pix}
                     />
                     <FormsInput
                         id="cidade"
@@ -263,7 +273,6 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         placeholder="Cidade"
                         required={false}
                         key="cidade"
-                        value={usuario.cidade}
                     />
 
                     <div>

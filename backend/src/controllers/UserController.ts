@@ -69,8 +69,8 @@ export class UserController {
             password: userExists.password,
             nome_parceiro,
             data_casamento,
-            lat,
-            lon,
+            lat: String(lat),
+            lon: String(lon),
             endereco,
             horario: horario_casamento,
             chave_pix,
@@ -78,7 +78,7 @@ export class UserController {
             cidade,
             telefone
         }
-        
+
         const updatedUser = await this.updateUserService.execute(id, user)
         
         return res.status(200).json({ message: "Usuário atualizado com sucesso!", updatedUser });
