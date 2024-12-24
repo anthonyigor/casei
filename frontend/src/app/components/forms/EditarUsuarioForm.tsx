@@ -2,12 +2,14 @@
 
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FieldValues, set, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import FormsInput from "../inputs/FormsInput";
-import { Convidado, User } from "@/types";
+import { User } from "@/types";
 import { useRouter } from "next/navigation";
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 type CustomUser = {
     name?: string | null;
@@ -38,8 +40,67 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
     const [phone, setPhone] = useState(usuario.telefone);
     const [dataCasamento, setDataCasamento] = useState(usuario.data_casamento)
     const [horario, setHorario] = useState(usuario.horario)
+    const [location, setLocation] = useState<{ lat: number; lng: number } | null>({lat: Number(usuario.lat), lng: Number(usuario.lon)});
     const session = useSession()
     const router = useRouter()
+
+    const mapRef = useRef<HTMLDivElement | null>(null);
+    const leafletMapRef = useRef<L.Map | null>(null);
+    const markerRef = useRef<L.Marker | null>(null);
+
+    const markerIcon = new L.Icon({
+        iconUrl: `/img/marker.png`,
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+    });
+
+    useEffect(() => {
+        if (mapRef.current) {
+            // Remove o mapa existente, se necessário
+            if (leafletMapRef.current) {
+                leafletMapRef.current.remove();
+            }
+
+            // Cria o mapa Leaflet
+            leafletMapRef.current = L.map(mapRef.current).setView([location?.lat!, location?.lng!], 13);
+
+            // Adiciona o tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            }).addTo(leafletMapRef.current);
+
+            markerRef.current = L.marker([location?.lat!, location?.lng!], {
+                icon: markerIcon,
+                draggable: true,
+            }).addTo(leafletMapRef.current)
+
+            
+            // Atualiza as coordenadas ao arrastar o marcador
+            markerRef.current.on('dragend', (event) => {
+                const { lat, lng } = event.target.getLatLng();
+                setLocation({ lat, lng });
+            });
+
+            leafletMapRef.current.on('click', (event) => {
+                const { lat, lng } = event.latlng
+                setLocation({lat, lng})
+
+                if (markerRef.current) {
+                    markerRef.current.setLatLng([lat, lng])
+                }
+
+            })
+
+        }
+
+        // Cleanup
+        return () => {
+            if (leafletMapRef.current) {
+                leafletMapRef.current.remove();
+                leafletMapRef.current = null;
+            }
+        };
+    }, [location?.lat, location?.lng]);
     
     const {
         register, 
@@ -78,7 +139,11 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
         const token = (session.data?.user as CustomUser).token;
         const userId = (session.data?.user as CustomUser).id;
 
-        console.log(data)
+        console.log({
+            ...data,
+            lat: location?.lat,
+            lon: location?.lng
+        })
         
     }
 
@@ -160,6 +225,23 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         key="endereco"
                         value={usuario.endereco}
                     />
+
+                    <h3 className="text-lg font-semibold">Selecione a localização:</h3>
+                    <div
+                        ref={mapRef}
+                        style={{
+                            position: "relative",
+                            height: "400px",
+                            width: "100%",
+                            marginTop: "20px",
+                        }}
+                    />
+                    {location && (
+                        <p className="mt-2">
+                            Localização: Latitude {location.lat}, Longitude {location.lng}
+                        </p>
+                    )}
+
                     <h2 className="mb-3 block text-2xl font-medium text-black">
                         Dados de recebimento
                     </h2>

@@ -40,7 +40,8 @@ export type User = {
     password: string,
     endereco: string,
     horario: string,
-    localizacao: string,
+    lat: string,
+    lon: string
     chave_pix: string,
     cidade: string,
     telefone: string
