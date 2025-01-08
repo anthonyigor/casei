@@ -58,7 +58,7 @@ const Casamento = ({ params }: { params: IParams }) => {
     }, [params.id, router, params.idConvidado]);
 
     const handleEnvelopeClick = () => {
-        if (!userCasamento) {
+        if (!userCasamento?.convite_url) {
             toast.error('O link do convite ainda não foi informado')
             return
         }

@@ -85,7 +85,8 @@ export class UserController {
     }
 
     async getUser(req: Request | any, res: Response) {
-        return res.status(200).json({ user: req.user })
+        const user = await this.findUserByIdService.execute(req.user.id)
+        return res.status(200).json({ user })
     }
 
     async getUserCasamento(req: Request, res: Response) {

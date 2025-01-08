@@ -118,6 +118,8 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
         }
     })
 
+    console.log(usuario)
+
     useEffect(() => {
         // Converter para o formato YYYY-MM-DD
         const [day, month, year] = usuario.data_casamento.split("/");
