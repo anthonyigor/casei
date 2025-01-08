@@ -84,6 +84,7 @@ const PresenteForm = () => {
         formData.append('nome', data.nome)
         formData.append('descricao', data.descricao)
         formData.append('valor', formatToNumber(valor).toString())
+        formData.append('url_produto', data.url_produto)
         
         if (selectedFile) {
             formData.append('image', selectedFile);

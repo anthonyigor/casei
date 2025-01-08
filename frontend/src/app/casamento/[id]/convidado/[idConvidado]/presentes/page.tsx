@@ -59,7 +59,7 @@ const Casamento = ({ params }: { params: IParams }) => {
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 w-full max-w-5xl">
                     {gifts?.map((gift) => (
                         <div key={gift.id} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
-                            <img src={gift.image} alt={gift.nome} className="w-full h-24 object-cover rounded-md mb-4"/>
+                            <img src={gift.image} alt={gift.nome} className="w-full h-24 object-contain rounded-md mb-4"/>
                             <h3 className="text-lg font-semibold text-gray-700 mb-2">{gift.nome}</h3>
                             {gift.descricao && <p className="text-sm text-gray-500 mb-4">{gift.descricao}</p>}
                             <button
