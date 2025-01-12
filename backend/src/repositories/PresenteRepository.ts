@@ -109,4 +109,18 @@ export class PresenteRepository {
         }
     }
 
+    async deletePresente(presenteId: string, userId: string): Promise<void> {
+        try {
+            await prisma.presente.delete({
+                where: {
+                    id: presenteId,
+                    user_id: userId
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            throw new InternalError('Erro ao deletar presente')
+        }
+    }
+
 }

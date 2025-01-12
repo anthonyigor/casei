@@ -105,6 +105,7 @@ const PresenteForm = () => {
             toast.success('Presente cadastrado com sucesso!')
             reset()
             setPreviewSrc('/img/presentes.png')
+            setValor('')
         })
         .catch((error) => toast.error(error.message))
     }

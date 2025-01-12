@@ -13,6 +13,7 @@ import { DeleteFileFromS3 } from "../services/fileServices/DeleteFileFromS3";
 import { base64ToPng } from "../utils/base64ToPng";
 import { QrCodePix } from "qrcode-pix";
 import { SetPresenteConvidado } from "../services/presenteServices/SetPresenteConvidado";
+import { DeletePresenteService } from "../services/presenteServices/DeletePresenteService";
 
 export class PresenteController {
     constructor(
@@ -24,7 +25,8 @@ export class PresenteController {
         private getPresenteService: GetPresenteService,
         private updatePresenteService: UpdatePresenteService,
         private deleteFileService: DeleteFileFromS3,
-        private setPresenteConvidadoService: SetPresenteConvidado
+        private setPresenteConvidadoService: SetPresenteConvidado,
+        private deletePresenteService: DeletePresenteService
     ) {}
 
     async create(req: Request | any, res: Response) {
@@ -165,6 +167,16 @@ export class PresenteController {
         await this.setPresenteConvidadoService.execute(presenteId, convidadoId, id, tipo_selecao)
 
         return res.status(200).json({ message: 'Presente selecionado, obrigado por colaborar com o casal ❤️' })
+    }
+
+    async deletePresente(req: Request, res: Response) {
+        const { id, presenteId } = req.params
+
+        const presente = await this.getPresenteService.execute(presenteId, id)
+        
+        await this.deletePresenteService.execute(presente, id)
+
+        return res.status(200).json({ message: 'Presente deletado' })
     }
 
 }

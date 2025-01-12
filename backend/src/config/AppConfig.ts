@@ -14,6 +14,7 @@ import { UpdateConvidadoService } from "../services/convidadoServices/UpdateConv
 import { DeleteFileFromS3 } from "../services/fileServices/DeleteFileFromS3";
 import { UploadFileToS3 } from "../services/fileServices/UploadFileToS3";
 import { CreatePresenteService } from "../services/presenteServices/CreatePresenteService";
+import { DeletePresenteService } from "../services/presenteServices/DeletePresenteService";
 import { GetPresentesByUserService } from "../services/presenteServices/GetPresentesByUserService";
 import { GetPresentesConvidadoService } from "../services/presenteServices/GetPresentesConvidadoService";
 import { GetPresentesDisponiveisByUserService } from "../services/presenteServices/GetPresentesDisponiveisByUserService";
@@ -100,6 +101,7 @@ export class AppConfig {
         const updatePresenteService = new UpdatePresenteService(presenteRepository);
         const setPresenteConvidadoService = new SetPresenteConvidado(presenteRepository);
         const deleteFileService = new DeleteFileFromS3();
+        const deletePresenteService = new DeletePresenteService(presenteRepository);
 
         return new PresenteController(
             getPresentesByUserService,
@@ -110,7 +112,8 @@ export class AppConfig {
             getPresenteService,
             updatePresenteService,
             deleteFileService,
-            setPresenteConvidadoService
+            setPresenteConvidadoService,
+            deletePresenteService
         )
     }
 
