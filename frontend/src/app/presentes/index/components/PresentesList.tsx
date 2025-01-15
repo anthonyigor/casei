@@ -4,6 +4,7 @@ import { useState } from "react"
 import ReactPaginate from "react-paginate"
 import PresentesItem from "./PresentesItem"
 import { FaSearch } from "react-icons/fa"
+import { useRouter } from "next/navigation"
 
 type Presente = {
     id: string
@@ -23,16 +24,19 @@ type Convidado = {
 
 interface PresentesListProps {
     presentes: Presente[]
+    onRefresh: () => void
 }
 
 
 const PresentesList: React.FC<PresentesListProps> = ({
-    presentes
+    presentes,
+    onRefresh
 }) => {
     const [pageNumber, setPageNumber] = useState(0)
     const [search, setSearch] = useState('')
     const giftsPerPage = 10
     const pagesVisited = pageNumber * giftsPerPage
+    const router = useRouter()
 
     const filteredGifts = presentes.filter((presente) => 
         presente.nome.toLowerCase().includes(search.toLowerCase())
@@ -43,7 +47,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
         .map((presente, index) => (
             <PresentesItem
                 id={presente.id}
-                index={index + 1}
+                index={pagesVisited + index + 1}
                 nome={presente.nome}
                 key={presente.id}
                 descricao={presente.descricao}
@@ -51,6 +55,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
                 selecionado={presente.selecionado}
                 valor={presente.valor}
                 convidado={presente.convidado?.nome}
+                onDeletePresente={() => onRefresh()}
             />
         ));
 
@@ -94,6 +99,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
                             <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Selecionado?</th>
                             <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden sm:table-cell">Escolhido por</th>
                             <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Editar</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Deletar</th>
                         </tr>   
                     </thead>
                     <tbody className="bg-white">

@@ -26,23 +26,27 @@ const Presentes = () => {
         setIsLoading(true)
     }
 
+    async function fetchPresentes() {
+        const userId = (session?.data?.user as any).id
+        const token = (session?.data?.user as any).token
+        axios.get(`${url}/users/${userId}/presentes`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            setPresentes(response.data)
+            setIsLoading(false)
+        })
+        .catch(error => {
+            toast.error('Erro ao buscar presentes')
+            setIsLoading(false)
+        })
+    }
+
     useEffect(() => {
         if (session.data?.user) {
-            const userId = (session.data.user as any).id
-            const token = (session.data.user as any).token
-            axios.get(`${url}/users/${userId}/presentes`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                setPresentes(response.data)
-                setIsLoading(false)
-            })
-            .catch(error => {
-                toast.error('Erro ao buscar presentes')
-                setIsLoading(false)
-            })
+            fetchPresentes()
         }
     }, [session.data?.user])
     
@@ -54,7 +58,7 @@ const Presentes = () => {
             </div>
             <div className="lg:pl-40 h-full lg:block mt-4">
                 {presentes && (
-                    <PresentesList presentes={presentes}/>
+                    <PresentesList presentes={presentes} onRefresh={() => fetchPresentes()}/>
                 )}
             </div>
             <div className="flex justify-center mt-6">

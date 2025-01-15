@@ -51,8 +51,9 @@ const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presen
             <div className="text-center">
                 <h1 className="text-3xl text-teal-800 font-semibold">Presentear {presente.nome} com pix</h1>
                 <p className="text-base text-slate-500 mt-2">Escaneie o QR code abaixo para fazer pix no valor do presente</p>
+                <p className="text-base text-slate-500 mt-2">R${presente.valor?.toFixed(2)}</p>
             </div>
-            <div className="flex flex-row gap-3 mt-6 justify-center">
+            <div className="flex flex-row gap-3 mt-3 justify-center">
                 {pixBase64 && <img src={pixBase64} alt="QR Code" />}
             </div>
             <div className="flex flex-col gap-2 justify-center">

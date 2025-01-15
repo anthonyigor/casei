@@ -1,8 +1,11 @@
 'use client'
 
+import axios from "axios"
 import clsx from "clsx"
+import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { FaEdit } from "react-icons/fa"
+import toast from "react-hot-toast"
+import { FaEdit, FaRegTrashAlt } from "react-icons/fa"
 
 interface presentesItemProps {
     id: string
@@ -13,6 +16,7 @@ interface presentesItemProps {
     valor?: number
     convidado?: string
     index: number
+    onDeletePresente: () => void
 }
 
 const PresentesItem: React.FC<presentesItemProps> = ({
@@ -23,12 +27,37 @@ const PresentesItem: React.FC<presentesItemProps> = ({
     valor,
     convidado,
     index,
-    id
+    id,
+    onDeletePresente
 }) => {
     const router = useRouter();
+    const session = useSession()
 
     const handleIconClick = () => {
         router.push(`/presentes/${id}/editar`)
+    }
+
+    const handleDeleteClick = async() => {
+        try {
+            if (session.data?.user) {
+                const userId = (session.data.user as any).id
+                const token = (session.data.user as any).token
+                const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                if (response.status === 200) {
+                    onDeletePresente()
+                    toast.success('Presente deletado com sucesso!')
+                }
+            }
+
+        } catch (error) {
+            toast.error('Erro ao deletar presente!')
+        }
+
     }
 
     return (
@@ -52,6 +81,7 @@ const PresentesItem: React.FC<presentesItemProps> = ({
             </td>
             <td className="py-4 px-6 border-b border-gray-200 hidden sm:table-cell">{selecionado ? convidado : '-'}</td>
             <td className="py-4 px-6 border-b border-gray-200"><FaEdit size={20} onClick={handleIconClick} style={{ cursor: 'pointer' }}/></td>
+            <td className="py-4 px-6 border-b border-gray-200"><FaRegTrashAlt size={20} onClick={handleDeleteClick} style={{ cursor: 'pointer' }}/></td>
         </tr>
     )
 }
