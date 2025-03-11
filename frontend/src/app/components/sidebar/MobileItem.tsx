@@ -9,13 +9,17 @@ interface MobileItemProps {
     active?: boolean
     icon: any
     onClick?: () => void
+    label: string
+    isOpen: boolean
 }
 
 const MobileItem: React.FC<MobileItemProps> = ({
     href,
     active,
     icon: Icon,
-    onClick
+    onClick,
+    label,
+    isOpen
 }) => {
 
     const handleClick = () => {
@@ -46,6 +50,9 @@ const MobileItem: React.FC<MobileItemProps> = ({
             )}
         >
             <Icon className='h-6 w-6' />
+            {isOpen && (
+                <span className="ml-4">{label}</span>
+            )}
         </Link>
     );
 }

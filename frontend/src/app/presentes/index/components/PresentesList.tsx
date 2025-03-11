@@ -107,7 +107,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
                     </tbody>
                 </table>
             </div>
-            <div className="pagination-container mt-4 flex justify-center items-center">
+            <div className="pagination-container px-4 sm:px-0 mt-4 mb-6 flex justify-center items-center overflow-x-auto">
                 <ReactPaginate
                     previousLabel={'Anterior'}
                     nextLabel={'Próximo'}
@@ -118,7 +118,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
                     nextLinkClassName={'pagination__link'}
                     disabledClassName={'pagination__link--disabled'}
                     activeClassName={'border-2 px-1.5 border-slate-300 rounded-md'}
-                    className="flex justify-center items-center space-x-4 gap-2 mb-2"
+                    className="flex justify-center items-center space-x-2 sm:space-x-4 gap-2 text-sm sm:text-base"
                 />
             </div>
         </div>

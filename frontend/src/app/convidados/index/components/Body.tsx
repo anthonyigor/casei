@@ -24,23 +24,24 @@ const Body: React.FC<BodyProps> = ({ convidados }) => {
 
     const router = useRouter();
     return (
-        <>
+        <div className="relative min-h-screen">
             {isLoading && <LoadingModal />}
             <div className={greatVibes.className}>
                 <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">
                     Lista de Convidados
                 </h2>
             </div>
-            <div className="lg:pl-40 h-full lg:block mt-4">
-                <ConvidadosList convidados={convidados} />
-            </div>
-            {/* Botão reposicionado para baixo da tabela */}
-            <div className="flex justify-center mt-6">
+            
+            <div className="flex justify-center my-4">
                 <Button type="button" onClick={onAddConvidado}>
                     Adicionar
                 </Button>
             </div>
-        </>
+            
+            <div className="lg:pl-40 h-full lg:block">
+                <ConvidadosList convidados={convidados} />
+            </div>
+        </div>
     );
 };
 
