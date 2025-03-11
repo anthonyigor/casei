@@ -19,7 +19,7 @@ const AuthForm = () => {
         }
     }, [session?.status, router])
 
-    const { handleSubmit, register } = useForm<FieldValues>({
+    const { handleSubmit, register, reset } = useForm<FieldValues>({
         defaultValues: {
             email: '',
             password: ''
@@ -35,6 +35,7 @@ const AuthForm = () => {
         .then((callback)=> {
             if (callback?.error) {
                 toast.error('Credenciais inválidas!')
+                reset()
             } else {
                 toast.success('Login realizado!')
                 router.push('/dashboard')
