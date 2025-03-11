@@ -52,6 +52,7 @@ const AuthForm = () => {
                         type="email"
                         label="Email"
                         register={register}
+                        required
                         disabled={isLoading}
                     />
                     <Input 
@@ -59,6 +60,7 @@ const AuthForm = () => {
                         type="password"
                         label="Senha"
                         register={register}
+                        required
                         disabled={isLoading}
                     />
                     <div>

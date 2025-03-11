@@ -10,6 +10,7 @@ import { GetUserCasamento } from "../services/userServices/GetUserCasamento";
 import { FindUserByIDService } from "../services/userServices/FindUserByIDService";
 import { UploadFileToS3 } from "../services/fileServices/UploadFileToS3";
 import { UpdateConviteService } from "../services/userServices/UpdateConviteService";
+import { UpdatePasswordService } from "../services/userServices/UpdatePasswordService";
 
 export class UserController {
     constructor(
@@ -19,7 +20,8 @@ export class UserController {
         private getUserCasamentoService: GetUserCasamento,
         private findUserByIdService: FindUserByIDService,
         private uploadFileService: UploadFileToS3,
-        private upadteConviteUrlService: UpdateConviteService
+        private upadteConviteUrlService: UpdateConviteService,
+        private updatePasswordService: UpdatePasswordService
     ) {}
 
     async create(req: Request, res: Response) {
@@ -106,6 +108,15 @@ export class UserController {
         const updatedUser = await this.upadteConviteUrlService.execute(id, fileUrl)
 
         return res.status(200).json({ fileUrl: updatedUser.convite_url })
+    }
+
+    async updatePassword(req: Request | any, res: Response) {
+        const user = req.user
+        const { password, newPassword } = req.body;
+
+        await this.updatePasswordService.execute(user.id, password, newPassword)
+
+        return res.status(200).json({ message: "Senha atualizada com sucesso!" })
     }
 
 }
