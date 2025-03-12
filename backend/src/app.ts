@@ -6,8 +6,6 @@ import cors from 'cors'
 import { WhatsAppController } from './controllers/WhatsAppController'
 import path from 'path'
 import { errorHandling } from './middlewares/errorHandling'
-import { QrCodePix } from 'qrcode-pix'
-import { base64ToPng } from './utils/base64ToPng'
 
 const app = express()
 

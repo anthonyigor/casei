@@ -21,6 +21,7 @@ const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, 
     const [nome, setNome] = useState<string | null>(null)
     const [description, setDescription] = useState<string>('')
     const [pixBase64, setPixBase64] = useState('');
+    const [pixCopiaCola, setPixCopiaCola] = useState(null);
 
     async function fetchPix() {
         if (!nome) {
@@ -33,6 +34,7 @@ const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, 
                 valor: formatToNumber(valor),
             });
             setPixBase64(response.data.qrCode);
+            setPixCopiaCola(response.data.copiaCola);
         } catch (error: any) {
             toast.error(error.response.data.message)
         }
@@ -173,10 +175,34 @@ const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, 
                 <div className="flex flex-row gap-3 mt-6 justify-center">
                     {pixBase64 && <img src={pixBase64} alt="QR Code" />}
                 </div>
+                {pixCopiaCola && (
+                    <div className="flex flex-col gap-2 justify-center mt-4">
+                        <p className="text-base text-slate-500">Ou copie o código pix abaixo:</p>
+                        <div className="flex flex-row gap-2 items-center justify-center">
+                            
+                            <input 
+                                type="text"
+                                readOnly
+                                value={pixCopiaCola}
+                                className="w-full p-2 border border-gray-300 rounded-lg"
+                            />
+                            <button
+                                onClick={() => {
+                                    navigator.clipboard.writeText(pixCopiaCola);
+                                    toast.success('Código pix copiado!');
+                                }}
+                                className="px-4 py-2 text-white rounded-lg bg-teal-500 hover:bg-teal-700"
+                            >
+                                Copiar
+                            </button>
+                        </div>
+                    </div>
+                )}
                 <div className="flex flex-col gap-2 justify-center">
                     <p className="text-base text-slate-500 mt-2">Clique no botão abaixo para confirmar a seleção do presente</p>
                     <button className="w-full py-2 text-white rounded-lg bg-teal-500 hover:bg-teal-700" onClick={() => createPresente()}>Confirmar</button>
                 </div>
+                
                 </>
             )}
         </Modal>

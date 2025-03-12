@@ -157,7 +157,7 @@ export class PresenteController {
 
         const qrCodeBase64 = await qrCodePix.base64();
 
-        return res.status(200).json({ qrCode: qrCodeBase64 })
+        return res.status(200).json({ qrCode: qrCodeBase64, copiaCola: qrCodePix.payload() })
     }
 
     async selectPresente(req: Request, res: Response) {
