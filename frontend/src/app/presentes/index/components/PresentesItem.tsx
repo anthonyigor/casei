@@ -6,6 +6,8 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { FaEdit, FaRegTrashAlt } from "react-icons/fa"
+import { SlOptionsVertical } from "react-icons/sl";
+import { useState } from "react"
 
 interface presentesItemProps {
     id: string
@@ -32,12 +34,19 @@ const PresentesItem: React.FC<presentesItemProps> = ({
 }) => {
     const router = useRouter();
     const session = useSession()
+    const [showMenu, setShowMenu] = useState(false);
 
     const handleIconClick = () => {
         router.push(`/presentes/${id}/editar`)
     }
 
     const handleDeleteClick = async() => {
+        const confirmDelete = window.confirm('Tem certeza que deseja deletar este presente?')
+        
+        if (!confirmDelete) {
+            return
+        }
+
         try {
             if (session.data?.user) {
                 const userId = (session.data.user as any).id
@@ -80,8 +89,39 @@ const PresentesItem: React.FC<presentesItemProps> = ({
                     </span>
             </td>
             <td className="py-4 px-6 border-b border-gray-200 hidden sm:table-cell">{selecionado ? convidado : '-'}</td>
-            <td className="py-4 px-6 border-b border-gray-200"><FaEdit size={20} onClick={handleIconClick} style={{ cursor: 'pointer' }}/></td>
-            <td className="py-4 px-6 border-b border-gray-200"><FaRegTrashAlt size={20} onClick={handleDeleteClick} style={{ cursor: 'pointer' }}/></td>
+            <td className="py-4 px-6 border-b border-gray-200 hidden sm:table-cell"><FaEdit size={20} onClick={handleIconClick} style={{ cursor: 'pointer' }}/></td>
+            <td className="py-4 px-6 border-b border-gray-200 hidden sm:table-cell"><FaRegTrashAlt size={20} onClick={handleDeleteClick} style={{ cursor: 'pointer' }}/></td>
+            <td className="py-4 px-6 border-b border-gray-200 table-cell sm:hidden relative">
+                <SlOptionsVertical 
+                    size={20} 
+                    onClick={() => setShowMenu(!showMenu)} 
+                    style={{ cursor: 'pointer' }}
+                />
+                {showMenu && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200">
+                        <div className="py-1">
+                            <button
+                                onClick={() => {
+                                    setShowMenu(false);
+                                    handleIconClick();
+                                }}
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                            >
+                                <FaEdit className="mr-2" /> Editar
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setShowMenu(false);
+                                    handleDeleteClick();
+                                }}
+                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 flex items-center"
+                            >
+                                <FaRegTrashAlt className="mr-2" /> Deletar
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </td>
         </tr>
     )
 }

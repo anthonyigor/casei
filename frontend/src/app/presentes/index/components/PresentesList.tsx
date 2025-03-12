@@ -98,8 +98,9 @@ const PresentesList: React.FC<PresentesListProps> = ({
                             <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden sm:table-cell">Valor</th>
                             <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Selecionado?</th>
                             <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden sm:table-cell">Escolhido por</th>
-                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Editar</th>
-                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Deletar</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden sm:table-cell">Editar</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden sm:table-cell">Deletar</th>
+                            <th className="w-2/4 py-4 px-6 text-left text-gray-600 font-bold uppercase sm:hidden">Opções</th>
                         </tr>   
                     </thead>
                     <tbody className="bg-white">
