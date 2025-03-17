@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import { convidadoRepository } from "../repositories/ConvidadoRepository";
+import { UserRepository } from "../repositories/UserRepository";
 
 export const getUserByToken = async(token: any) => {
 
@@ -10,7 +10,7 @@ export const getUserByToken = async(token: any) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
     const userId = decoded.user.id;
 
-    const user = await convidadoRepository.findOne({where: {id: userId}})
+    const user = await new UserRepository().getUserById(userId)
     
     return user;
 }

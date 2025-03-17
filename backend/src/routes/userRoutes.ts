@@ -12,6 +12,7 @@ const userController = AppConfig.createUserController()
 const convidadoController = AppConfig.createConvidadoController()
 const presenteController = AppConfig.createPresenteController()
 
+router.get('/dashboard', verifyToken, (req, res) => userController.dashboard(req, res))
 router.post('/create', validateRequestSchema(createUserSchema), (req, res) => userController.create(req, res))
 router.post('/login', validateRequestSchema(loginSchema), (req, res) => userController.login(req, res))
 router.get('/:id', verifyToken, (req, res) => userController.getUser(req, res))

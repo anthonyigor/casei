@@ -11,6 +11,7 @@ import { FindUserByIDService } from "../services/userServices/FindUserByIDServic
 import { UploadFileToS3 } from "../services/fileServices/UploadFileToS3";
 import { UpdateConviteService } from "../services/userServices/UpdateConviteService";
 import { UpdatePasswordService } from "../services/userServices/UpdatePasswordService";
+import { DashboardService } from "../services/userServices/DashboardService";
 
 export class UserController {
     constructor(
@@ -21,7 +22,8 @@ export class UserController {
         private findUserByIdService: FindUserByIDService,
         private uploadFileService: UploadFileToS3,
         private upadteConviteUrlService: UpdateConviteService,
-        private updatePasswordService: UpdatePasswordService
+        private updatePasswordService: UpdatePasswordService,
+        private dashboardService: DashboardService
     ) {}
 
     async create(req: Request, res: Response) {
@@ -117,6 +119,12 @@ export class UserController {
         await this.updatePasswordService.execute(user.id, password, newPassword)
 
         return res.status(200).json({ message: "Senha atualizada com sucesso!" })
+    }
+
+    async dashboard(req: Request | any, res: Response) {
+        const dashboard = await this.dashboardService.execute(req.user.id)
+
+        return res.status(200).json(dashboard)
     }
 
 }

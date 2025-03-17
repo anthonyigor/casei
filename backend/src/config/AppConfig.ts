@@ -23,6 +23,7 @@ import { SetPresenteConvidado } from "../services/presenteServices/SetPresenteCo
 import { UnsetPresenteConvidado } from "../services/presenteServices/UnsetPresenteConvidado";
 import { UpdatePresenteService } from "../services/presenteServices/UpdatePresenteService";
 import { CreateUserService } from "../services/userServices/CreateUserService";
+import { DashboardService } from "../services/userServices/DashboardService";
 import { FindUserByIDService } from "../services/userServices/FindUserByIDService";
 import { GetUserCasamento } from "../services/userServices/GetUserCasamento";
 import { LoginService } from "../services/userServices/LoginService";
@@ -34,6 +35,7 @@ export class AppConfig {
     public static createUserController(): UserController {
         // repositories
         const userRepository = new UserRepository();
+        const convidadoRepository = new ConvidadoRepository();
 
         // services
         const createUserService = new CreateUserService(userRepository);
@@ -44,6 +46,7 @@ export class AppConfig {
         const uploadFileService = new UploadFileToS3()
         const updateConviteUrlService = new UpdateConviteService(userRepository)
         const updatePasswordService = new UpdatePasswordService(userRepository)
+        const dashboardService = new DashboardService(userRepository, convidadoRepository)
 
         return new UserController(
             createUserService,
@@ -53,7 +56,8 @@ export class AppConfig {
             findUserByIdService,
             uploadFileService,
             updateConviteUrlService,
-            updatePasswordService
+            updatePasswordService,
+            dashboardService
         )
     }
 
