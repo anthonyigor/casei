@@ -1,17 +1,20 @@
 'use client'
 
 import Button from "@/app/components/Button";
-import EditarConvidadoForm from "@/app/components/forms/EditarConvidadoForm";
-import { Convidado, User } from "@/types";
+import {  User } from "@/types";
 import { useSession } from "next-auth/react";
 import { Great_Vibes } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { BiEdit } from "react-icons/bi";
-import EditarUsuarioForm from "../components/forms/EditarUsuarioForm";
+import dynamic from 'next/dynamic';
 
 const greatVibes = Great_Vibes({ weight:'400', subsets: ['latin'] });  
+
+const EditarUsuarioForm = dynamic(
+  () => import('../components/forms/EditarUsuarioForm'),
+  { ssr: false }
+);
 
 const Usuario = () => {
     const [usuario, setUsuario] = useState<User>()
@@ -51,6 +54,7 @@ const Usuario = () => {
                     Voltar
                 </Button>
         </div>
+        {usuario && <EditarUsuarioForm usuario={usuario!}/>}
         </>
     )
 }
