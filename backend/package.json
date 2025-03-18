@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./build/src/app.js",
+    "start": "node ./build/app.js",
     "dev": "ts-node-dev ./src/app.ts",
     "build": "tsc --build",
     "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/migrations/default",
@@ -31,7 +31,7 @@
     "@types/qrcode": "^1.5.5",
     "aws-sdk": "^2.1691.0",
     "axios": "^1.6.7",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1",

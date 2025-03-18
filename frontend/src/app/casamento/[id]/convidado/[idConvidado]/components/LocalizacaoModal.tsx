@@ -15,22 +15,21 @@ interface LocalizacaoModalProps {
 const LocalizacaoModal: React.FC<LocalizacaoModalProps> = ({ isOpen, onClose, lat, lon }) => {
     const mapRef = useRef<HTMLDivElement | null>(null);
     const leafletMapRef = useRef<L.Map | null>(null);
-
-    const markerIcon = new L.Icon({
-        iconUrl: `/img/marker.png`,
-        iconSize: [30, 30],
-        iconAnchor: [12, 41],
-      });
-
-
+    
     useEffect(() => {
         if (isOpen && mapRef.current) {
             // Destroi o mapa anterior, se existir
             if (leafletMapRef.current) {
                 leafletMapRef.current.remove();
             }
-
-            // Cria uma nova instância do mapa
+            
+            const markerIcon = new L.Icon({
+                iconUrl: `/img/marker.png`,
+                iconSize: [30, 30],
+                iconAnchor: [12, 41],
+              });
+            
+              // Cria uma nova instância do mapa
             leafletMapRef.current = L.map(mapRef.current).setView([lat, lon], 13);
 
             // Adiciona o tile layer ao mapa

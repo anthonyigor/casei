@@ -10,6 +10,7 @@ import { User } from "@/types";
 import { useRouter } from "next/navigation";
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import dynamic from "next/dynamic";
 
 type CustomUser = {
     name?: string | null;
@@ -55,7 +56,7 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
     });
 
     useEffect(() => {
-        if (mapRef.current) {
+        if (typeof window !== "undefined" && mapRef.current) {
             // Remove o mapa existente, se necessário
             if (leafletMapRef.current) {
                 leafletMapRef.current.remove();
@@ -287,4 +288,4 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
     );
 }
  
-export default EditarUsuarioForm;
+export default dynamic(() => Promise.resolve(EditarUsuarioForm), { ssr: false });

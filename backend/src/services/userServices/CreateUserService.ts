@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 import { UserRepository } from "../../repositories/UserRepository";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import "express-async-errors"; 
 import { Conflict } from "../../errors/Conflict";
 import { InternalError } from "../../errors/InternalError";

@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import { UserRepository } from "../../repositories/UserRepository";
 import { InternalError } from "../../errors/InternalError";
 import { NotFound } from "../../errors/NotFound";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { BadRequest } from "../../errors/BadRequest";
 
 export class UpdatePasswordService {

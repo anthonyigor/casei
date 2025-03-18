@@ -1,6 +1,5 @@
 import { User } from "@prisma/client";
 import { UserRepository } from "../../repositories/UserRepository";
-import bcrypt from "bcrypt";
 import { NotFound } from "../../errors/NotFound";
 import { BadRequest } from "../../errors/BadRequest";
 
