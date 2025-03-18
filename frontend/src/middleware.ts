@@ -3,7 +3,7 @@ import { withAuth } from "next-auth/middleware";
 export default withAuth({
     pages: {
         signIn: "/",
-        signOut: '/'
+        signOut: "http://187.111.192.23:8002"
     }
 })
 
