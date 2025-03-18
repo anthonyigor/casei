@@ -8,6 +8,8 @@ import toast from "react-hot-toast"
 import { FaEdit, FaRegTrashAlt } from "react-icons/fa"
 import { SlOptionsVertical } from "react-icons/sl";
 import { useState } from "react"
+import DetailsModal from "./DetailsModal"
+import { CgDetailsMore } from "react-icons/cg";
 
 interface presentesItemProps {
     id: string
@@ -35,6 +37,8 @@ const PresentesItem: React.FC<presentesItemProps> = ({
     const router = useRouter();
     const session = useSession()
     const [showMenu, setShowMenu] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [menuPosition, setMenuPosition] = useState<'bottom' | 'top'>('bottom');
 
     const handleIconClick = () => {
         router.push(`/presentes/${id}/editar`)
@@ -69,7 +73,18 @@ const PresentesItem: React.FC<presentesItemProps> = ({
 
     }
 
+    const handleMenuClick = (event: React.MouseEvent) => {
+        const button = event.currentTarget;
+        const rect = button.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        
+        setMenuPosition(spaceBelow < 200 ? 'top' : 'bottom');
+        setShowMenu(!showMenu);
+    }
+
     return (
+        <>
+        {isModalOpen && <DetailsModal nome={nome} convidado_nome={convidado!} image={image!} valor={valor!} onClose={() => setIsModalOpen(false)} isOpen={isModalOpen} />}
         <tr>
             <td className="py-4 px-6 border-b border-gray-200">{index}</td>
             <td className="py-4 px-6 border-b border-gray-200">{nome}</td>
@@ -94,12 +109,24 @@ const PresentesItem: React.FC<presentesItemProps> = ({
             <td className="py-4 px-6 border-b border-gray-200 table-cell sm:hidden relative">
                 <SlOptionsVertical 
                     size={20} 
-                    onClick={() => setShowMenu(!showMenu)} 
+                    onClick={handleMenuClick}
                     style={{ cursor: 'pointer' }}
                 />
                 {showMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200">
+                    <div className={clsx(
+                        "absolute right-0 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200",
+                        menuPosition === 'bottom' ? "mt-2" : "bottom-full mb-2"
+                    )}>
                         <div className="py-1">
+                            <button
+                                onClick={() => {
+                                    setShowMenu(false);
+                                    setIsModalOpen(true)
+                                }}
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                            >
+                                <CgDetailsMore className="mr-2" /> Detalhes
+                            </button>
                             <button
                                 onClick={() => {
                                     setShowMenu(false);
@@ -123,6 +150,7 @@ const PresentesItem: React.FC<presentesItemProps> = ({
                 )}
             </td>
         </tr>
+        </>
     )
 }
 
