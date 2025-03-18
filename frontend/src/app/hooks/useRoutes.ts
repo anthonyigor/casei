@@ -46,7 +46,7 @@ const useRoutes = () => {
             label: 'Logout',
             href: '#',
             icon: HiOutlineLogout,
-            onClick: () => signOut(),
+            onClick: () => signOut({ callbackUrl: '/' }),
             active: pathname === '/logout'
         }
     ], [pathname])

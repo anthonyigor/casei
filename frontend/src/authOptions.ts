@@ -12,7 +12,7 @@ export const authOptions: AuthOptions = {
             },
             async authorize(credentials) {
 
-                const res = await fetch('http://localhost:5000/users/login', {
+                const res = await fetch('http://localhost:8001/users/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

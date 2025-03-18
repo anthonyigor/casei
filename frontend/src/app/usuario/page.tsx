@@ -51,7 +51,6 @@ const Usuario = () => {
                     Voltar
                 </Button>
         </div>
-        {usuario && <EditarUsuarioForm usuario={usuario!}/>}
         </>
     )
 }
