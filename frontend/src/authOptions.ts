@@ -12,7 +12,7 @@ export const authOptions: AuthOptions = {
             },
             async authorize(credentials) {
 
-                const res = await fetch('http://localhost:8001/users/login', {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -63,6 +63,12 @@ export const authOptions: AuthOptions = {
                     token: token.token
                 }
             }
+        },
+        async redirect({ url, baseUrl }) {
+            if (url.startsWith(process.env.NEXT_PUBLIC_FRONTEND_URL!)) {
+                return url;
+            }
+            return baseUrl;
         }
     },
     jwt: {
