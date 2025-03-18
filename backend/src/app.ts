@@ -17,7 +17,7 @@ app.use('/public', express.static('public'))
 app.use('/users', userRoutes)
 
 app.use(errorHandling)
-app.listen(5000, () => console.log("Server rodando"))
+app.listen(process.env.APP_PORT, () => console.log("Server rodando"))
 
 // websocket config
 // const URL_WEBSOCKET = process.env.URL_WEBSOCKET as string;
