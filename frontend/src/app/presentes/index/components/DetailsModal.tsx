@@ -19,7 +19,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ isOpen, onClose, nome, conv
                 <h1 className="text-3xl text-teal-800 font-semibold">{nome}</h1>
             </div>
             <div className="flex flex-col items-center gap-3 mt-6 justify-center">
-                <img src={image} alt={nome} className="w-24 h-24 object-cover rounded-md"/>
+                <img src={image || '/img/presentes.png'} alt={nome} className="w-24 h-24 object-cover rounded-md"/>
 
                 <div className="flex flex-row gap-1">
                     <p className="font-semibold">Selecionado por:</p>
