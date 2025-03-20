@@ -14,7 +14,7 @@ export class S3Storage {
     }
 
     async saveFile(filename: string, contentType: string): Promise<string> {
-        const originalPath = path.resolve(__dirname, '..', '..', 'tmp', 'uploads', filename)
+        const originalPath = path.resolve(__dirname, '..', 'tmp', 'uploads', filename)
 
         const fileContent = await readFile(originalPath)
         const bucketName = process.env.AWS_BUCKET_NAME || ''
