@@ -77,11 +77,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
                                         absolute
                                         right-0
                                         top-0
-                                        hidden
                                         pr-4
                                         pt-4
-                                        sm:block
                                         z-10
+                                        flex
+                                        items-center
                                     "
                                 >
                                     <button
@@ -102,7 +102,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
                                         <IoClose className="w-6 h-6" />
                                     </button>
                                 </div>
-                                {/* Container que permite rolagem do conteúdo */}
                                 <div className="p-4 sm:p-6">
                                     {children}
                                 </div>
