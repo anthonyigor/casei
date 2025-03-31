@@ -54,6 +54,9 @@ export class PresenteRepository {
             where: {
                 user_id: userId,
                 selecionado: false
+            },
+            include: {
+                user: true
             }
         })
 

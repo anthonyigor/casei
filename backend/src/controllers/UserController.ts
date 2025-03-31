@@ -27,7 +27,7 @@ export class UserController {
     ) {}
 
     async create(req: Request, res: Response) {
-        const { nome, email, password, nome_parceiro, data_casamento, horario_casamento, lat, lon, endereco, chave_pix, cidade, telefone } = req.body
+        const { nome, email, password, nome_parceiro, data_casamento, horario_casamento, lat, lon, endereco, endereco_entrega, chave_pix, cidade, telefone } = req.body
 
         const user: User = {
             id: randomUUID(),
@@ -39,6 +39,7 @@ export class UserController {
             lat,
             lon,
             endereco,
+            endereco_entrega,
             horario: horario_casamento,
             chave_pix,
             convite_url: null,
@@ -58,7 +59,7 @@ export class UserController {
     }
 
     async update(req: Request, res: Response) {
-        const { nome, email, nome_parceiro, data_casamento, endereco, lat, lon, horario_casamento, chave_pix, cidade, telefone } = req.body;
+        const { nome, email, nome_parceiro, data_casamento, endereco, endereco_entrega, lat, lon, horario_casamento, chave_pix, cidade, telefone } = req.body;
         const id = req.params.id;
 
         const userExists = await this.findUserByIdService.execute(id)
@@ -76,6 +77,7 @@ export class UserController {
             lat: String(lat),
             lon: String(lon),
             endereco,
+            endereco_entrega,
             horario: horario_casamento,
             chave_pix,
             convite_url: userExists.convite_url,

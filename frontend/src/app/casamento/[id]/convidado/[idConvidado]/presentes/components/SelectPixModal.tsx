@@ -18,6 +18,7 @@ interface SelectPixModalProps {
 const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presente, userId, convidadoId, onSelectComplete }) => {
     const [pixBase64, setPixBase64] = useState('');
     const [pixCopiaCola, setPixCopiaCola] = useState(null);
+    const [isProductSelected, setIsProductSelected] = useState<boolean>(false)
 
     useEffect(() => {
         async function fetchPix() {
@@ -36,12 +37,16 @@ const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presen
     }, [userId, presente])
 
     const selectPresente = async() => {
+        const confirm = window.confirm('Deseja confirmar a seleção do presente?')
+        if (!confirm) return;
+
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/${presente.id}/selecionar`, {
                 convidadoId,
                 tipo_selecao: 'pix'
             })
             toast.success(response.data.message)
+            setIsProductSelected(true);
             onSelectComplete();
         } catch (error: any) {
             toast.error(error.response.data.message)
@@ -49,7 +54,17 @@ const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presen
     }
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={() => {
+            if (!isProductSelected) {
+                const confirm = window.confirm('Você não marcou o presente como selecionado. Deseja desistir e escolher outro?')
+                if (confirm) {
+                    onClose();
+                }
+                else {
+                    window.alert('Clique no botão "Confirmar" para selecionar o presente')
+                }
+            }
+        }}>
             <div className="text-center">
                 <h1 className="text-3xl text-teal-800 font-semibold">Presentear {presente.nome} com pix</h1>
                 <p className="text-base text-slate-500 mt-2">Escaneie o QR code abaixo para fazer pix no valor do presente</p>

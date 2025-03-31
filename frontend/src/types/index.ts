@@ -18,7 +18,8 @@ export type Presente = {
     user_id: string,
     valor?: number,
     url_produto?: string
-    convidado?: Convidado
+    convidado?: Convidado,
+    user?: User
 }
 
 export type UserCasamento = {
@@ -40,6 +41,7 @@ export type User = {
     data_casamento: string,
     password: string,
     endereco: string,
+    endereco_entrega: string,
     horario: string,
     lat: string,
     lon: string

@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
@@ -35,20 +35,21 @@ model Presente {
 }
 
 model User {
-  id             String      @id
-  nome           String
-  email          String      @unique
-  nome_parceiro  String?
-  data_casamento String?
-  horario        String?
-  lat            String?
-  lon            String?
-  endereco       String?
-  chave_pix      String?
-  cidade         String?
-  telefone       String?
-  password       String
-  convite_url    String?
-  convidados     Convidado[]
-  presentes      Presente[]
+  id               String      @id
+  nome             String
+  email            String      @unique
+  nome_parceiro    String?
+  data_casamento   String?
+  horario          String?
+  lat              String?
+  lon              String?
+  endereco         String?
+  endereco_entrega String?
+  chave_pix        String?
+  cidade           String?
+  telefone         String?
+  password         String
+  convite_url      String?
+  convidados       Convidado[]
+  presentes        Presente[]
 }

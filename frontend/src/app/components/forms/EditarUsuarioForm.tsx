@@ -230,15 +230,25 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                     />
                     <FormsInput
                         id="endereco"
-                        label="Endereço do local"
+                        label="Endereço da cerimônia"
                         register={register}
                         type="text"
-                        placeholder="endereço"
+                        placeholder="Endereço da cerimonia"
                         required={false}
                         key="endereco"
                     />
 
-                    <h3 className="text-lg font-semibold">Selecione a localização:</h3>
+                    <FormsInput
+                        id="endereco_entrega"
+                        label="Endereço de entrega do presente"
+                        register={register}
+                        type="text"
+                        placeholder="Endereço de entrega"
+                        required={false}
+                        key="endereco_entrega"
+                    />
+
+                    <h3 className="text-lg font-semibold">Selecione a localização do evento:</h3>
                     <div
                         ref={mapRef}
                         style={{
