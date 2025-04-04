@@ -121,8 +121,8 @@ const PresentesList: React.FC<PresentesListProps> = ({
             </div>
         </div>
         <div className="shadow-lg rounded-lg overflow-hidden mx-4 sm:mx-16 mt-5">
-            <div className="overflow-x-auto">
-                <table className="w-full table-fixed hidden md:block">
+            <div className="overflow-x-auto hidden lg:block">
+                <table className="w-full table-fixed">
                     <thead>
                         <tr className="bg-gray-100">
                             <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">ID</th>
@@ -143,7 +143,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
                 </table>
             </div>
             {/* Mobile View */}
-            <div className="sm:hidden px-4 mt-4 space-y-4">
+            <div className="lg:hidden px-4 mt-4 space-y-4">
             {filteredGifts
                 .slice(pagesVisited, pagesVisited + giftsPerPage)
                 .map((presente, index) => (

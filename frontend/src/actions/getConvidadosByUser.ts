@@ -6,7 +6,7 @@ const getConvidadosByUser = async() => {
     const session = await getSession()
     const userId = (session?.user as CustomUser).id
     const token = (session?.user as CustomUser).token
-    const convidados = await axios.get(`http://localhost:8001/users/${userId}/convidados`, {
+    const convidados = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

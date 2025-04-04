@@ -126,7 +126,6 @@ const EditarPresenteForm: React.FC<EditarPresenteProps> = ({ presente }) => {
                         placeholder="Nome"
                         required={true}
                         key="name"
-                        value={presente.nome}
                     />
                     <FormsInput
                         id="descricao"
