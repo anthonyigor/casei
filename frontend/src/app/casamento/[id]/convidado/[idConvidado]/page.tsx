@@ -12,7 +12,11 @@ import ConfirmarPresencaModal from "./components/ConfirmarPresencaModal";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { FaCheck } from "react-icons/fa";
-import LocalizacaoModal from "./components/LocalizacaoModal";
+import dynamic from "next/dynamic";
+
+const LocalizacaoModal = dynamic(() => import('./components/LocalizacaoModal'), {
+    ssr: false,
+  });
 
 interface IParams {
     id: string;

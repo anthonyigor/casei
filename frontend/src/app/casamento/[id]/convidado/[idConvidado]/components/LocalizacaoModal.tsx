@@ -56,10 +56,17 @@ const LocalizacaoModal: React.FC<LocalizacaoModalProps> = ({ isOpen, onClose, la
                 ref={mapRef}
                 style={{
                     position: 'relative',
-                    height: '75vh',
+                    height: '50vh',
                     width: '100%',
+                    marginTop: '25px',
                 }}
             />
+            <button 
+                onClick={() => window.open(`https://www.google.com/maps?q=${lat},${lon}`, '_blank')}
+                className='underline text-teal-800 mt-2 items-center'
+            >
+                Abrir localização no Google Maps
+            </button>
         </Modal>
     );
 }
