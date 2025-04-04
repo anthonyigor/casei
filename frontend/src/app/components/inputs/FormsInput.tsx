@@ -8,7 +8,7 @@ interface InputProps {
     register: UseFormRegister<FieldValues>
     placeholder?: string;
     onChange?: (e: any) => void;
-    value?: string;
+    value?: any;
     maxLenght?: number
 }
 

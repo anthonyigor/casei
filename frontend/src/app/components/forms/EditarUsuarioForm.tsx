@@ -63,7 +63,7 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
             }
 
             // Cria o mapa Leaflet
-            leafletMapRef.current = L.map(mapRef.current).setView([location?.lat!, location?.lng!], 13);
+            leafletMapRef.current = L.map(mapRef.current).setView([location?.lat!, location?.lng!], 15);
 
             // Adiciona o tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -114,6 +114,7 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
             data_casamento: dataCasamento,
             horario_casamento: horario,
             endereco: usuario.endereco,
+            endereco_entrega: usuario.endereco_entrega,
             chave_pix: usuario.chave_pix,
             cidade: usuario.cidade
         }
@@ -249,6 +250,36 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                     />
 
                     <h3 className="text-lg font-semibold">Selecione a localização do evento:</h3>
+                    <FormsInput
+                        id="latitude"
+                        label="Latitude"
+                        type="number"
+                        required={false}
+                        placeholder="Latitude"
+                        value={location?.lat || ""}
+                        onChange={(e) => {
+                        const lat = parseFloat(e.target.value);
+                        if (!isNaN(lat) && location) {
+                            setLocation({ ...location, lat });
+                        }
+                        }}
+                        register={register}
+                    />
+                    <FormsInput
+                        id="longitude"
+                        label="Longitude"
+                        type="number"
+                        required={false}
+                        placeholder="Longitude"
+                        value={location?.lng || ""}
+                        onChange={(e) => {
+                        const lng = parseFloat(e.target.value);
+                        if (!isNaN(lng) && location) {
+                            setLocation({ ...location, lng });
+                        }
+                        }}
+                        register={register}
+                    />
                     <div
                         ref={mapRef}
                         style={{
