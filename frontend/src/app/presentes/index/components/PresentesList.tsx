@@ -5,6 +5,9 @@ import ReactPaginate from "react-paginate"
 import PresentesItem from "./PresentesItem"
 import { FaSearch } from "react-icons/fa"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import axios from "axios"
+import toast from "react-hot-toast"
 
 type Presente = {
     id: string
@@ -34,9 +37,11 @@ const PresentesList: React.FC<PresentesListProps> = ({
 }) => {
     const [pageNumber, setPageNumber] = useState(0)
     const [search, setSearch] = useState('')
+    const [selectedPresente, setSelectedPresente] = useState<Presente | null>(null)
     const giftsPerPage = 10
     const pagesVisited = pageNumber * giftsPerPage
     const router = useRouter()
+    const session = useSession()
 
     const filteredGifts = presentes.filter((presente) => 
         presente.nome.toLowerCase().includes(search.toLowerCase())
@@ -65,6 +70,35 @@ const PresentesList: React.FC<PresentesListProps> = ({
         setPageNumber(selected);
     };
 
+    const handleDeleteClick = async() => {
+        const confirmDelete = window.confirm('Tem certeza que deseja deletar este presente?')
+        
+        if (!confirmDelete) {
+            return
+        }
+
+        try {
+            if (session.data?.user) {
+                const userId = (session.data.user as any).id
+                const token = (session.data.user as any).token
+                const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/${selectedPresente?.id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                if (response.status === 200) {
+                    onRefresh()
+                    toast.success('Presente deletado com sucesso!')
+                }
+            }
+
+        } catch (error) {
+            toast.error('Erro ao deletar presente!')
+        }
+
+    }
+
     return (
         <>
          <div className="text-center mt-8">
@@ -88,7 +122,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
         </div>
         <div className="shadow-lg rounded-lg overflow-hidden mx-4 sm:mx-16 mt-5">
             <div className="overflow-x-auto">
-                <table className="w-full table-fixed">
+                <table className="w-full table-fixed hidden md:block">
                     <thead>
                         <tr className="bg-gray-100">
                             <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">ID</th>
@@ -108,6 +142,45 @@ const PresentesList: React.FC<PresentesListProps> = ({
                     </tbody>
                 </table>
             </div>
+            {/* Mobile View */}
+            <div className="sm:hidden px-4 mt-4 space-y-4">
+            {filteredGifts
+                .slice(pagesVisited, pagesVisited + giftsPerPage)
+                .map((presente, index) => (
+                <div key={presente.id} className="border rounded-lg p-4 shadow-sm">
+                    <p className="font-bold text-lg">{presente.nome}</p>
+                    {presente.descricao && <p className="text-sm text-gray-600">{presente.descricao}</p>}
+                    {presente.image && (
+                    <img src={presente.image} alt={presente.nome} className="w-full h-32 object-cover mt-2 rounded-md" />
+                    )}
+                    {presente.valor && <p className="mt-2 text-sm">💰 R$ {presente.valor.toFixed(2)}</p>}
+                    <p className="text-sm mt-1">✅ Selecionado: {presente.selecionado ? 'Sim' : 'Não'}</p>
+                    {presente.convidado?.nome && (
+                    <p className="text-sm">👤 Escolhido por: {presente.convidado.nome}</p>
+                    )}
+                    <div className="flex justify-end gap-4 mt-3">
+                    <button
+                        className="text-blue-500"
+                        onClick={() => {
+                        // Navegar para editar (exemplo)
+                        router.push(`/presentes/${presente.id}/editar`)
+                        }}
+                    >
+                        Editar
+                    </button>
+                    <button
+                        className="text-red-500"
+                        onClick={() => {
+                            setSelectedPresente(presente)
+                            handleDeleteClick()
+                        }}
+                    >
+                        Deletar
+                    </button>
+                    </div>
+                </div>
+            ))}
+            </div>
             <div className="pagination-container px-4 sm:px-0 mt-4 mb-6 flex justify-center items-center overflow-x-auto">
                 <ReactPaginate
                     previousLabel={'Anterior'}
@@ -122,6 +195,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
                     className="flex justify-center items-center space-x-2 sm:space-x-4 gap-2 text-sm sm:text-base"
                 />
             </div>
+
         </div>
         </>
     )
