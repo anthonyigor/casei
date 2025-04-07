@@ -124,7 +124,6 @@ const EditarConvidadoForm: React.FC<EditarConvidadoProps> = ({ convidado }) => {
                         placeholder="Nome"
                         required={true}
                         key="name"
-                        value={convidado.nome}
                     />
                     <FormsInput
                         id="telefone"
@@ -143,7 +142,7 @@ const EditarConvidadoForm: React.FC<EditarConvidadoProps> = ({ convidado }) => {
                             Quantidade de acompanhantes (familia)
                             <span className="text-red-500">*</span>
                         </label>
-                        <input type="number" min={1} id="quant_familia" placeholder="Informe a quantidade" value={convidado.quant_familia}
+                        <input type="number" min={1} id="quant_familia" placeholder="Informe a quantidade" 
                             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-teal-600 focus:shadow-md" {...register('quant_familia', { required: true })}/>
                     </div>
                     <div className="mb-5">
