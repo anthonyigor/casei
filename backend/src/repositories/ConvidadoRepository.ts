@@ -52,6 +52,9 @@ export class ConvidadoRepository {
         const convidados = await prisma.convidado.findMany({
             where: {
                 user_id: user_id
+            },
+            include: {
+                presentes: true
             }
         })
 
@@ -99,6 +102,19 @@ export class ConvidadoRepository {
             })
         } catch (error) {
             throw new InternalError("Erro ao confirmar presença!")
+        }
+    }
+
+    async deleteConvidado(user_id: string, convidado_id: string): Promise<void> {
+        try {
+            await prisma.convidado.delete({
+                where: {
+                    id: convidado_id,
+                    user_id: user_id
+                }
+            })
+        } catch (error) {
+            throw new InternalError("Erro ao deletar convidado!")
         }
     }
 

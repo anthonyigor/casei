@@ -12,6 +12,7 @@ import 'express-async-errors';
 import { GetConvidadoByTelefoneService } from "../services/convidadoServices/GetConvidadoByTelefoneService";
 import { ConfirmarPresencaConvidadoService } from "../services/convidadoServices/ConfirmarPresencaConvidadoService";
 import { GetConvidadoByNomeService } from "../services/convidadoServices/GetConvidadoByNomeService";
+import { DeleteConvidadoService } from "../services/convidadoServices/DeleteConvidadoService";
 
 export class ConvidadoController {
     constructor(
@@ -24,7 +25,8 @@ export class ConvidadoController {
         private unsetPresenteConvidado: UnsetPresenteConvidado,
         private getConvidadoByTelefoneService: GetConvidadoByTelefoneService,
         private confirmarPresencaConvidadoService: ConfirmarPresencaConvidadoService,
-        private getConvidadoByNomeService: GetConvidadoByNomeService
+        private getConvidadoByNomeService: GetConvidadoByNomeService,
+        private deleteConvidadoService: DeleteConvidadoService
     ) {}
 
     async create(req: Request, res: Response) {
@@ -146,6 +148,19 @@ export class ConvidadoController {
         await this.confirmarPresencaConvidadoService.execute(id, convidadoId)
 
         return res.status(200).json({ message: 'Presença confirmada' })
+    }
+
+    async deleteConvidado(req: Request | any, res: Response) {
+        const user = req.user
+        const { convidadoId } = req.params
+
+        try {
+            await this.deleteConvidadoService.execute(user.id, convidadoId)
+
+            return res.status(200).json({ message: 'Convidado deletado com sucesso!' })
+        } catch (error) {
+            return res.status(500).json({ message: 'Erro ao deletar convidado!' })
+        }
     }
 
 }

@@ -6,6 +6,7 @@ import { PresenteRepository } from "../repositories/PresenteRepository";
 import { UserRepository } from "../repositories/UserRepository";
 import { ConfirmarPresencaConvidadoService } from "../services/convidadoServices/ConfirmarPresencaConvidadoService";
 import { CreateConvidadoService } from "../services/convidadoServices/CreateConvidadoService";
+import { DeleteConvidadoService } from "../services/convidadoServices/DeleteConvidadoService";
 import { GetConvidadoByNomeService } from "../services/convidadoServices/GetConvidadoByNomeService";
 import { GetConvidadoByTelefoneService } from "../services/convidadoServices/GetConvidadoByTelefoneService";
 import { GetConvidadosByUserService } from "../services/convidadoServices/GetConvidadosByUserService";
@@ -78,6 +79,7 @@ export class AppConfig {
         const getConvidadoByTelefoneService = new GetConvidadoByTelefoneService(convidadoRepository);
         const confirmarPresencaConvidadoService = new ConfirmarPresencaConvidadoService(convidadoRepository);
         const getConvidadoByNomeService = new GetConvidadoByNomeService(convidadoRepository);
+        const deleteConvidadoService = new DeleteConvidadoService(convidadoRepository, userRepository);
 
         return new ConvidadoController(
             createConvidadoService,
@@ -89,7 +91,8 @@ export class AppConfig {
             unsetPresenteConvidado,
             getConvidadoByTelefoneService,
             confirmarPresencaConvidadoService,
-            getConvidadoByNomeService
+            getConvidadoByNomeService,
+            deleteConvidadoService
         )
     }
 

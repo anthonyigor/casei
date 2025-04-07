@@ -26,6 +26,7 @@ router.get('/:id/convidados/:convidadoId', (req, res) => convidadoController.get
 router.post('/:id/convidados/identificate', (req, res) => convidadoController.identificateConvidado(req, res))
 router.put('/:id/convidados/:convidadoId', verifyToken, (req, res) => convidadoController.editConvidado(req, res))
 router.put('/:id/convidados/:convidadoId/confirmar-presenca', (req, res) => convidadoController.confirmarPresenca(req, res))
+router.delete('/:id/convidados/:convidadoId', verifyToken, (req, res) => convidadoController.deleteConvidado(req, res))
 router.get('/:id/presentes/disponiveis', (req, res) => presenteController.getPresentesDisponiveis(req, res))
 router.get('/:id/presentes', verifyToken, (req, res) => presenteController.getPresentes(req, res))
 router.delete('/:id/presentes/:presenteId', verifyToken, (req, res) => presenteController.deletePresente(req, res))
