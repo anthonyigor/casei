@@ -11,11 +11,13 @@ import { useSession } from "next-auth/react"
 import toast from "react-hot-toast"
 
 interface ConvidadosListProps {
-    convidados: any[]
+    convidados: any[],
+    onRefresh: () => void
 }
 
 const ConvidadosList: React.FC<ConvidadosListProps> = ({
-    convidados
+    convidados,
+    onRefresh
 }) => {
     const [pageNumber, setPageNumber] = useState(0)
     const [search, setSearch] = useState('')
@@ -40,6 +42,7 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
                 confirmado={convidado.confirmado}
                 quant_familia={convidado.quant_familia}
                 telefone={convidado.telefone}
+                onDeleteConvidado={() => onRefresh()}
             />
         ));
 
@@ -71,6 +74,7 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
             })
 
             toast.success(response.data.message)
+            onRefresh()
         } catch (error: any) {
             toast.error(`Erro ao deletar convidado: ${error.response.data.message}`)
         }

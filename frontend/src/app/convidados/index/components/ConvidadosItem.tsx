@@ -13,7 +13,8 @@ interface convidadosItemProps {
     quant_familia?: number
     confirmado?: boolean
     telefone?: string
-    index: number
+    index: number,
+    onDeleteConvidado: () => void
 }
 
 const ConvidadosItem: React.FC<convidadosItemProps> = ({
@@ -22,7 +23,8 @@ const ConvidadosItem: React.FC<convidadosItemProps> = ({
     confirmado,
     telefone,
     id,
-    index
+    index,
+    onDeleteConvidado
 }) => {
     const router = useRouter();
     const session = useSession()
@@ -53,6 +55,7 @@ const ConvidadosItem: React.FC<convidadosItemProps> = ({
             })
 
             toast.success(response.data.message)
+            onDeleteConvidado()
         } catch (error: any) {
             toast.error(`Erro ao deletar convidado: ${error.response.data.message}`)
         }
