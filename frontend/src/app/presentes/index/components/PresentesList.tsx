@@ -24,14 +24,18 @@ const PresentesList: React.FC<PresentesListProps> = ({
     const [pageNumber, setPageNumber] = useState(0)
     const [search, setSearch] = useState('')
     const [selectedPresente, setSelectedPresente] = useState<Presente | null>(null)
+    const [showOnlySelected, setShowOnlySelected] = useState<boolean>(false)
+
     const giftsPerPage = 10
     const pagesVisited = pageNumber * giftsPerPage
     const router = useRouter()
     const session = useSession()
 
-    const filteredGifts = presentes.filter((presente) => 
-        presente.nome.toLowerCase().includes(search.toLowerCase())
-    )
+    const filteredGifts = presentes
+        .filter((presente) =>
+            presente.nome.toLowerCase().includes(search.toLowerCase())
+        )
+        .filter((presente) => !showOnlySelected || presente.selecionado)
 
     const displayGifts = filteredGifts
         .slice(pagesVisited, pagesVisited + giftsPerPage)
@@ -50,7 +54,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
             />
         ));
 
-    const pageCount = Math.ceil(presentes.length / giftsPerPage);
+    const pageCount = Math.ceil(filteredGifts.length / giftsPerPage);
 
     const changePage = ({ selected }: any) => {
         setPageNumber(selected);
@@ -88,7 +92,18 @@ const PresentesList: React.FC<PresentesListProps> = ({
     return (
         <>
          <div className="text-center mt-8">
-            <div className="relative w-1/2 mx-auto">
+            <div className="flex justify-center mt-4">
+                <label className="flex items-center space-x-2 text-sm text-gray-700">
+                    <input
+                        type="checkbox"
+                        checked={showOnlySelected}
+                        onChange={() => setShowOnlySelected(!showOnlySelected)}
+                        className="form-checkbox h-4 w-4 text-blue-600"
+                    />
+                    <span>Mostrar apenas selecionados</span>
+                </label>
+            </div>
+            <div className="relative w-3/4 lg:w-1/2 mx-auto mt-2">
                 <input type="text" 
                     className="
                     border-2
