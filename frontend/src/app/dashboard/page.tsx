@@ -45,6 +45,7 @@ const Dashboard = () => {
                     <CardDashboard title="Dias restantes" value={dashboardData.dias_restantes} imagePath="/img/data_dashboard.png"/>
                     <CardDashboard title="Total convidados" value={dashboardData.total_convidados} imagePath="/img/convidado_dashboard.png"/>
                     <CardDashboard title="Confirmados" value={dashboardData.total_confirmados} imagePath="/img/confirmado_dashboard.png"/>
+                    <CardDashboard title="Presentes selecionados" value={`${dashboardData.porcentagem_presentes_escolhidos.toFixed(2)}%`} imagePath="/img/presente_dashboard.png"/>
                 </div>
             )}
             {userId && (

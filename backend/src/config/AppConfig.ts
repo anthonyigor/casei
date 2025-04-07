@@ -37,6 +37,7 @@ export class AppConfig {
         // repositories
         const userRepository = new UserRepository();
         const convidadoRepository = new ConvidadoRepository();
+        const presenteRepository = new PresenteRepository();
 
         // services
         const createUserService = new CreateUserService(userRepository);
@@ -47,7 +48,7 @@ export class AppConfig {
         const uploadFileService = new UploadFileToS3()
         const updateConviteUrlService = new UpdateConviteService(userRepository)
         const updatePasswordService = new UpdatePasswordService(userRepository)
-        const dashboardService = new DashboardService(userRepository, convidadoRepository)
+        const dashboardService = new DashboardService(userRepository, convidadoRepository, presenteRepository)
 
         return new UserController(
             createUserService,
