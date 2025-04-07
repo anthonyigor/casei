@@ -8,22 +8,8 @@ import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import axios from "axios"
 import toast from "react-hot-toast"
+import { Presente } from "@/types"
 
-type Presente = {
-    id: string
-    nome: string
-    descricao?: string
-    selecionado?: boolean
-    image?: string
-    valor?: number
-    convidado?: Convidado
-}
-
-type Convidado = {
-    id: string
-    nome: string
-    telefone: string
-}
 
 interface PresentesListProps {
     presentes: Presente[]
@@ -157,6 +143,9 @@ const PresentesList: React.FC<PresentesListProps> = ({
                     <p className="text-sm mt-1">✅ Selecionado: {presente.selecionado ? 'Sim' : 'Não'}</p>
                     {presente.convidado?.nome && (
                     <p className="text-sm">👤 Escolhido por: {presente.convidado.nome}</p>
+                    )}
+                    {presente.tipo_selecao && (
+                    <p className="text-sm">✅ Tipo da seleção: {presente.tipo_selecao}</p>
                     )}
                     <div className="flex justify-end gap-4 mt-3">
                     <button

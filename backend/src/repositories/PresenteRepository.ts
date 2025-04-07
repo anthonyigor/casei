@@ -89,7 +89,8 @@ export class PresenteRepository {
                 },
                 data: {
                     convidado_id: null,
-                    selecionado: false
+                    selecionado: false,
+                    tipo_selecao: null
                 }
             })
         } catch (error) {

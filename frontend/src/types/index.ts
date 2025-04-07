@@ -17,7 +17,8 @@ export type Presente = {
     selecionado: boolean,
     user_id: string,
     valor?: number,
-    url_produto?: string
+    url_produto?: string,
+    tipo_selecao?: string,
     convidado?: Convidado,
     user?: User
 }
