@@ -1,8 +1,11 @@
 'use client'
 
+import axios from "axios"
 import clsx from "clsx"
+import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { FaUserEdit } from "react-icons/fa"
+import toast from "react-hot-toast"
+import { FaTrash, FaUserEdit } from "react-icons/fa"
 
 interface convidadosItemProps {
     id: string
@@ -22,9 +25,37 @@ const ConvidadosItem: React.FC<convidadosItemProps> = ({
     index
 }) => {
     const router = useRouter();
+    const session = useSession()
 
     const handleIconClick = (e: any) => {
         router.push(`/convidados/${id}/editar`)
+    }
+
+    const handleDeleteClick = async () => {
+        const confirmDelete = window.confirm('Tem certeza que deseja deletar este convidado?')
+
+        if (!confirmDelete) {
+            return
+        }
+
+        try {
+            if (!session.data?.user) {
+                return
+            }
+
+            const userId = (session.data.user as any).id
+            const token = (session.data.user as any).token
+
+            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            toast.success(response.data.message)
+        } catch (error: any) {
+            toast.error(`Erro ao deletar convidado: ${error.response.data.message}`)
+        }
     }
 
     return (
@@ -64,6 +95,14 @@ const ConvidadosItem: React.FC<convidadosItemProps> = ({
                 <FaUserEdit 
                     size={30} 
                     onClick={handleIconClick} 
+                    style={{ cursor: 'pointer' }}
+                />
+            </td>
+
+            <td className="py-4 px-6">
+                <FaTrash 
+                    size={20} 
+                    onClick={handleDeleteClick} 
                     style={{ cursor: 'pointer' }}
                 />
             </td>

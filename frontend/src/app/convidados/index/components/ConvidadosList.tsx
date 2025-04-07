@@ -109,6 +109,7 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
                             <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase hidden md:table-cell">Telefone</th>
                             <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase md:table-cell">Confirmado</th>
                             <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">Editar</th>
+                            <th className="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">Deletar</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white">
