@@ -21,7 +21,6 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
 }) => {
     const [pageNumber, setPageNumber] = useState(0)
     const [search, setSearch] = useState('')
-    const [selectedConvidado, setSelectedConvidado] = useState<Convidado | null>(null)
     const guestsPerPage = 10
     const pagesVisited = pageNumber * guestsPerPage
     const router = useRouter()
@@ -52,7 +51,8 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
         setPageNumber(selected);
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (convidadoId: string) => {
+
         const confirmDelete = window.confirm('Tem certeza que deseja deletar este convidado?')
 
         if (!confirmDelete) {
@@ -67,7 +67,7 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
             const userId = (session.data.user as any).id
             const token = (session.data.user as any).token
 
-            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/${selectedConvidado?.id}`, {
+            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/${convidadoId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -147,12 +147,11 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
                                 <button
                                     className="text-red-500"
                                     onClick={() => {
-                                        setSelectedConvidado(convidado)
-                                        handleDelete()
+                                        handleDelete(convidado.id)
                                     }}
                                 >
-                        Deletar
-                    </button>
+                                    Deletar
+                                </button>
                             </div>
                         </div>
                     ))}

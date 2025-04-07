@@ -14,12 +14,12 @@ export class DeleteConvidadoService {
             throw new NotFound("Usuário não encontrado!")
         }
 
-        const convidado = await this.convidadoRepository.getConvidado(userExists.id, convidado_id)
+        const convidado = await this.convidadoRepository.getConvidado(user_id, convidado_id)
         if (!convidado) {
             throw new NotFound("Convidado não encontrado!")
         }
 
-        await this.convidadoRepository.deleteConvidado(userExists.id, convidado_id)
+        await this.convidadoRepository.deleteConvidado(user_id, convidado_id)
 
     }
 

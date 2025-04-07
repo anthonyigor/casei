@@ -187,6 +187,7 @@ const ConvidadoForm = () => {
                                 })}
                                 value={confirmado}
                                 multi={false}
+                                required={true}
                             />
                     </div>
 
