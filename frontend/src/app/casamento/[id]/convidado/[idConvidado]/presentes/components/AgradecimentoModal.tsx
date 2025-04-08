@@ -39,7 +39,7 @@ const AgradecimentoModal: React.FC<AgradecimentoModalProps> = ( { isOpen, onClos
             <div className="flex flex-col items-center mt-2">
                 <p className="text-base text-slate-500 mt-2">Deseja deixar alguma mensagem para o casal?</p>
                 <textarea 
-                    className="w-full p-2 border border-gray-300 rounded-lg mt-4 mb-2" 
+                    className="w-full p-4 border border-gray-300 rounded-lg mt-4 mb-2 h-32" 
                     placeholder="Mensagem para o casal" 
                     value={mensagem}
                     onChange={(e) => setMensagem(e.target.value)}

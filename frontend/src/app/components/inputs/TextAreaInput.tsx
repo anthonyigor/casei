@@ -31,12 +31,13 @@ const TextAreaInput: React.FC<InputProps>  = ({ id, label, register, required, p
                         w-full
                         rounded-md
                         border 
-                      border-[#e0e0e0]
-                       bg-white 
+                        border-[#e0e0e0]
+                        bg-white 
                        py-3 
                        px-4 
                        text-base 
-                       font-medium 
+                       font-medium
+                       h-32
                        text-gray-600 
                        outline-none 
                        focus:border-violet-600 
