@@ -41,12 +41,12 @@ const ConfirmarPresencaModal: React.FC<ConfirmarPresencaModalProps> = ({ isOpen,
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className="text-center">
                 <div className={greatVibes.className}>
-                    <h1 className="text-4xl text-teal-800 font-semibold">Confirmar presença</h1>
+                    <h1 className="text-4xl text-violet-800 font-semibold">Confirmar presença</h1>
                 </div>
                 <p className="text-base text-slate-500 mt-2">Deseja confirmar sua presença no casamento?</p>
                 <div className="flex flex-row gap-3 mt-6 justify-center">
                     <button className="w-full py-2 text-white rounded-lg bg-red-500 hover:bg-red-700" onClick={onClose}>Cancelar</button>
-                    <button className="w-full py-2 text-white rounded-lg bg-teal-500 hover:bg-teal-700" onClick={confirmarPresenca}>Confirmar</button>
+                    <button className="w-full py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700" onClick={confirmarPresenca}>Confirmar</button>
                 </div>
             </div>
             

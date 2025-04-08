@@ -51,7 +51,7 @@ const SelectEntregarModal: React.FC<SelectEntregarModalProps> = ({ isOpen, onClo
 
         }}>
             <div className="text-center">
-                <h1 className="text-3xl text-teal-800 font-semibold">Presentear {presente.nome} entregando pessoalmente</h1>
+                <h1 className="text-3xl text-violet-800 font-semibold">Presentear {presente.nome} entregando pessoalmente</h1>
                 <p className="text-base text-slate-500 mt-2">Abaixo veja uma sugestão do modelo do presente</p>
             </div>
             <div className="flex flex-row gap-3 mt-6 justify-center">
@@ -68,7 +68,7 @@ const SelectEntregarModal: React.FC<SelectEntregarModalProps> = ({ isOpen, onClo
             </div>
             <div className="flex flex-col gap-2 justify-center">
                 <p className="text-base text-slate-500 mt-2">Clique no botão abaixo para confirmar a seleção do presente</p>
-                <button className="w-full py-2 text-white rounded-lg bg-teal-500 hover:bg-teal-700" onClick={selectPresente}>Confirmar</button>
+                <button className="w-full py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700" onClick={selectPresente}>Confirmar</button>
             </div>
         </Modal>
     )

@@ -47,7 +47,7 @@ const Usuario = () => {
     return (
         <>  
         <div className={greatVibes.className}>
-            <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">Editar Usuario</h2>
+            <h2 className="text-5xl text-center mt-4 text-violet-600 font-semibold py-2">Editar Usuario</h2>
         </div>
         <div className="hidden lg:block fixed top-0 lg:left-48 m-4">
                 <Button type="button" onClick={() => router.push('/convidados/index')}>

@@ -54,7 +54,7 @@ const Presentes = () => {
        <div className="relative min-h-screen">
             {isLoading && <LoadingModal />}     
             <div className={greatVibes.className}>
-                <h2 className="text-5xl text-center mt-4 text-teal-600 font-semibold py-2">Lista de Presentes</h2>
+                <h2 className="text-5xl text-center mt-4 text-violet-600 font-semibold py-2">Lista de Presentes</h2>
             </div>
             <div className="flex justify-center my-4">
                 <Button type="button" onClick={onAddPresente}>

@@ -319,7 +319,7 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
 
                     <div>
                         <button
-                            className="hover:shadow-form w-full rounded-md bg-teal-600 hover:bg-teal-800 py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                            className="hover:shadow-form w-full rounded-md bg-violet-600 hover:bg-violet-800 py-3 px-8 text-center text-base font-semibold text-white outline-none">
                             Editar
                         </button>
                     </div>

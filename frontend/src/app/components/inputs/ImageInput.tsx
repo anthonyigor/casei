@@ -36,8 +36,8 @@ const ImageInput: React.FC<ImageInputProps> = ({
                                         file:mr-4 file:py-2 file:px-4
                                         file:rounded-full file:border-0
                                         file:text-sm file:font-semibold
-                                        file:bg-teal-100 file:text-teal-600
-                                        hover:file:bg-teal-800
+                                        file:bg-violet-100 file:text-violet-600
+                                        hover:file:bg-violet-800
                                         hover:file:text-white
                                     "
                                 />

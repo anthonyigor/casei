@@ -17,7 +17,7 @@ interface InputProps {
 const Input: React.FC<InputProps>  = ({ id, label, type, register, required, disabled, value, onChange, maxLength, placeholder }) => {
     return (
         <div>
-            <label className="block text-sm font-semibold leading-6 text-teal-600" htmlFor={id}>
+            <label className="block text-sm font-semibold leading-6 text-violet-600" htmlFor={id}>
                 {label}
             </label>
             <div className="mt-1">

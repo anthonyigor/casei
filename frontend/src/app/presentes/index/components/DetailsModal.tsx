@@ -16,7 +16,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ isOpen, onClose, nome, conv
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className="text-center">
-                <h1 className="text-3xl text-teal-800 font-semibold">{nome}</h1>
+                <h1 className="text-3xl text-violet-800 font-semibold">{nome}</h1>
             </div>
             <div className="flex flex-col items-center gap-3 mt-6 justify-center">
                 <img src={image || '/img/presentes.png'} alt={nome} className="w-24 h-24 object-cover rounded-md"/>

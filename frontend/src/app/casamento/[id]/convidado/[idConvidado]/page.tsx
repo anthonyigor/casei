@@ -90,14 +90,14 @@ const Casamento = ({ params }: { params: IParams }) => {
             
             {/* Background com camada de sobreposição */}
             <div className="absolute inset-0 bg-center bg-no-repeat bg-cover z-0" style={{ backgroundImage: "url('/img/background.jpg')" }}>
-                <div className="absolute inset-0 bg-white bg-opacity-20 "></div>
+                <div className="absolute inset-0 bg-violet-100 bg-opacity-40 "></div>
             </div>
 
             {/* Conteúdo principal, garantindo que fique acima do background */}
             <div className="relative z-10 flex flex-col items-center">
                 {/* Título */}
                 <div className={`${greatVibes.className} text-center mt-14`}>
-                    <h1 className='text-5xl text-teal-800 font-semibold'>
+                    <h1 className='text-5xl text-violet-800 font-semibold'>
                         {userCasamento?.nome} e {userCasamento?.nome_parceiro}
                     </h1>
                 </div>
