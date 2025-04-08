@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import dynamic from "next/dynamic";
+import TextAreaInput from "../inputs/TextAreaInput";
 
 type CustomUser = {
     name?: string | null;
@@ -116,7 +117,8 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
             endereco: usuario.endereco,
             endereco_entrega: usuario.endereco_entrega,
             chave_pix: usuario.chave_pix,
-            cidade: usuario.cidade
+            cidade: usuario.cidade,
+            mensagem_agradecimento: usuario.mensagem_agradecimento
         }
     })
 
@@ -247,6 +249,15 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
                         placeholder="Endereço de entrega"
                         required={false}
                         key="endereco_entrega"
+                    />
+
+                    <TextAreaInput
+                        id="mensagem_agradecimento"
+                        label="Mensagem de agradecimento para convidados"
+                        register={register}
+                        placeholder="Mensagem de agradecimento"
+                        required={false}
+                        key="mensagem_agradecimento"
                     />
 
                     <h3 className="text-lg font-semibold">Selecione a localização do evento:</h3>

@@ -45,7 +45,6 @@ const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presen
                 convidadoId,
                 tipo_selecao: 'pix'
             })
-            toast.success(response.data.message)
             setIsProductSelected(true);
             onSelectComplete();
         } catch (error: any) {

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import SelectPresenteModal from "./components/SelectPresenteModal";
 import CreateNewPresente from "./components/CreateNewPresente";
 import AgradecimentoModal from "./components/AgradecimentoModal";
+import toast from "react-hot-toast";
 
 interface IParams {
     id: string;
@@ -18,6 +19,7 @@ const greatVibes = Great_Vibes({ weight: '400', subsets: ['latin'] });
 
 const Casamento = ({ params }: { params: IParams }) => {
     const [gifts, setGifts] = useState<Presente[]>()
+    const [user, setUser] = useState<UserCasamento>()	
     const [selectedGift, setSelectedGift] = useState<Presente>()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [isCreateNewPresenteOpen, setIsCreateNewPresenteOpen] = useState<boolean>(false)
@@ -33,9 +35,20 @@ const Casamento = ({ params }: { params: IParams }) => {
         }
     }
 
+    const fetchUser = async (userId: string) => {
+        try {
+            const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/casamento`);
+            setUser(response.data.user);
+        } catch (error) {
+            toast.error('Erro ao buscar usuário')
+        }
+    
+    }
+
     useEffect(() => {
         if (params.id) {
             fetchGifts(params.id);
+            fetchUser(params.id);
         }
     }, [params.id]);
 
@@ -67,7 +80,8 @@ const Casamento = ({ params }: { params: IParams }) => {
                 }}
                 userId={params.id}
                 presenteId={selectedGift?.id!} 
-                mensagem_agradecimento={`Queremos agradecer de coração pelo presente tão especial. Seu carinho e generosidade tornaram esse momento ainda mais significativo para nós. "Que Jeová lhe recompense pelo que você tem feito e que haja para você um salário perfeito da parte de Jeová" - Rute 2:12`}/>}
+                mensagem_agradecimento={user?.mensagem_agradecimento!}
+                />}
 
             {/* Conteúdo principal, garantindo que fique acima do background */}
             <div className="mt-4 relative z-10 flex flex-col items-center w-full">

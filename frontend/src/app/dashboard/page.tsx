@@ -48,6 +48,29 @@ const Dashboard = () => {
                     <CardDashboard title="Presentes selecionados" value={`${dashboardData.porcentagem_presentes_escolhidos.toFixed(2)}%`} imagePath="/img/presente_dashboard.png"/>
                 </div>
             )}
+            {dashboardData?.last_presentes?.length > 0 && (
+                <div className="px-4 mt-10 sm:px-8">
+                    <h3 className="text-2xl font-semibold text-center text-violet-600 mb-4">
+                        Últimas mensagens
+                    </h3>
+                    <div className="grid grid-cols-1 gap-4">
+                        {dashboardData.last_presentes.map((presente: any, index: number) => (
+                            <div key={index} className="border border-gray-200 rounded-lg p-4 shadow-md bg-white">
+                                <p className="text-sm text-slate-600 mb-1">
+                                    <span className="font-semibold text-slate-800">Presente:</span> {presente.nome}
+                                </p>
+                                <p className="text-sm text-slate-600 mb-1">
+                                    <span className="font-semibold text-slate-800">Convidado:</span> {presente.convidado}
+                                </p>
+                                <p className="text-sm italic text-slate-500">
+                                    “{presente.mensagem}”
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
             {userId && (
                 <div className="flex flex-col gap-2 justify-center mt-4 lg:w-2/4 lg:mx-auto p-2">
                     <p className="text-base text-slate-500">Link para os convidados</p>

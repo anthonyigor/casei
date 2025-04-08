@@ -19,7 +19,8 @@ export class GetUserCasamento {
             horario: user.horario,
             chave_pix: user.chave_pix,
             cidade: user.cidade,
-            convite_url: user.convite_url
+            convite_url: user.convite_url,
+            mensagem_agradecimento: user.mensagem_agradecimento
         }
 
         return userFiltered

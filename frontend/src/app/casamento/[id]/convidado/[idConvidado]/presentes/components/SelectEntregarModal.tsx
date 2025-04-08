@@ -29,7 +29,6 @@ const SelectEntregarModal: React.FC<SelectEntregarModalProps> = ({ isOpen, onClo
                 tipo_selecao: 'entregar'
             })
 
-            toast.success(response.data.message)
             setIsProductSelected(true);
             onSelectComplete();
         } catch (error: any) {

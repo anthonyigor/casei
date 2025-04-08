@@ -25,12 +25,21 @@ export class DashboardService {
         const totalPresentes = presentes?.length || 0
         const totalPresentesConfirmados = presentes?.filter((presente) => presente.selecionado).length || 0
 
+        const lastPresentes = await this.presenteRepository.getLastPresentesByUser(id)
+
         return {
             data_casamento: user.data_casamento,
             dias_restantes: diasParaData(user.data_casamento!),
             total_convidados: convidados.length,
             total_confirmados: convidados.filter((convidado) => convidado.confirmado).length,
-            porcentagem_presentes_escolhidos: totalPresentes > 0 ? (totalPresentesConfirmados / totalPresentes) * 100 : 0
+            porcentagem_presentes_escolhidos: totalPresentes > 0 ? (totalPresentesConfirmados / totalPresentes) * 100 : 0,
+            last_presentes: lastPresentes?.map((presente) => {
+                return {
+                    nome: presente.nome,
+                    mensagem: presente.mensagem,
+                    convidado: presente.convidado.nome
+                }
+            })
         }
     }
 }

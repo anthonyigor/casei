@@ -162,6 +162,11 @@ const PresentesList: React.FC<PresentesListProps> = ({
                     {presente.tipo_selecao && (
                     <p className="text-sm">✅ Tipo da seleção: {presente.tipo_selecao}</p>
                     )}
+                    {presente.mensagem && (
+                    <p className="text-sm break-words">
+                    💬 Mensagem: {presente.mensagem}
+                    </p>
+                    )}
                     <div className="flex justify-end gap-4 mt-3">
                     <button
                         className="text-blue-500"

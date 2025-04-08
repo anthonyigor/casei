@@ -19,6 +19,7 @@ export type Presente = {
     valor?: number,
     url_produto?: string,
     tipo_selecao?: string,
+    mensagem?: string,
     convidado?: Convidado,
     user?: User
 }
@@ -31,7 +32,8 @@ export type UserCasamento = {
     lon: string,
     endereco: string, 
     horario: string,
-    convite_url: string
+    convite_url: string,
+    mensagem_agradecimento?: string
 }
 
 export type User = {
@@ -48,5 +50,6 @@ export type User = {
     lon: string
     chave_pix: string,
     cidade: string,
-    telefone: string
+    telefone: string,
+    mensagem_agradecimento?: string
 }

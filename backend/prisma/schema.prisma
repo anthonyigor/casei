@@ -33,6 +33,8 @@ model Presente {
   mensagem     String?
   convidado    Convidado? @relation(fields: [convidado_id], references: [id])
   user         User?      @relation(fields: [user_id], references: [id])
+
+  updated_at DateTime? @updatedAt
 }
 
 model User {
