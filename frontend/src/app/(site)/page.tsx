@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div id="container-home">
       <div className="fixed inset-0 flex items-center justify-center">
-        <div id="content-home" className="sm:mx-auto sm:w-full sm:max-w-xs rounded-md">
+        <div className="sm:mx-auto sm:w-full sm:max-w-xs rounded-md bg-violet-100">
           <div className={greatVibes.className}>
             <h2 className="text-5xl text-violet-600 font-semibold py-2">Casei</h2>
           </div>
