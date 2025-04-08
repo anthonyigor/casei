@@ -43,6 +43,7 @@ export class UserController {
             horario: horario_casamento,
             chave_pix,
             convite_url: null,
+            mensagem_agradecimento: null,
             cidade,
             telefone
         }
@@ -59,7 +60,7 @@ export class UserController {
     }
 
     async update(req: Request, res: Response) {
-        const { nome, email, nome_parceiro, data_casamento, endereco, endereco_entrega, lat, lon, horario_casamento, chave_pix, cidade, telefone } = req.body;
+        const { nome, email, nome_parceiro, data_casamento, endereco, endereco_entrega, lat, lon, horario_casamento, chave_pix, cidade, telefone, mensagem_agradecimento } = req.body;
         const id = req.params.id;
 
         const userExists = await this.findUserByIdService.execute(id)
@@ -82,7 +83,8 @@ export class UserController {
             chave_pix,
             convite_url: userExists.convite_url,
             cidade,
-            telefone
+            telefone,
+            mensagem_agradecimento
         }
 
         const updatedUser = await this.updateUserService.execute(id, user)

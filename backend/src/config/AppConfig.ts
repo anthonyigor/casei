@@ -20,6 +20,7 @@ import { GetPresentesByUserService } from "../services/presenteServices/GetPrese
 import { GetPresentesConvidadoService } from "../services/presenteServices/GetPresentesConvidadoService";
 import { GetPresentesDisponiveisByUserService } from "../services/presenteServices/GetPresentesDisponiveisByUserService";
 import { GetPresenteService } from "../services/presenteServices/GetPresenteService";
+import { SetMessageService } from "../services/presenteServices/SetMessageService";
 import { SetPresenteConvidado } from "../services/presenteServices/SetPresenteConvidado";
 import { UnsetPresenteConvidado } from "../services/presenteServices/UnsetPresenteConvidado";
 import { UpdatePresenteService } from "../services/presenteServices/UpdatePresenteService";
@@ -113,6 +114,7 @@ export class AppConfig {
         const setPresenteConvidadoService = new SetPresenteConvidado(presenteRepository);
         const deleteFileService = new DeleteFileFromS3();
         const deletePresenteService = new DeletePresenteService(presenteRepository);
+        const setMessageService = new SetMessageService(presenteRepository)
 
         return new PresenteController(
             getPresentesByUserService,
@@ -124,7 +126,8 @@ export class AppConfig {
             updatePresenteService,
             deleteFileService,
             setPresenteConvidadoService,
-            deletePresenteService
+            deletePresenteService,
+            setMessageService
         )
     }
 

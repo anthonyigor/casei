@@ -36,5 +36,6 @@ router.post('/:id/presentes/create', verifyToken, imageUpload.single('image'), (
 router.post('/:id/presentes/create/avulso', (req, res) => presenteController.createAvulso(req, res))
 router.post('/:id/presentes/:presenteId/selecionar', (req, res) => presenteController.selectPresente(req, res))
 router.post('/:id/presentes/qrcode', (req, res) => presenteController.gerarQrCode(req, res))
+router.post('/:id/presentes/:presenteId/mensagem', (req, res) => presenteController.setPresenteMessage(req, res))
 
 export default router

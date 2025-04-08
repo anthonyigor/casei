@@ -7,6 +7,7 @@ import { Presente, UserCasamento } from "@/types";
 import { useRouter } from "next/navigation";
 import SelectPresenteModal from "./components/SelectPresenteModal";
 import CreateNewPresente from "./components/CreateNewPresente";
+import AgradecimentoModal from "./components/AgradecimentoModal";
 
 interface IParams {
     id: string;
@@ -20,6 +21,7 @@ const Casamento = ({ params }: { params: IParams }) => {
     const [selectedGift, setSelectedGift] = useState<Presente>()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [isCreateNewPresenteOpen, setIsCreateNewPresenteOpen] = useState<boolean>(false)
+    const [isAgradecimentoModalOpen, setIsAgradecimentoModalOpen] = useState<boolean>(false)
     const router = useRouter();
 
     const fetchGifts = async (userId: string) => {
@@ -45,9 +47,28 @@ const Casamento = ({ params }: { params: IParams }) => {
                 <div className="absolute inset-0 bg-slate-100 bg-opacity-100 "></div>
             </div>
             
-            {isModalOpen && <SelectPresenteModal convidadoId={params.idConvidado} userId={params.id} presente={selectedGift!} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onReloadGifts={() => fetchGifts(params.id)} />}
+            {isModalOpen && <SelectPresenteModal 
+                convidadoId={params.idConvidado} 
+                userId={params.id} 
+                presente={selectedGift!} 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+                onReloadGifts={() => fetchGifts(params.id)}
+                onSelectPResente={() => {
+                    setIsAgradecimentoModalOpen(true)
+                }} 
+            />}
             {isCreateNewPresenteOpen && <CreateNewPresente isOpen={isCreateNewPresenteOpen} onClose={() => setIsCreateNewPresenteOpen(false)} userId={params.id} convidadoId={params.idConvidado}/>}
-            
+            {isAgradecimentoModalOpen && <AgradecimentoModal 
+                isOpen={isAgradecimentoModalOpen} 
+                onClose={() => {
+                    setIsAgradecimentoModalOpen(false)
+                    setIsModalOpen(false)
+                }}
+                userId={params.id}
+                presenteId={selectedGift?.id!} 
+                mensagem_agradecimento={`Queremos agradecer de coração pelo presente tão especial. Seu carinho e generosidade tornaram esse momento ainda mais significativo para nós. "Que Jeová lhe recompense pelo que você tem feito e que haja para você um salário perfeito da parte de Jeová" - Rute 2:12`}/>}
+
             {/* Conteúdo principal, garantindo que fique acima do background */}
             <div className="mt-4 relative z-10 flex flex-col items-center w-full">
                 <div className={greatVibes.className}>

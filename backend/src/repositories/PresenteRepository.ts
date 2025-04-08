@@ -127,4 +127,21 @@ export class PresenteRepository {
         }
     }
 
+    async setMessage(presenteId: string, userId: string, message: string): Promise<void> {
+        try {
+            await prisma.presente.update({
+                where: {
+                    id: presenteId,
+                    user_id: userId
+                },
+                data: {
+                    mensagem: message
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            throw new InternalError('Erro ao salvar mensagem do presente')
+        }
+    }
+
 }
