@@ -41,7 +41,7 @@ const FormsInput: React.FC<InputProps>  = ({ id, label, type, register, required
                        font-medium 
                        text-gray-600 
                        outline-none 
-                       focus:border-teal-600 
+                       focus:border-violet-600 
                        focus:shadow-md"
                 />
             </div>

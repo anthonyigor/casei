@@ -13,7 +13,7 @@ const CardDashboard: React.FC<CardDashboardProps> = ({
 }) => {
     return (
         <div className="flex items-center bg-white border rounded-sm overflow-hidden shadow">
-            <div className="p-4 bg-green-400">
+            <div className="p-4 bg-violet-400">
                 <img src={imagePath} alt="Icone" className="h-10 w-14"/>
             </div>
             <div className="px-4 text-gray-700">

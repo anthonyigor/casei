@@ -101,7 +101,7 @@ const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, 
                                         font-medium 
                                         text-gray-600 
                                         outline-none 
-                                        focus:border-teal-600 
+                                        focus:border-violet-600 
                                         focus:shadow-md"
                                     onChange={(e) => setNome(e.target.value)}
                                 />
@@ -128,7 +128,7 @@ const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, 
                                         font-medium 
                                         text-gray-600 
                                         outline-none 
-                                        focus:border-teal-600 
+                                        focus:border-violet-600 
                                         focus:shadow-md"
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
@@ -155,7 +155,7 @@ const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, 
                                         font-medium 
                                         text-gray-600 
                                         outline-none 
-                                        focus:border-teal-600 
+                                        focus:border-violet-600 
                                         focus:shadow-md"
                                     onChange={handleValorChange}
                                     value={valor}
