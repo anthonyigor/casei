@@ -20,7 +20,7 @@ export const verifyToken = (req: Request  | any, res: Response, next: NextFuncti
         req.user = decoded.user
         next()
     } catch (error) {
-        return res.status(400).json({message: 'Token inválido!'})
+        return res.status(401).json({message: 'Token inválido!'})
     }
 
 }

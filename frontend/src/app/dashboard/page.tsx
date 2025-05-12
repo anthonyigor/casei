@@ -3,8 +3,9 @@
 import { Great_Vibes } from "next/font/google";
 import CardDashboard from "./components/CardDashboard";
 import toast from "react-hot-toast";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const greatVibes = Great_Vibes({ weight:'400', subsets: ['latin'] });  
 
@@ -14,23 +15,29 @@ const Dashboard = () => {
     const session = useSession()
 
     async function fetchDashboardData(token: string) {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/dashboard`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/dashboard`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            setDashboardData(response.data)
+        } catch (error: any) {
+            if (error.response.status === 401) {
+                toast.error('Sessão expirada, faça login novamente')
+                signOut()
+                return
             }
-        })
-        const data = await response.json()
-        return data
+            toast.error('Erro ao buscar dados do dashboard')
+        }
     }
 
     useEffect(() => {
         if (session.data?.user) {
             setUserId((session.data?.user as any).id)
             fetchDashboardData((session.data?.user as any).token)
-                .then(data => setDashboardData(data))
-                .catch(error => toast.error('Erro ao buscar dados do dashboard'))
         }
     }, [session])
 
@@ -45,7 +52,7 @@ const Dashboard = () => {
                     <CardDashboard title="Dias restantes" value={dashboardData.dias_restantes} imagePath="/img/data_dashboard.png"/>
                     <CardDashboard title="Total convidados" value={dashboardData.total_convidados} imagePath="/img/convidado_dashboard.png"/>
                     <CardDashboard title="Confirmados" value={dashboardData.total_confirmados} imagePath="/img/confirmado_dashboard.png"/>
-                    <CardDashboard title="Presentes selecionados" value={`${dashboardData.porcentagem_presentes_escolhidos.toFixed(2)}%`} imagePath="/img/presente_dashboard.png"/>
+                    <CardDashboard title="Presentes selecionados" value={`${dashboardData?.porcentagem_presentes_escolhidos?.toFixed(2)}%`} imagePath="/img/presente_dashboard.png"/>
                 </div>
             )}
             {dashboardData?.last_presentes?.length > 0 && (
