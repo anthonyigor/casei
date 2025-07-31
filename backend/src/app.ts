@@ -15,6 +15,9 @@ app.use(cors())
 
 app.use('/public', express.static('public'))
 app.use('/users', userRoutes)
+app.get('/health', (req, res) => {
+    res.status(200).json({status: "ok"})
+})
 
 app.use(errorHandling)
 app.listen(process.env.APP_PORT, () => console.log("Server rodando"))
