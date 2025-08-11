@@ -19,18 +19,24 @@ const CasamentoHome = ({ params }: { params: IParams }) => {
     const router = useRouter();
 
     useEffect(() => {
+        let isMounted = true
+
         async function fetchUserCasamento(userId: string) {
             try {
                 const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/casamento`);
-                setUserCasamento(response.data.user);
+                if (isMounted) setUserCasamento(response.data.user);
             } catch (error) {
-                router.push('/error');  
+                if (isMounted) router.push('/error');  
             }
         }
 
         if (params.id) {
             fetchUserCasamento(params.id);
         }
+
+        return () => {
+            isMounted = false;
+        };
     }, [params.id, router]); 
 
     return (

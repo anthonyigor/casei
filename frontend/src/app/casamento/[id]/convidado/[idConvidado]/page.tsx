@@ -35,23 +35,25 @@ const Casamento = ({ params }: { params: IParams }) => {
     const router = useRouter();
 
     useEffect(() => {
+        let isMounted = true
+
         async function fetchUserCasamento(userId: string) {
             try {
                 const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/casamento`);
-                setUserCasamento(response.data.user);
+                if (isMounted) setUserCasamento(response.data.user);
             } catch (error) {
-                router.push('/error');  
+                if (isMounted) router.push('/error');  
             } finally {
-                setIsLoading(false);
+                if (isMounted) setIsLoading(false);
             }
         }
 
         async function fetchConvidado(userId: string, convidadoId: string) {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/convidados/${convidadoId}`);
-                setConvidado(response.data);
+                if (isMounted) setConvidado(response.data);
             } catch (error) {
-                toast.error('Erro ao buscar convidado')
+                if (isMounted) toast.error('Erro ao buscar convidado')
             }
         }
 
@@ -59,6 +61,10 @@ const Casamento = ({ params }: { params: IParams }) => {
             fetchUserCasamento(params.id);
             fetchConvidado(params.id, params.idConvidado);
         }
+
+        return () => {
+            isMounted = false; 
+        };
     }, [params.id, router, params.idConvidado]);
 
     const handleEnvelopeClick = () => {
