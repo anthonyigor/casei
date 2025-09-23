@@ -60,7 +60,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
         setPageNumber(selected);
     };
 
-    const handleDeleteClick = async() => {
+    const handleDeleteClick = async(presenteId: string) => {
         const confirmDelete = window.confirm('Tem certeza que deseja deletar este presente?')
         
         if (!confirmDelete) {
@@ -71,7 +71,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
             if (session.data?.user) {
                 const userId = (session.data.user as any).id
                 const token = (session.data.user as any).token
-                const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/${selectedPresente?.id}`, {
+                const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}/presentes/${presenteId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -181,7 +181,7 @@ const PresentesList: React.FC<PresentesListProps> = ({
                         className="text-red-500"
                         onClick={() => {
                             setSelectedPresente(presente)
-                            handleDeleteClick()
+                            handleDeleteClick(presente.id)
                         }}
                     >
                         Deletar
