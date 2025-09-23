@@ -30,7 +30,12 @@ const formatPhoneNumber = (value: string) => {
     } else {
       return cleanValue.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
     }
-};  
+};
+
+function formatDate(dateStr: string): string {
+  const [year, month, day] = dateStr.split("-");
+  return `${day}/${month}/${year}`;
+}
 
 const url = process.env.NEXT_PUBLIC_BACKEND_URL
 
@@ -149,6 +154,7 @@ const EditarUsuarioForm: React.FC<EditarUsuarioProps> = ({ usuario }) => {
         try {
             const response = await axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/update/${userId}`, {
                 ...data,
+                data_casamento: formatDate(dataCasamento!),
                 lat: location?.lat,
                 lon: location?.lng
             }, {
