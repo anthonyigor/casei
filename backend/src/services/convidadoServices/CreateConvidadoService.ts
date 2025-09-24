@@ -12,7 +12,7 @@ export class CreateConvidadoService {
     ) {}
 
     async execute(convidado: Convidado) {
-        const convidadoExists = await this.convidadoRepository.getConvidadoByTelefone(convidado.telefone)
+        const convidadoExists = await this.convidadoRepository.getConvidadoByTelefoneAndUser(convidado.user_id!, convidado.telefone)
         if (convidadoExists) {
             throw new Conflict("Convidado já cadastrado!")
         }

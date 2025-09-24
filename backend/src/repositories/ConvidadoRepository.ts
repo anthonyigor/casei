@@ -16,8 +16,8 @@ export class ConvidadoRepository {
         }
     }
 
-    async getConvidadoByTelefone(telefone: string): Promise<Convidado | null> {
-        const convidado = await prisma.convidado.findUnique({
+    async getConvidadoByTelefone(telefone: string, user_id: string): Promise<Convidado | null> {
+        const convidado = await prisma.convidado.findFirst({
             where: {
                 telefone: telefone
             }
@@ -27,7 +27,7 @@ export class ConvidadoRepository {
     }
 
     async getConvidadoByTelefoneAndUser(userId: string, telefone: string): Promise<Convidado | null> {
-        const convidado = await prisma.convidado.findUnique({
+        const convidado = await prisma.convidado.findFirst({
             where: {
                 telefone: telefone,
                 user_id: userId
