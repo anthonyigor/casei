@@ -12,12 +12,14 @@ import toast from "react-hot-toast"
 
 interface ConvidadosListProps {
     convidados: any[],
+    user: any
     onRefresh: () => void
 }
 
 const ConvidadosList: React.FC<ConvidadosListProps> = ({
     convidados,
-    onRefresh
+    onRefresh,
+    user
 }) => {
     const [pageNumber, setPageNumber] = useState(0)
     const [search, setSearch] = useState('')
@@ -123,39 +125,77 @@ const ConvidadosList: React.FC<ConvidadosListProps> = ({
             </div>
             {/* Mobile View */}
             <div className="lg:hidden px-4 mt-4 space-y-4">
-                {filteredGuests
-                    .slice(pagesVisited, pagesVisited + guestsPerPage)
-                    .map((convidado, index) => (
-                        <div key={convidado.id} className="border rounded-lg p-4 shadow-sm">
-                            <p className="font-bold text-lg">{convidado.nome}</p>
-                            <p className="text-sm mt-1">✅ Confirmado: {convidado.confirmado ? 'Sim' : 'Não'}</p>
-                            <p className="text-sm mt-1">👨‍👩‍👧‍👦 Família: {convidado.quant_familia}</p>
-                            <p className="text-sm mt-1">📞 Telefone: {convidado.telefone}</p>
-                            <p className="text-sm mt-1">🎁 Presentes: {convidado.presentes?.map((presente: Presente) => (
-                                `${presente.nome}; `
-                            ))}</p>
-                            <div className="flex justify-end gap-4 mt-3">
-                                <button
-                                    className="text-blue-500"
-                                    onClick={() => {
-                                        // Navegar para editar (exemplo)
-                                        router.push(`/convidados/${convidado.id}/editar`)
-                                    }}
-                                >
-                                    Editar
-                                </button>
-                                <button
-                                    className="text-red-500"
-                                    onClick={() => {
-                                        handleDelete(convidado.id)
-                                    }}
-                                >
-                                    Deletar
-                                </button>
-                            </div>
-                        </div>
+            {filteredGuests
+                .slice(pagesVisited, pagesVisited + guestsPerPage)
+                .map((convidado, index) => {
+                const link = `${window.location.origin}/casamento/${convidado.user_id}/convidado/${convidado.id}`;
+                const whatsappLink = `https://wa.me/${convidado.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(
+                    `Olá ${convidado.nome}, estamos muito felizes em convidá-lo(a) para o nosso casamento que será no dia ${user.data_casamento}! Você pode confirmar sua presença e ver as informações da cerimônia no link a seguir: ${link}`
+                )}`;
+                
+                return (
+                    <div
+                        key={convidado.id}
+                        className="border rounded-lg p-4 shadow-sm"
+                    >
+                    <p className="font-bold text-lg">{convidado.nome}</p>
+                    <p className="text-sm mt-1">
+                    ✅ Confirmado: {convidado.confirmado ? "Sim" : "Não"}
+                    </p>
+                    <p className="text-sm mt-1">
+                    👨‍👩‍👧‍👦 Família: {convidado.quant_familia}
+                    </p>
+                    <p className="text-sm mt-1">
+                    📞 Telefone: {convidado.telefone}
+                    </p>
+                    <p className="text-sm mt-1">
+                    🎁 Presentes:{" "}
+                    {convidado.presentes?.map((presente: Presente) => (
+                        `${presente.nome}; `
                     ))}
+                    </p>
+
+                    {/* Botões organizados */}
+                    <div className="grid grid-cols-2 gap-3 mt-4">
+                        <button
+                            className="text-green-500 border border-green-500 rounded-md py-1"
+                            onClick={() => {
+                                navigator.clipboard.writeText(link);
+                                toast.success("Link copiado para a área de transferência!");
+                            }}
+                        >
+                            Copiar link
+                        </button>
+                        <a
+                            href={whatsappLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-white bg-green-500 rounded-md py-1 text-center"
+                        >
+                            WhatsApp
+                        </a>
+                        <button
+                            className="text-blue-500 border border-blue-500 rounded-md py-1"
+                            onClick={() => {
+                                router.push(`/convidados/${convidado.id}/editar`);
+                            }}
+                        >
+                            Editar
+                        </button>
+                        <button
+                            className="text-red-500 border border-red-500 rounded-md py-1"
+                            onClick={() => {
+                                handleDelete(convidado.id);
+                            }}
+                        >
+                            Deletar
+                        </button>
+                    </div>
+                </div>
+                )
+            })}
             </div>
+
             {/* Paginação */}
             <div className="pagination-container mt-4 flex justify-center items-center mb-2">
                 <ReactPaginate

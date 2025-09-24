@@ -16,6 +16,7 @@ const url = process.env.NEXT_PUBLIC_BACKEND_URL
 
 const Convidados = () => {
     const [convidados, setConvidados] = useState([])
+    const [userCasamento, setUserCasamento] = useState<any>(null)
     const [isLoading, setIsLoading] = useState(true)
 
     const router = useRouter()
@@ -44,9 +45,29 @@ const Convidados = () => {
         })
     }
 
+    async function fetchUserCasamento() {
+        const userId = (session?.data?.user as any).id
+        const token = (session?.data?.user as any).token
+        
+        axios.get(`${url}/users/${userId}/casamento`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            setUserCasamento(response.data.user)
+            setIsLoading(false)
+        })
+        .catch(error => {
+            toast.error('Erro ao buscar informacões do casamento')
+            setIsLoading(false)
+        })
+    }
+
     useEffect(() => {
         if (session.data?.user) {
             fetchConvidados()
+            fetchUserCasamento()
         }
     }, [session.data?.user])
     
@@ -63,7 +84,7 @@ const Convidados = () => {
             </div>
             <div className="lg:pl-40 h-full lg:block">
                 {convidados && (
-                    <ConvidadosList convidados={convidados} onRefresh={() => fetchConvidados()}/>
+                    <ConvidadosList convidados={convidados} user={userCasamento} onRefresh={() => fetchConvidados()}/>
                 )}
             </div>
        </div>
