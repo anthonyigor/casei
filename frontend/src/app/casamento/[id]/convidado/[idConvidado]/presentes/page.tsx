@@ -86,10 +86,10 @@ const Casamento = ({ params }: { params: IParams }) => {
             {/* Conteúdo principal, garantindo que fique acima do background */}
             <div className="mt-4 relative z-10 flex flex-col items-center w-full">
                 <div className={greatVibes.className}>
-                    <h1 className="text-5xl font-semibold text-violet-600">Lista de presentes</h1>
+                    <h1 className="text-5xl font-semibold text-[#646443]">Lista de presentes</h1>
                 </div>
                 <div className="m-3">
-                    <p className="text-violet-600 font-semibold italic">Deseja dar algum presente que não está na lista? <button className="text-violet-500 italic underline hover:text-violet-500" onClick={() => setIsCreateNewPresenteOpen(true)}>Clique aqui</button></p>
+                    <p className="text-[#646443] font-semibold italic">Deseja dar algum presente que não está na lista? <button className="text-[#646443] italic underline hover:text-[#646443]" onClick={() => setIsCreateNewPresenteOpen(true)}>Clique aqui</button></p>
                 </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 w-full max-w-5xl">
                     {gifts?.map((gift) => (
@@ -98,7 +98,7 @@ const Casamento = ({ params }: { params: IParams }) => {
                             <h3 className="text-lg font-semibold text-gray-700 mb-2">{gift.nome}</h3>
                             {gift.descricao && <p className="text-sm text-gray-500 mb-4">{gift.descricao}</p>}
                             <button
-                                className="w-full py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700"
+                                className="w-full py-2 text-white rounded-lg bg-[#646443] hover:bg-[#646443]"
                                 onClick={() => {
                                     setIsModalOpen(true)
                                     setSelectedGift(gift)

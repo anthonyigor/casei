@@ -75,7 +75,7 @@ const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, 
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className="text-center">
                 <div className={greatVibes.className}>
-                    <h1 className="text-4xl text-violet-800 font-semibold">Informe o que desejar dar ao casal</h1>
+                    <h1 className="text-4xl text-[#646443] font-semibold">Informe o que desejar dar ao casal</h1>
                 </div>
             </div>
             {!pixBase64 ? (
@@ -164,7 +164,7 @@ const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, 
                         </div>
                         <div className="flex items-center justify-center">
                             <div onClick={() => fetchPix()}
-                                className="flex flex-row gap-2 items-center bg-violet-600 rounded-md px-3 py-1.5 shadow-sm hover:cursor-pointer hover:bg-violet-900">
+                                className="flex flex-row gap-2 items-center bg-[#646443] rounded-md px-3 py-1.5 shadow-sm hover:cursor-pointer hover:bg-violet-900">
                                 <FaPix className="h-6 w-6 text-white"/>
                                 <p className="text-white text-base font-semibold">Gerar QRCode pix</p>
                             </div>
@@ -191,7 +191,7 @@ const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, 
                                     navigator.clipboard.writeText(pixCopiaCola);
                                     toast.success('Código pix copiado!');
                                 }}
-                                className="px-4 py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700"
+                                className="px-4 py-2 text-white rounded-lg bg-[#646443] hover:bg-[#646443]"
                             >
                                 Copiar
                             </button>
@@ -200,7 +200,7 @@ const CreateNewPresente: React.FC<CreateNewPresenteProps> = ({ isOpen, onClose, 
                 )}
                 <div className="flex flex-col gap-2 justify-center">
                     <p className="text-base text-slate-500 mt-2">Clique no botão abaixo para confirmar a seleção do presente</p>
-                    <button className="w-full py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700" onClick={() => createPresente()}>Confirmar</button>
+                    <button className="w-full py-2 text-white rounded-lg bg-[#646443] hover:bg-[#646443]" onClick={() => createPresente()}>Confirmar</button>
                 </div>
                 
                 </>

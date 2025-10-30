@@ -30,7 +30,7 @@ const Item: React.FC<ItemProps> = ({
         <div className="flex flex-col items-center gap-2"> {/* Ajuste o gap aqui */}
             {/* Caixa do ícone */}
             <div
-                className="flex items-center justify-center w-20 h-14 bg-violet-800 rounded-md cursor-pointer"
+                className="flex items-center justify-center w-20 h-14 bg-[#646443] rounded-md cursor-pointer"
                 onClick={onClick}
             >
                 <div className="flex items-center justify-center w-full h-full"> {/* Garantindo centralização */}
@@ -40,7 +40,7 @@ const Item: React.FC<ItemProps> = ({
 
             {/* Texto abaixo do ícone */}
             <div className={`${greatVibes.className} leading-none`}> {/* Ajuste do line-height */}
-                <span className='text-violet-800 text-2xl font-semibold text-center whitespace-pre-wrap'>{text}</span>
+                <span className='text-[#646443] text-2xl font-semibold text-center whitespace-pre-wrap'>{text}</span>
             </div>
         </div>
     );

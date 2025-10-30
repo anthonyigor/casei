@@ -65,7 +65,7 @@ const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presen
             }
         }}>
             <div className="text-center">
-                <h1 className="text-3xl text-violet-800 font-semibold">Presentear {presente.nome} com pix</h1>
+                <h1 className="text-3xl text-[#646443] font-semibold">Presentear {presente.nome} com pix</h1>
                 <p className="text-base text-slate-500 mt-2">Escaneie o QR code abaixo para fazer pix no valor do presente</p>
                 <p className="text-base text-slate-500 mt-2">R${presente.valor?.toFixed(2)}</p>
             </div>
@@ -88,7 +88,7 @@ const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presen
                                 navigator.clipboard.writeText(pixCopiaCola);
                                 toast.success('Código pix copiado!');
                             }}
-                            className="px-4 py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700"
+                            className="px-4 py-2 text-white rounded-lg bg-[#646443] hover:bg-[#646443]"
                         >
                             Copiar
                         </button>
@@ -97,7 +97,7 @@ const SelectPixModal: React.FC<SelectPixModalProps> = ({ isOpen, onClose, presen
             )}
             <div className="flex flex-col gap-2 justify-center">
                 <p className="text-base text-slate-500 mt-2">Clique no botão abaixo para confirmar a seleção do presente</p>
-                <button className="w-full py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700" onClick={selectPresente}>Confirmar</button>
+                <button className="w-full py-2 text-white rounded-lg bg-[#646443] hover:bg-[#646443]" onClick={selectPresente}>Confirmar</button>
             </div>
         </Modal>
     )

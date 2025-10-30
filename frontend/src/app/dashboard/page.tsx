@@ -44,7 +44,7 @@ const Dashboard = () => {
     return (
         <div className="xl:ml-28">
             <div className={greatVibes.className}>
-                <h2 className="text-5xl text-center mt-4 text-violet-600 font-semibold py-2">Dashboard</h2>
+                <h2 className="text-5xl text-center mt-4 text-[#646443] font-semibold py-2">Dashboard</h2>
             </div>
             {dashboardData && (
                 <div className="grid grid-cols-1 gap-4 px-4 mt-8 sm:grid-cols-4 sm:px-8">
@@ -57,7 +57,7 @@ const Dashboard = () => {
             )}
             {dashboardData?.last_presentes?.length > 0 && (
                 <div className="px-4 mt-10 sm:px-8">
-                    <h3 className="text-2xl font-semibold text-center text-violet-600 mb-4">
+                    <h3 className="text-2xl font-semibold text-center text-[#646443] mb-4">
                         Últimas mensagens
                     </h3>
                     <div className="grid grid-cols-1 gap-4">
@@ -93,7 +93,7 @@ const Dashboard = () => {
                                 navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/casamento/${userId}`);
                                 toast.success('Link copiado!');
                             }}
-                            className="px-4 py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700"
+                            className="px-4 py-2 text-white rounded-lg bg-[#646443] hover:bg-[#646443]"
                         >
                             Copiar
                         </button>

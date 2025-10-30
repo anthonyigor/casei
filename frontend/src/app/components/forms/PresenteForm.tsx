@@ -155,7 +155,7 @@ const PresenteForm = () => {
                     <ImageInput previewSrc={previewSrc} loadFile={loadFile}/>
                     <div>
                         <button
-                            className="hover:shadow-form w-full rounded-md bg-violet-600 hover:bg-violet-800 py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                            className="hover:shadow-form w-full rounded-md bg-[#646443] hover:bg-[#646443] py-3 px-8 text-center text-base font-semibold text-white outline-none">
                             Adicionar
                         </button>
                     </div>

@@ -74,7 +74,7 @@ const CasamentoHome = ({ params }: { params: IParams }) => {
                 </div>
                 <div className="relative z-10 flex flex-col items-center">
                     <div className="bg-violet-200 sm:mx-auto sm:w-full sm:max-w-xs rounded-md px-3 py-6">
-                        <p className="text-center text-violet-700">Carregando...</p>
+                        <p className="text-center text-[#646443]">Carregando...</p>
                     </div>
                 </div>
             </div>
@@ -115,10 +115,10 @@ const CasamentoHome = ({ params }: { params: IParams }) => {
                 <div className="relative z-10 flex flex-col items-center">
                     <div className="bg-violet-200 sm:mx-auto sm:w-full sm:max-w-xs rounded-md px-3">
                         <div className={greatVibes.className}>
-                            <h2 className="text-3xl text-violet-700 font-semibold py-2 text-center">
+                            <h2 className="text-3xl text-[#646443] font-semibold py-2 text-center">
                                 Bem vindo(a) ao casamento de {userCasamento?.nome} e {userCasamento?.nome_parceiro}!
                             </h2>
-                            <p className="mt-4 text-lg text-violet-700 text-center font-semibold">
+                            <p className="mt-4 text-lg text-[#646443] text-center font-semibold">
                                 Informe seu nome e telefone para te identificarmos 😉
                             </p>
                         </div>

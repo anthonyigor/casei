@@ -33,7 +33,7 @@ const AgradecimentoModal: React.FC<AgradecimentoModalProps> = ( { isOpen, onClos
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className="text-center">
-                <h1 className="text-xl text-violet-800 font-semibold">Presente selecionado ❤️</h1>
+                <h1 className="text-xl text-[#646443] font-semibold">Presente selecionado ❤️</h1>
                 <p className="text-base text-slate-600 mt-2">{mensagem_agradecimento}</p>
             </div>
             <div className="flex flex-col items-center mt-2">
@@ -52,7 +52,7 @@ const AgradecimentoModal: React.FC<AgradecimentoModalProps> = ( { isOpen, onClos
                         Não, obrigado
                     </button>
                     <button 
-                        className="w-full py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700"
+                        className="w-full py-2 text-white rounded-lg bg-[#646443] hover:bg-[#646443]"
                         onClick={handleSendMessage}
                     >
                         Enviar

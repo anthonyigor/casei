@@ -106,7 +106,7 @@ const Convite = () => {
     return (
         <>
             <div className={greatVibes.className}>
-                <h2 className="text-5xl text-center mt-4 text-violet-600 font-semibold py-2">Gerenciador de Convite</h2>
+                <h2 className="text-5xl text-center mt-4 text-[#646443] font-semibold py-2">Gerenciador de Convite</h2>
             </div>
             <div className="max-w-4xl mx-auto mt-8 p-4 border rounded shadow-lg">
                 <label className="block mb-4">
@@ -133,7 +133,7 @@ const Convite = () => {
                 
                 <button
                     onClick={handleUpload}
-                    className="mt-4 px-4 py-2 rounded bg-violet-700 text-white"
+                    className="mt-4 px-4 py-2 rounded bg-[#646443] text-white"
                 >
                     Salvar
                 </button>

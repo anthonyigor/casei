@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({ type, children, fullWidth, onClick, dis
             type={type}
             disabled={disabled}
             className={clsx(`
-              bg-violet-800
+              bg-[#646443]
                 hover:bg-violet-900
                 flex
                 justify-center

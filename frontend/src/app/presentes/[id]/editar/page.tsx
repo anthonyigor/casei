@@ -45,7 +45,7 @@ const EditarPresente = ({ params }: { params: IParams }) => {
     return (
         <>
          <div className={greatVibes.className}>
-            <h2 className="text-5xl text-center mt-4 text-violet-600 font-semibold py-2">Editar presente</h2>
+            <h2 className="text-5xl text-center mt-4 text-[#646443] font-semibold py-2">Editar presente</h2>
         </div>
         <div className="hidden lg:block fixed top-0 lg:left-48 m-4">
                 <Button type="button" onClick={() => router.push('/presentes/index')}>
